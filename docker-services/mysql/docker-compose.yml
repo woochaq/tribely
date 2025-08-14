@@ -1,0 +1,38 @@
+# Defines our services (containers).
+services:
+  # The name of our service. This will also be the hostname inside the Docker network.
+  mysql:
+    # The image to use. 'mysql:latest' will always pull the newest version.
+    # For production projects, it's better to specify a version, e.g., 'mysql:8.0'.
+    image: mysql:latest
+    
+    # A custom name for the container. Makes identification easier.
+    container_name: mysql-db
+    
+    # Restart policy. 'unless-stopped' means the container will start automatically
+    # with Docker's startup unless it was manually stopped.
+    restart: unless-stopped
+    
+    # Environment variables passed to the container. Used for MySQL configuration.
+    environment:
+      # MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      # MYSQL_DATABASE: tribely_development        # Optional: Creates a database for your application on startup.
+      # MYSQL_USER: an_application_user          # Optional: Creates a user for the application.
+      # MYSQL_PASSWORD: another_strong_password  # Optional: The password for that user.
+      
+    # Port mapping. Redirects port 3306 from the container to port 3306 on your host machine.
+    # The format is 'HOST_PORT:CONTAINER_PORT'.
+    ports:
+      - '3306:3306'
+      
+    # Volumes are the way to persist data. This is the most important part!
+    volumes:
+      # 'mysql_data' is a "named volume". Docker manages it automatically.
+      # Data from '/var/lib/mysql' inside the container (the default MySQL data path)
+      # will be saved in this volume, allowing it to persist even if the container is removed.
+      - mysql_data:/var/lib/mysql
+
+# Definition of the named volumes used in the 'services' section.
+volumes:
+  mysql_data:

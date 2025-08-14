@@ -17,6 +17,18 @@ Things you may want to cover:
 
 * Database initialization
 
+Run database via Docker
+
+```
+cd docker-services/mysql
+docker-compose up -d (create container and run in detached)
+docker-compose stop
+docker-compose start
+docker-compose down (stop remove cointaner)
+````
+```
+```
+
 * How to run the test suite
 
 * Services (job queues, cache servers, search engines, etc.)
