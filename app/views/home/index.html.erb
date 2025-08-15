@@ -1,11 +1,91 @@
-<% if user_signed_in? %>
-  <p>Welcome back, <%= current_user.email %>!</p>
-  <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
-  <% else %>
-  <p>Welcome, Guest!</p>
-  <%= link_to "Sign In", new_user_session_path %>
-<% end %>
+<main class="pt-32">
+    <!-- =========== Hero Section =========== -->
+    <section id="hero" class="py-16 md:py-24">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-text leading-tight reveal-on-scroll is-visible">Manage IT Projects with Clarity and Style</h1>
+                <p class="mt-6 text-lg text-subtext0 leading-relaxed reveal-on-scroll is-visible" style="--animation-delay: 150ms;">Our tool combines powerful task, project, and team management, inspired by the minimalist philosophy and aesthetics of Hyprland.</p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 reveal-on-scroll is-visible" style="--animation-delay: 300ms;">
+                    <a href="#" class="py-3 px-6 font-semibold text-crust bg-peach rounded-lg hover:opacity-90 transition-opacity w-full sm:w-auto">Get Started for Free</a>
+                    <a href="#" class="py-3 px-6 font-semibold text-text border-2 border-crust rounded-lg bg-mantle hover:bg-crust transition-colors w-full sm:w-auto">Watch Demo</a>
+                </div>
+            </div>
+            <!-- Image Placeholder -->
+            <div class="mt-16 bg-mantle border border-crust rounded-2xl h-96 flex items-center justify-center shadow-lg shadow-crust/20 reveal-on-scroll is-visible" style="--animation-delay: 450ms;">
+                <p class="text-subtext0">[Clean, visually appealing screenshot of the app's dashboard]</p>
+            </div>
+        </div>
+    </section>
 
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+    <!-- =========== Features Section =========== -->
+    <section id="features" class="py-24 bg-mantle">
+        <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 reveal-on-scroll">Everything You Need in One Place</h2>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="bg-base border border-crust rounded-2xl p-8 reveal-on-scroll">
+                    <h3 class="text-xl font-bold text-text">Smart Task Management</h3>
+                    <p class="mt-2 text-subtext0">Organize, assign, and track tasks with an intuitive and flexible system designed for speed.</p>
+                </div>
+                <!-- Feature Card 2 -->
+                <div class="bg-base border border-crust rounded-2xl p-8 reveal-on-scroll" style="--animation-delay: 150ms;">
+                    <h3 class="text-xl font-bold text-text">Real-time Collaboration</h3>
+                    <p class="mt-2 text-subtext0">Work with your team seamlessly with shared boards, live updates, and integrated communication.</p>
+                </div>
+                <!-- Feature Card 3 -->
+                <div class="bg-base border border-crust rounded-2xl p-8 reveal-on-scroll" style="--animation-delay: 300ms;">
+                    <h3 class="text-xl font-bold text-text">Customizable Dashboards</h3>
+                    <p class="mt-2 text-subtext0">Create a personal workspace that shows you exactly what you need, and nothing you don't.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========== Pricing Section =========== -->
+    <section id="pricing" class="py-24">
+        <div class="container mx-auto px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-text mb-12 reveal-on-scroll">Choose the Perfect Plan for You</h2>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <!-- Plan 1: Free -->
+                <div class="bg-mantle border border-crust rounded-2xl p-8 text-center flex flex-col reveal-on-scroll">
+                    <h3 class="text-2xl font-bold text-text">Free</h3>
+                    <p class="text-4xl font-bold my-4">$0<span class="text-lg font-normal text-subtext0">/month</span></p>
+                    <ul class="space-y-3 text-subtext0 text-left my-6">
+                        <li>✓ Up to 3 Projects</li>
+                        <li>✓ Basic Task Management</li>
+                        <li>✓ Community Support</li>
+                    </ul>
+                    <a href="#" class="mt-auto block w-full py-3 px-6 font-semibold text-text border-2 border-crust rounded-lg hover:bg-crust transition-colors">Get Started</a>
+                </div>
+
+                <!-- Plan 2: Pro (Featured) -->
+                <div class="bg-mantle border-2 border-mauve rounded-2xl p-8 text-center flex flex-col transform lg:scale-105 shadow-2xl shadow-crust/20 reveal-on-scroll" style="--animation-delay: 150ms;">
+                    <h3 class="text-2xl font-bold text-text">Pro</h3>
+                    <p class="text-4xl font-bold my-4">$12<span class="text-lg font-normal text-subtext0">/user/month</span></p>
+                    <ul class="space-y-3 text-subtext0 text-left my-6">
+                        <li>✓ Unlimited Projects</li>
+                        <li>✓ Advanced Dashboards</li>
+                        <li>✓ Integrations & Priority Support</li>
+                    </ul>
+                    <a href="#" class="mt-auto block w-full py-3 px-6 font-semibold text-crust bg-peach rounded-lg hover:opacity-90 transition-opacity">Choose Pro</a>
+                </div>
+
+                <!-- Plan 3: Enterprise -->
+                <div class="bg-mantle border border-crust rounded-2xl p-8 text-center flex flex-col reveal-on-scroll" style="--animation-delay: 300ms;">
+                    <h3 class="text-2xl font-bold text-text">Enterprise</h3>
+                    <p class="text-4xl font-bold my-4">Contact Us</p>
+                    <ul class="space-y-3 text-subtext0 text-left my-6">
+                        <li>✓ Dedicated Onboarding</li>
+                        <li>✓ Custom Integrations</li>
+                        <li>✓ 24/7 Premium Support</li>
+                    </ul>
+                    <a href="#" class="mt-auto block w-full py-3 px-6 font-semibold text-text border-2 border-crust rounded-lg hover:bg-crust transition-colors">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
