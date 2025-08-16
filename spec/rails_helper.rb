@@ -9,6 +9,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # return unless Rails.env.test?
 require 'rspec/rails'
 require 'support/factory_bot'
+require 'support/devise'
 require "support/database_cleaner"
 require "support/shoulda_matchers"
 

@@ -13,7 +13,7 @@ class Users::PasswordsController < Devise::PasswordsController
     if successfully_sent?(resource)
       respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name))
     else
-      render Views::Devise::Passwords::New.new(resource: resource, resource_name: resource_name), status: :unprocessable_entity
+      render Views::Devise::Passwords::New.new(resource: resource, resource_name: resource_name), status: :unprocessable_content
     end
   end
 
@@ -41,7 +41,7 @@ class Users::PasswordsController < Devise::PasswordsController
       respond_with resource, location: after_resetting_password_path_for(resource)
     else
       set_minimum_password_length
-      render Views::Devise::Passwords::Edit.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name), status: :unprocessable_entity
+      render Views::Devise::Passwords::Edit.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name), status: :unprocessable_content
     end
   end
 

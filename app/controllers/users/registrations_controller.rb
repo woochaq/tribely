@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
@@ -31,7 +29,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       set_minimum_password_length
 
-      render Views::Devise::Registrations::New.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name), status: :unprocessable_entity
+      render Views::Devise::Registrations::New.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name), status: :unprocessable_content
     end
   end
 
@@ -53,7 +51,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render Views::Devise::Registrations::Edit.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name), status: :unprocessable_entity
+      render Views::Devise::Registrations::Edit.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name), status: :unprocessable_content
     end
   end
 
