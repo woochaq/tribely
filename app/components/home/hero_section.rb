@@ -10,7 +10,7 @@ class Components::Home::HeroSection < Components::Base
             "Our tool combines powerful task, project, and team management, inspired by the minimalist philosophy and aesthetics of Hyprland."
           end
           div(class: "mt-10 flex flex-col sm:flex-row justify-center items-center gap-4 reveal-on-scroll is-visible", style: "--animation-delay: 300ms;") do
-            a(href: "#", class: "py-3 px-6 font-semibold text-crust bg-peach rounded-lg hover:opacity-90 transition-opacity w-full sm:w-auto") do
+            a(href: "#", class: "btn-primary py-3 px-6 w-full sm:w-auto") do
               "Get Started for Free"
             end
             a(href: "#", class: "py-3 px-6 font-semibold text-text border-2 border-crust rounded-lg bg-mantle hover:bg-crust transition-colors w-full sm:w-auto") do

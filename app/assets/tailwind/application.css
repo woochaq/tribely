@@ -12,6 +12,7 @@
   --color-peach: #fab387;
   --color-green: #a6e3a1;
   --color-teal: #94e2d5;
+  --color-red: #f38ba8;
 
   --font-sans: "Inter", "sans-serif";
 }
@@ -43,4 +44,19 @@
 .reveal-on-scroll.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg bg-peach text-crust font-semibold hover:opacity-90 transition-opacity cursor-pointer;
+  }
+
+  /* Przycisk drugorzędny (np. Cancel, Login) */
+  .btn-secondary {
+    @apply px-4 py-2 font-semibold bg-mantle text-text border-2 border-crust rounded-lg hover:bg-crust transition-colors cursor-pointer;
+  }
+
+  .btn-warn {
+    @apply px-4 py-2 font-semibold text-red border-2 border-red rounded-lg bg-crust hover:bg-red hover:text-crust transition-colors cursor-pointer;
+  }
 }
