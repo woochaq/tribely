@@ -19,7 +19,7 @@
   --color-blue: #89b4fa;
   --color-yellow: #f9e2af;
 
-  --font-sans: "Inter", "sans-serif";
+  --font-sans: "Cascadia Mono", "monospace";
 }
 
 @keyframes fade-in-up {

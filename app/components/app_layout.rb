@@ -17,6 +17,12 @@ class Components::AppLayout < Components::Base
         meta name: "viewport", content: "width=device-width,initial-scale=1"
         csrf_meta_tags
         csp_meta_tag
+
+        # Google Fonts
+        link rel: "preconnect", href: "https://fonts.googleapis.com"
+        link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous"
+        link href: "https://fonts.googleapis.com/css2?family=Cascadia+Mono:wght@400;700&display=swap", rel: "stylesheet"
+
         stylesheet_link_tag :app, "data-turbo-track": "reload"
         javascript_importmap_tags
       end
