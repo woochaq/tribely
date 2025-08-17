@@ -1,65 +1,78 @@
 class Components::Home::PricingSection < Components::Base
   def view_template
-    section(id: "pricing", class: "py-24") do
-      div(class: "container mx-auto px-6") do
+    section(id: "pricing", class: "py-24 bg-base") do
+      div(class: "w-full px-6") do
         div(class: "max-w-2xl mx-auto text-center") do
-          h2(class: "text-3xl md:text-4xl font-bold text-text mb-12 reveal-on-scroll") do
+          h2(class: "text-3xl md:text-4xl font-bold text-text mb-4 reveal-on-scroll") do
             "Choose the Perfect Plan for You"
           end
+          p(class: "text-lg text-subtext0 reveal-on-scroll", style: "--animation-delay: 100ms;") do
+            "Simple, transparent pricing. Choose the plan that fits your needs and scale as you grow."
+          end
         end
-        div(class: "grid lg:grid-cols-3 gap-8 max-w-4xl mx-auto") do
-          div(class: "bg-mantle border border-crust rounded-2xl p-8 text-center flex flex-col reveal-on-scroll") do
-            h3(class: "text-2xl font-bold text-text") do
-              "Free"
-            end
-            p(class: "text-4xl font-bold my-4") do
+        div(class: "grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto mt-16") do
+          # Free Plan
+          div(class: "bg-surface0 border border-crust rounded-2xl p-8 flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
+            h3(class: "text-2xl font-bold text-text") { "Free" }
+            p(class: "text-4xl font-bold my-4 text-text") do
               plain "$0"
-              span(class: "text-lg font-normal text-subtext0") do
-                "/month"
-              end
+              span(class: "text-lg font-normal text-subtext0") { "/month" }
             end
-            ul(class: "space-y-3 text-subtext0 text-left my-6") do
-              li { "✓ Up to 3 Projects" }
-              li { "✓ Basic Task Management" }
-              li { "✓ Community Support" }
+            ul(class: "space-y-4 text-subtext0 my-6 text-left") do
+              feature_item("Up to 3 Projects")
+              feature_item("Basic Task Management")
+              feature_item("Community Support")
             end
-            a(href: "#", class: "mt-auto block w-full py-3 px-6 font-semibold text-text border-2 border-crust rounded-lg hover:bg-crust transition-colors") do
+            a(href: "#", class: "mt-auto block w-full py-3 px-6 bg-surface1 hover:bg-surface2 border-2 border-surface2 font-semibold text-text rounded-lg transition-colors text-center") do
               "Get Started"
             end
           end
 
-          div(class: "bg-mantle border-2 border-mauve rounded-2xl p-8 text-center flex flex-col transform lg:scale-105 shadow-2xl shadow-crust/20 reveal-on-scroll", style: "--animation-delay: 150ms;") do
-            h3(class: "text-2xl font-bold text-text") do
-              "Pro"
+          # Pro Plan (Highlighted)
+          div(class: "relative bg-mantle border-2 border-mauve rounded-2xl p-8 flex flex-col transform lg:scale-105 shadow-2xl shadow-mauve/20 reveal-on-scroll", style: "--animation-delay: 150ms;") do
+            div(class: "absolute -top-4 left-1/2 -translate-x-1/2") do
+              span(class: "bg-mauve text-crust text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full") { "Most Popular" }
             end
-            p(class: "text-4xl font-bold my-4") do
+            h3(class: "text-2xl font-bold text-text") { "Pro" }
+            p(class: "text-4xl font-bold my-4 text-text") do
               plain "$12"
               span(class: "text-lg font-normal text-subtext0") { "/user/month" }
             end
-            ul(class: "space-y-3 text-subtext0 text-left my-6") do
-              li { "✓ Unlimited Projects" }
-              li { "✓ Advanced Dashboards" }
-              li { "✓ Integrations & Priority Support" }
+            ul(class: "space-y-4 text-subtext0 my-6 text-left") do
+              feature_item("Unlimited Projects")
+              feature_item("Advanced Dashboards")
+              feature_item("Integrations & Priority Support")
             end
-            a(href: "#", class: "mt-auto block w-full py-3 px-6 font-semibold text-crust bg-peach rounded-lg hover:opacity-90 transition-opacity") do
+            a(href: "#", class: "mt-auto block w-full py-3 px-6 bg-mauve text-crust font-bold rounded-lg hover:opacity-90 transition-opacity text-center") do
               "Choose Pro"
             end
           end
 
-          div(class: "bg-mantle border border-crust rounded-2xl p-8 text-center flex flex-col reveal-on-scroll", style: "--animation-delay: 300ms;") do
+          # Enterprise Plan
+          div(class: "bg-surface0 border border-crust rounded-2xl p-8 flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll", style: "--animation-delay: 300ms;") do
             h3(class: "text-2xl font-bold text-text") { "Enterprise" }
-            p(class: "text-4xl font-bold my-4") { "Contact Us " }
-            ul(class: "space-y-3 text-subtext0 text-left my-6") do
-              li { "✓ Dedicated Onboarding" }
-              li { "✓ Custom Integrations" }
-              li { "✓ 24/7 Premium Support" }
+            p(class: "text-4xl font-bold my-4 text-text") { "Contact Us" }
+            ul(class: "space-y-4 text-subtext0 my-6 text-left") do
+              feature_item("Dedicated Onboarding")
+              feature_item("Custom Integrations")
+              feature_item("24/7 Premium Support")
             end
-            a(href: "#", class: "mt-auto block w-full py-3 px-6 font-semibold text-text border-2 border-crust rounded-lg hover:bg-crust transition-colors") do
+            a(href: "#", class: "mt-auto block w-full py-3 px-6 bg-surface1 hover:bg-surface2 border-2 border-surface2 font-semibold text-text rounded-lg transition-colors text-center") do
               "Contact Sales"
             end
           end
         end
       end
+    end
+  end
+
+  private def feature_item(text)
+    li(class: "flex items-center gap-x-3") do
+      # Checkmark Icon
+      svg(class: "h-6 w-6 flex-none text-green", viewBox: "0 0 20 20", fill: "currentColor", "aria-hidden": "true") do |svg|
+        svg.path(fill_rule: "evenodd", d: "M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z", clip_rule: "evenodd")
+      end
+      span { text }
     end
   end
 end

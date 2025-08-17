@@ -1,7 +1,7 @@
 class Components::Header < Components::Base
   def view_template
      header(class: "fixed top-0 left-0 w-full z-50") do
-      div(class: "container mx-auto px-6 py-4") do
+      div(class: "w-full px-6 py-4") do
         nav(class: "w-full bg-mantle/70 backdrop-blur-xl border border-crust/50 rounded-2xl flex justify-between items-center px-6 py-3") do
           a(href: root_path, class: "text-xl font-bold text-text") { "Tribely" }
 
