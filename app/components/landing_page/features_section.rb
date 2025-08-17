@@ -1,4 +1,4 @@
-class Components::Home::FeaturesSection < Components::Base
+class Components::LandingPage::FeaturesSection < Components::Base
   def view_template
     section(id: "features", class: "py-24 bg-mantle") do
       div(class: "w-full px-6") do

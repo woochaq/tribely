@@ -1,4 +1,4 @@
-class Components::Home::PricingSection < Components::Base
+class Components::LandingPage::PricingSection < Components::Base
   def view_template
     section(id: "pricing", class: "py-24 bg-base") do
       div(class: "w-full px-6") do

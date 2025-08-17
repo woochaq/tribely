@@ -12,7 +12,7 @@ class Components::Layout < Components::Base
   def view_template(&block)
     doctype
 
-    html do
+    html(class: "h-full bg-base") do
       head do
         title { @title }
         meta name: "viewport", content: "width=device-width,initial-scale=1"
@@ -37,14 +37,14 @@ class Components::Layout < Components::Base
       end
 
       body(class: "bg-base text-text font-sans") do
-        render Components::Header.new
-        render Components::FlashMessages.new
+        render Components::LandingPage::Header.new
+        render Components::LandingPage::FlashMessages.new
 
         main(class: "pt-32") do
           yield
         end
 
-        render Components::Footer.new
+        render Components::LandingPage::Footer.new
       end
     end
   end

@@ -1,4 +1,4 @@
-class Components::Header < Components::Base
+class Components::LandingPage::Header < Components::Base
   def view_template
      header(class: "fixed top-0 left-0 w-full z-50") do
       div(class: "w-full px-6 py-4") do
@@ -14,7 +14,12 @@ class Components::Header < Components::Base
            div(class: "flex items-center space-x-4") do
             if view_context.user_signed_in?
               div(class: "flex items-center gap-4") do
-                a(href: edit_user_registration_path, class: "flex items-center justify-center h-10 w-10 rounded-full bg-mauve text-crust font-bold text-lg hover:opacity-90 transition-opacity", title: "Edit profile") do
+                a(
+                  href: app_path,
+                  class: "flex items-center justify-center h-10 w-10 rounded-full bg-mauve text-crust font-bold text-lg hover:opacity-90 transition-opacity",
+                  title: "Edit profile",
+                  data: { turbo: "false" }
+                ) do
                   span { view_context.current_user.email.first.upcase }
                 end
                 a(href: destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-secondary py-2 px-5") { "Logout" }

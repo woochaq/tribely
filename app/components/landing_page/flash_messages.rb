@@ -1,4 +1,4 @@
-class Components::FlashMessages < Components::Base
+class Components::LandingPage::FlashMessages < Components::Base
   include Phlex::Rails::Helpers::Flash
 
   def view_template

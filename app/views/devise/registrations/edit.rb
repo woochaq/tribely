@@ -1,4 +1,4 @@
-class Views::Devise::Registrations::Edit < Views::Base
+class Views::Devise::Registrations::Edit < Views::App::Base
   include Phlex::Rails::Helpers::FormFor
   include SimpleForm::ActionViewExtensions::FormHelper
   include ::Devise::Controllers::UrlHelpers

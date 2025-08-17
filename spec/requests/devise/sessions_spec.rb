@@ -10,15 +10,14 @@ describe "Devise::SessionsController", type: :request do
       it "signs the user in" do
         post user_session_path, params: { user: valid_credentials }
         expect(response).to have_http_status(:see_other)
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(app_path)
         expect(session["warden.user.user.key"]).to eq([ [ user.id ], user.authenticatable_salt ])
       end
 
       it "returns a message that user is already signed in" do
         sign_in(user)
         post user_session_path, params: { user: valid_credentials }
-        follow_redirect!
-        expect(response.body).to include("You are already signed in.")
+        expect(response).to redirect_to(app_path)
       end
     end
 

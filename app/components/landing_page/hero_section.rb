@@ -1,4 +1,4 @@
-class Components::Home::HeroSection < Components::Base
+class Components::LandingPage::HeroSection < Components::Base
   def view_template
     section(id: "hero", class: "relative overflow-hidden py-20 md:py-32") do
       # Background decorative gradients

@@ -59,7 +59,7 @@ describe "Devise::PasswordsController", type: :request do
       it "updates the user's password" do
         put user_password_path, params: valid_params
         expect(response).to have_http_status(:see_other)
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(app_path)
       end
     end
 
