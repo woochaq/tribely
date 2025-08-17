@@ -3,16 +3,16 @@ class Components::App::Board < Components::Base
   def initial_board_data
     {
       backlog: [
-        {id: 1, title: "Design the new landing page"},
-        {id: 2, title: "Develop user authentication"},
-        {id: 3, title: "Set up the CI/CD pipeline"}
+        { id: 1, title: "Design the new landing page" },
+        { id: 2, title: "Develop user authentication" },
+        { id: 3, title: "Set up the CI/CD pipeline" }
       ],
       in_progress: [
-        {id: 4, title: "Refactor the database schema"}
+        { id: 4, title: "Refactor the database schema" }
       ],
       done: [
-        {id: 5, title: "Choose a CSS framework"},
-        {id: 6, title: "Initialize the Rails application"}
+        { id: 5, title: "Choose a CSS framework" },
+        { id: 6, title: "Initialize the Rails application" }
       ]
     }
   end
