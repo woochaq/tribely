@@ -68,8 +68,7 @@ class Components::App::Board < Components::Base
       # You can add more details here like assignee, tags, etc.
       div(class: "flex items-center justify-between mt-4") do
         span(class: "text-xs text-subtext0") { "TBLY-#{task[:id]}" }
-        # Assignee placeholder
-        div(class: "w-6 h-6 rounded-full bg-blue/50 flex items-center justify-center text-xs font-bold text-crust") { "W" }
+        render Components::Shared::Avatar(user: view_context.current_user, size: "w-6 h-6", bg: "bg-blue/50", font_size: "text-xs")
       end
     end
   end

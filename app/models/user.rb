@@ -4,4 +4,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable, :trackable
+
+  validates :full_name, length: { maximum: 100 }
+
+  def initials
+    initial_name = full_name.present? ? full_name : email
+    parts = initial_name.split
+    if parts.size == 1
+      parts.first[0, 2].upcase
+    else
+      [ parts.first[0], parts.last[0] ].join.upcase
+    end
+  end
 end

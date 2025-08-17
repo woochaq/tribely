@@ -21,11 +21,12 @@ class Views::Devise::Registrations::Edit < Views::App::Base
           h2(class: "text-2xl font-bold text-center text-text mb-6") { "Welcome #{@resource.email}" }
           simple_form_for(@resource, as: @resource_name, url: registration_path(@resource_name), html: { method: :put }) do |f|
             div(class: "space-y-6") do
-              f.input :email
-
+              f.input :full_name
+              f.input :email, disabled: true
               if view_context.devise_mapping.confirmable? && @resource.pending_reconfirmation?
                 div { plain "Currently waiting confirmation for: #{@resource.unconfirmed_email}" }
               end
+              hr
               f.input :password, autocomplete: "new-password", hint: "Leave blank if you don't want to change it"
               f.input :password_confirmation, autocomplete: "new-password"
               f.input :current_password, autocomplete: "current-password"

@@ -10,4 +10,34 @@ RSpec.describe User, type: :model do
       expect(FactoryBot.build(:user)).to be_valid
     end
   end
+
+  describe '@initials' do
+    let(:user) { FactoryBot.build(:user, email: "example@gmail.com", full_name: full_name) }
+    subject { user.initials }
+
+    context 'when full_name is a single word' do
+      let(:full_name) { 'John' }
+      it { is_expected.to eq('JO') }
+    end
+
+    context 'when full_name is single character' do
+      let(:full_name) { 'J' }
+      it { is_expected.to eq('J') }
+    end
+
+    context 'when full_name is two words' do
+      let(:full_name) { 'John Doe' }
+      it { is_expected.to eq('JD') }
+    end
+
+    context 'when full_name has more than two words' do
+      let(:full_name) { 'John Doe Smith' }
+      it { is_expected.to eq('JS') }
+    end
+
+    context 'when full_name is empty' do
+      let(:full_name) { '' }
+      it { is_expected.to eq('EX') }
+    end
+  end
 end
