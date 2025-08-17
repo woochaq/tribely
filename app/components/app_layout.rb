@@ -22,6 +22,8 @@ class Components::AppLayout < Components::Base
       end
 
       body(class: "h-full font-sans text-text") do
+        render Components::Shared::FlashMessages.new
+
         div(class: "flex flex-col h-full") do
           render Components::App::Header.new
 

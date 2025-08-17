@@ -38,7 +38,7 @@ class Components::Layout < Components::Base
 
       body(class: "bg-base text-text font-sans") do
         render Components::LandingPage::Header.new
-        render Components::LandingPage::FlashMessages.new
+        render Components::Shared::FlashMessages.new
 
         main(class: "pt-32") do
           yield
