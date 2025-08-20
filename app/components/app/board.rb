@@ -18,21 +18,18 @@ class Components::App::Board < Components::Base
   end
 
   def view_template
-    main(class: "flex-1 flex flex-col p-4 sm:p-6 lg:p-8 overflow-hidden") do
-      # Board header (e.g., for filters or view options)
-      div(class: "flex-shrink-0 mb-6") do
-        h1(class: "text-2xl font-bold text-text") { "Project Kanban Board" }
-        # Filters could go here
-      end
+    # Board header (e.g., for filters or view options)
+    div(class: "flex-shrink-0 mb-6") do
+      h1(class: "text-2xl font-bold text-text") { "Project Kanban Board" }
+    end
 
-      # Main board container with horizontal scroll
-      div(class: "flex-1 overflow-x-auto") do
-        div(class: "inline-flex h-full gap-6") do
-          # Render columns from data
-          render_column(title: "Backlog", tasks: initial_board_data[:backlog], color: "border-subtext0")
-          render_column(title: "In Progress", tasks: initial_board_data[:in_progress], color: "border-yellow")
-          render_column(title: "Done", tasks: initial_board_data[:done], color: "border-green")
-        end
+    # Main board container with horizontal scroll
+    div(class: "flex-1 overflow-x-auto") do
+      div(class: "inline-flex h-full gap-6") do
+        # Render columns from data
+        render_column(title: "Backlog", tasks: initial_board_data[:backlog], color: "border-subtext0")
+        render_column(title: "In Progress", tasks: initial_board_data[:in_progress], color: "border-yellow")
+        render_column(title: "Done", tasks: initial_board_data[:done], color: "border-green")
       end
     end
   end

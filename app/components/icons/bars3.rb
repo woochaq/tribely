@@ -1,7 +1,6 @@
 class Components::Icons::Bars3 < Components::Base
   def initialize(attributes = {})
     @attributes = attributes
-    super()
   end
 
   def view_template

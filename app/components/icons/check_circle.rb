@@ -1,7 +1,6 @@
 class Components::Icons::CheckCircle < Components::Base
   def initialize(attributes = {})
     @attributes = attributes
-    super()
   end
 
   def view_template

@@ -1,7 +1,6 @@
 class Components::Icons::ChevronDown < Components::Base
   def initialize(attributes = {})
     @attributes = attributes
-    super()
   end
 
   def view_template

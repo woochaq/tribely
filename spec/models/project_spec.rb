@@ -10,6 +10,10 @@ RSpec.describe Project, type: :model do
     it { should validate_length_of(:prefix) }
   end
 
+  describe 'associations' do
+    it { should have_many(:users) }
+  end
+
   describe '#friendly_id' do
     it "should create uniqe slugs" do
       project1 = FactoryBot.create(:project, name: "Tribely", prefix: "TR")
@@ -21,5 +25,4 @@ RSpec.describe Project, type: :model do
       expect(project3.slug).to include("pp-pin-post-")
     end
   end
-
 end

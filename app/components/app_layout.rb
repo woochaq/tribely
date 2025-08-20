@@ -37,7 +37,9 @@ class Components::AppLayout < Components::Base
             render Components::App::Sidebar.new
 
             # The main content will be rendered here
-            yield_content(&block)
+            main(class: "flex-1 flex flex-col p-4 sm:p-6 lg:p-8 overflow-hidden") do
+              yield_content(&block)
+            end
           end
         end
       end
