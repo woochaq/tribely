@@ -12,7 +12,7 @@ class Components::Projects::Form < Components::AppLayout
   def view_template
     turbo_frame_tag "projects-form" do
       div(class: "max-w-2xl bg-mantle p-8 rounded-2xl border border-crust shadow-lg shadow-crust/20") do
-        simple_form_for(@project, data: { turbo_frame: "_top" }) do |f|
+        simple_form_for(@project, html: { data: { turbo_frame: '_top' } }) do |f|
           div(class: "space-y-6") do
             f.input :name, autofocus: true, input_html: { autocomplete: "off" }
             f.input :prefix, input_html: { autocomplete: "off", maxlength: 5 }, hint: "Used to identify tasks and actions within this project (e.g., TRB-123)"

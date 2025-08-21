@@ -16,12 +16,13 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = current_user.projects.new(project_params)
+    @project = Project.new(project_params)
+    @project.users << current_user
     if @project.save
       flash[:success] = "Project #{@project.name} create"
-      redirect_to projects_path
+      redirect_to projects_path, status: :see_other
     else
-      render Components::Projects::Form.new(project: @project), status: :unprocessable_entity
+      render Views::Projects::New.new(project: @project), status: :unprocessable_content
     end
   end
 
@@ -29,9 +30,9 @@ class ProjectsController < ApplicationController
     @project = current_user.projects.find(params[:id])
     if @project.update(project_params)
       flash[:success] = "Project #{@project.name} updated"
-      redirect_to projects_path
+      redirect_to projects_path, status: :see_other
     else
-      render Views::Projects::New.new(project: @project), status: :unprocessable_entity
+      render Views::Projects::New.new(project: @project), status: :unprocessable_content
     end
   end
 
