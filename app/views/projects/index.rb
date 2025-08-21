@@ -1,4 +1,6 @@
 class Views::Projects::Index < Views::App::Base
+  include Phlex::Rails::Helpers::ButtonTo
+
   def initialize(projects:)
     @projects = projects
   end
@@ -8,8 +10,9 @@ class Views::Projects::Index < Views::App::Base
   end
 
   def view_template
-    div(class: "flex-shrink-0 mb-6") do
-      h1(class: "text-2xl font-bold text-text") { "Your projects" }
+    div(class: "flex items-center justify-between gap-4 mb-8") do
+      h1(class: "text-3xl font-bold text-text") { "Your Projects" }
+      a(href: new_project_path, class: "btn-primary") { "New Project" }
     end
 
     if @projects.any?
@@ -30,9 +33,19 @@ class Views::Projects::Index < Views::App::Base
             h3(class: "text-xl font-semibold text-text group-hover:text-mauve transition-colors") { project.name }
           end
 
-          a(href: edit_project_path(project), class: "text-subtext0 hover:text-mauve p-2 rounded-md transition-colors", title: "Edit Project") do
-            render Components::Icons::Edit.new(class: "w-5 h-5")
+          div(class: "flex items-center gap-2") do
+            a(href: edit_project_path(project), class: "text-subtext0 hover:text-mauve p-2 rounded-md transition-colors", title: "Edit Project") do
+              render Components::Icons::Edit.new(class: "w-5 h-5")
+            end
           end
+          button_to(project_path(project),
+              method: :delete,
+              form: { data: { turbo_confirm: "Are you sure you want to delete this project? This action cannot be undone." } },
+              class: "text-subtext0 p-2 rounded-md transition-colors cursor-pointer hover:text-mauve",
+              title: "Delete Project"
+            ) do
+              render Components::Icons::Delete.new(class: "w-5 h-5")
+            end
         end
       end
     end

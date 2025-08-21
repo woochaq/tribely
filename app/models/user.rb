@@ -7,8 +7,8 @@ class User < ApplicationRecord
 
   validates :full_name, length: { maximum: 100 }
 
-  has_many :project_users
-  has_many :projects, through: :project_users, dependent: :destroy
+  has_many :project_users, inverse_of: :user, dependent: :destroy
+  has_many :projects, through: :project_users
 
   def initials
     initial_name = full_name.present? ? full_name : email

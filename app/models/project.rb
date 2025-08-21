@@ -7,12 +7,12 @@ class Project < ApplicationRecord
   validates_length_of :name, :slug, maximum: 255
   validates_length_of :prefix, maximum: 10
 
-  has_many :project_users
-  has_many :users, through: :project_users, dependent: :destroy
+  has_many :project_users, inverse_of: :project, dependent: :destroy
+  has_many :users, through: :project_users
   accepts_nested_attributes_for :users
 
   def prefix_and_name
-    "#{prefix} #{name} #{id}"
+    "#{prefix} #{name}"
   end
 
   def resolve_friendly_id_conflict(candidates)
