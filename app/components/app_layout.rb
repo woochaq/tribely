@@ -35,21 +35,11 @@ class Components::AppLayout < Components::Base
           render Components::App::Header.new(current_project: @current_project)
 
           div(class: "flex flex-1 overflow-hidden") do
-            render Components::App::Sidebar.new
-
-            # The main content will be rendered here
-            main(class: "flex-1 flex flex-col p-4 sm:p-6 lg:p-8 overflow-hidden") do
-              yield_content(&block)
-            end
+            render Components::App::Sidebar.new(current_project: @current_project)
+            main(class: "flex-1 flex flex-col p-4 sm:p-6lg:p-8 overflow-hidden overflow-y-auto", &block)
           end
         end
       end
     end
-  end
-
-  private
-
-  def yield_content(&block)
-    main(class: "flex-1 overflow-y-auto", &block)
   end
 end

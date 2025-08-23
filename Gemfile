@@ -55,6 +55,7 @@ end
 
 group :development do
   gem "hotwire-spark"
+  gem "ruby_ui", "~> 1.0", require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
@@ -73,3 +74,4 @@ gem "phlex-rails"
 gem "simple_form"
 gem "tailwindcss-rails", "~> 4.3"
 gem "tailwindcss-ruby", "~> 4.1"
+gem "tailwind_merge", "~> 1.3"

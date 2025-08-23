@@ -22,14 +22,13 @@ class Components::Projects::Board < Components::Base
 
   def view_template
     # Board header (e.g., for filters or view options)
-    div(class: "flex-shrink-0 mb-6") do
+    div(class: "flex-shrink-0 mb-6 px-3") do
       h1(class: "text-2xl font-bold text-text") { @project.name }
     end
 
     # Main board container with horizontal scroll
     div(class: "flex-1 overflow-x-auto") do
-      div(class: "inline-flex h-full gap-6") do
-        # Render columns from data
+      div(class: "inline-flex h-full") do
         render_column(title: "Backlog", tasks: initial_board_data[:backlog], color: "border-subtext0")
         render_column(title: "In Progress", tasks: initial_board_data[:in_progress], color: "border-yellow")
         render_column(title: "Done", tasks: initial_board_data[:done], color: "border-green")
@@ -53,7 +52,7 @@ class Components::Projects::Board < Components::Base
 
       # Cards Container
       div(class: "flex-1 overflow-y-auto p-1") do
-        div(class: "space-y-3") do
+        div(class: "space-y-1") do
           tasks.each do |task|
             render_task_card(task)
           end

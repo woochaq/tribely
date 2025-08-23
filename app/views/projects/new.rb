@@ -15,7 +15,7 @@ class Views::Projects::New < Views::App::Base
 
   def view_template
     header(class: "mb-8") do
-      h1(class: "text-3xl font-bold text-text") { "Create a New Project" }
+      h1(class: "text-3xl font-bold text-text") { @project.persisted? ? "Update project '#{@project.name}'" : "Create a New Project" }
     end
 
     render Components::Projects::Form.new(project: @project)

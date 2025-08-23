@@ -68,28 +68,7 @@ class Components::App::Header < Components::Base
             render Components::Icons::Bell.new(class: "h-6 w-6")
           end
 
-          div(class: "relative", data: { controller: "app--header-dropdown" }) do
-            button(
-              type: "button",
-              class: "flex items-center max-w-xs rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2 focus:ring-offset-surface0",
-              data: { action: "click->app--header-dropdown#toggle" }
-            ) do
-              span(class: "sr-only") { "Open user menu" }
-              render Components::Shared::Avatar(user: view_context.current_user, font_size: "text-lg")
-            end
-
-            div(
-              class: "hidden absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-surface1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
-              data: { "app--header-dropdown-target": "menu" }
-            ) do
-              a(href: edit_user_registration_path, class: "block px-4 py-2 text-sm text-text hover:bg-surface2") { "Your Profile" }
-              a(
-                href: destroy_user_session_path,
-                class: "block px-4 py-2 text-sm text-text hover:bg-surface2",
-                data: { turbo_method: :delete }
-              ) { "Sign out" }
-            end
-          end
+          render Components::Shared::HeaderAvatar.new(user: view_context.current_user)
         end
       end
     end

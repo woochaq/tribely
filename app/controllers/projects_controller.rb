@@ -25,7 +25,7 @@ class ProjectsController < ApplicationController
     @project.users << current_user
     if @project.save
       flash[:success] = "Project #{@project.name} create"
-      redirect_to projects_path, status: :see_other
+      redirect_to projects_path(@project), status: :see_other
     else
       render Views::Projects::New.new(project: @project, current_project: nil), status: :unprocessable_content
     end
