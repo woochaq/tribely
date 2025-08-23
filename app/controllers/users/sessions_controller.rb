@@ -24,7 +24,7 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || app_path
+    stored_location_for(resource) || projects_path
   end
 
   # If you have extra params to permit, append them to the sanitizer.

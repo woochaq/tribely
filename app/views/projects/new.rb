@@ -4,7 +4,8 @@ class Views::Projects::New < Views::App::Base
   include Phlex::Rails::Helpers::DOMClass
   include Phlex::Rails::Helpers::TurboFrameTag
 
-  def initialize(project:)
+  def initialize(project:, current_project: nil)
+    super(current_project: current_project)
     @project = project
   end
 

@@ -4,8 +4,9 @@ class Components::AppLayout < Components::Base
   include Phlex::Rails::Helpers::JavaScriptImportmapTags
   include Phlex::Rails::Helpers::StylesheetLinkTag
 
-  def initialize(title: "Tribely App")
+  def initialize(title: "Tribely App", current_project: nil)
     @title = title
+    @current_project = current_project
   end
 
   def view_template(&block)
@@ -31,7 +32,7 @@ class Components::AppLayout < Components::Base
         render Components::Shared::FlashMessages.new
 
         div(class: "flex flex-col h-full") do
-          render Components::App::Header.new
+          render Components::App::Header.new(current_project: @current_project)
 
           div(class: "flex flex-1 overflow-hidden") do
             render Components::App::Sidebar.new

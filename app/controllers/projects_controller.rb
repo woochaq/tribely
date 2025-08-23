@@ -5,14 +5,19 @@ class ProjectsController < ApplicationController
     render Views::Projects::Index.new(projects: current_user.projects)
   end
 
+  def show
+    @project = current_user.projects.find(params[:id])
+    render Views::Projects::Show.new(project: @project, current_project: @project)
+  end
+
   def new
     @project = Project.new
-    render Views::Projects::New.new(project: @project)
+    render Views::Projects::New.new(project: @project, current_project: nil)
   end
 
   def edit
     @project = current_user.projects.find(params[:id])
-    render Views::Projects::New.new(project: @project)
+    render Views::Projects::New.new(project: @project, current_project: @project)
   end
 
   def create
@@ -22,7 +27,7 @@ class ProjectsController < ApplicationController
       flash[:success] = "Project #{@project.name} create"
       redirect_to projects_path, status: :see_other
     else
-      render Views::Projects::New.new(project: @project), status: :unprocessable_content
+      render Views::Projects::New.new(project: @project, current_project: nil), status: :unprocessable_content
     end
   end
 
@@ -32,7 +37,7 @@ class ProjectsController < ApplicationController
       flash[:success] = "Project #{@project.name} updated"
       redirect_to projects_path, status: :see_other
     else
-      render Views::Projects::New.new(project: @project), status: :unprocessable_content
+      render Views::Projects::New.new(project: @project, current_project: @project), status: :unprocessable_content
     end
   end
 

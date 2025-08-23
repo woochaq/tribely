@@ -14,7 +14,7 @@ class Components::LandingPage::Header < Components::Base
            div(class: "flex items-center space-x-4") do
             if view_context.user_signed_in?
               div(class: "flex items-center gap-4") do
-                render Components::Shared::Avatar.new(user: view_context.current_user, url: app_path, size: "w-10 h-10")
+                render Components::Shared::Avatar.new(user: view_context.current_user, url: projects_path, size: "w-10 h-10")
                 a(href: destroy_user_session_path, data: { turbo_method: :delete }, class: "btn-secondary py-2 px-5") { "Logout" }
               end
             else

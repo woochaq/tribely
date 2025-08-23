@@ -1,5 +1,8 @@
-class Components::App::Board < Components::Base
-  # Fake data for demonstration
+class Components::Projects::Board < Components::Base
+  def initialize(project:)
+    @project = project
+  end
+
   def initial_board_data
     {
       backlog: [
@@ -20,7 +23,7 @@ class Components::App::Board < Components::Base
   def view_template
     # Board header (e.g., for filters or view options)
     div(class: "flex-shrink-0 mb-6") do
-      h1(class: "text-2xl font-bold text-text") { "Project Kanban Board" }
+      h1(class: "text-2xl font-bold text-text") { @project.name }
     end
 
     # Main board container with horizontal scroll
