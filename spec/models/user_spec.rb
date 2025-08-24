@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
-  describe 'validations' do
+  describe "validations" do
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:password) }
     it { should validate_length_of(:password).is_at_least(6).is_at_most(128) }
@@ -11,33 +11,47 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '@initials' do
+  describe "associations" do
+    it { should have_many(:organization_users) }
+    it { should have_many(:organizations) }
+  end
+
+  describe "@initials" do
     let(:user) { FactoryBot.build(:user, email: "example@gmail.com", full_name: full_name) }
     subject { user.initials }
 
-    context 'when full_name is a single word' do
-      let(:full_name) { 'John' }
-      it { is_expected.to eq('JO') }
+    context "when full_name is a single word" do
+      let(:full_name) { "John" }
+      it { is_expected.to eq("JO") }
     end
 
-    context 'when full_name is single character' do
-      let(:full_name) { 'J' }
-      it { is_expected.to eq('J') }
+    context "when full_name is single character" do
+      let(:full_name) { "J" }
+      it { is_expected.to eq("J") }
     end
 
-    context 'when full_name is two words' do
-      let(:full_name) { 'John Doe' }
-      it { is_expected.to eq('JD') }
+    context "when full_name is two words" do
+      let(:full_name) { "John Doe" }
+      it { is_expected.to eq("JD") }
     end
 
-    context 'when full_name has more than two words' do
-      let(:full_name) { 'John Doe Smith' }
-      it { is_expected.to eq('JS') }
+    context "when full_name has more than two words" do
+      let(:full_name) { "John Doe Smith" }
+      it { is_expected.to eq("JS") }
     end
 
-    context 'when full_name is empty' do
-      let(:full_name) { '' }
-      it { is_expected.to eq('EX') }
+    context "when full_name is empty" do
+      let(:full_name) { "" }
+      it { is_expected.to eq("EX") }
+    end
+  end
+
+  describe "@create_default_organization" do
+    it "should create default organization for user after create" do
+      user = FactoryBot.create(:user, email: "john.cena@google.com")
+      expect(user.organizations.count).to eq 1
+      expect(user.organizations.first.name).to eq "John.Cena Workspace"
+      expect(user.organization_users.first.role).to eq "owner"
     end
   end
 end

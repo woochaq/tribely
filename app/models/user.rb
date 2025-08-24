@@ -9,6 +9,10 @@ class User < ApplicationRecord
 
   has_many :project_users, inverse_of: :user, dependent: :destroy
   has_many :projects, through: :project_users
+  has_many :organization_users, inverse_of: :user, dependent: :destroy
+  has_many :organizations, through: :organization_users
+
+  after_create_commit :create_default_organization
 
   def initials
     initial_name = full_name.present? ? full_name : email
@@ -18,5 +22,13 @@ class User < ApplicationRecord
     else
       [ parts.first[0], parts.last[0] ].join.upcase
     end
+  end
+
+  private
+
+  def create_default_organization
+    organization = Organization.new(name: "#{email.split("@").first.titleize} Workspace")
+    organization.organization_users.new(user: self, role: :owner)
+    organization.save
   end
 end
