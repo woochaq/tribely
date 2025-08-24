@@ -55,6 +55,7 @@ end
 
 group :development do
   gem "hotwire-spark"
+gem "letter_opener_web", "~> 3.0"
   gem "ruby_ui", "~> 1.0", require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
