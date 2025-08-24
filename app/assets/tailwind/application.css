@@ -39,6 +39,25 @@
   --color-danger-val: #f7768e;
   --color-info-val: #7aa2f7;
 }
+[data-theme="catppuccin-latte"] {
+  --color-base-val: #eff1f5;
+  --color-mantle-val: #e6e9ef;
+  --color-crust-val: #dce0e8;
+  --color-surface0-val: #ccd0da;
+  --color-surface1-val: #bcc0cc;
+  --color-surface2-val: #acb0be;
+  --color-text-val: #4c4f69;
+  --color-subtext0-val: #6c6f85;
+  --color-overlay2-val: #7c7f93;
+  --color-primary-val: #8839ef;
+  --color-secondary-val: #179299;
+  --color-accent-val: #fe640b;
+  --color-success-val: #40a02b;
+  --color-warning-val: #df8e1d;
+  --color-danger-val: #d20f39;
+  --color-info-val: #1e66f5;
+}
+
 /* --- END THEME DEFINITIONS --- */
 
 @theme {
