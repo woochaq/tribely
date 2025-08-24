@@ -22,7 +22,7 @@ class Views::Devise::Passwords::Edit < Views::Base
             div(class: "space-y-6") do
               f.input :reset_password_token, as: :hidden
               if @resource.errors.any?
-                div(class: "text-red") do
+                div(class: "text-danger") do
                   @resource.errors.full_messages.each do |message|
                     div(class: "error-message") { message }
                   end

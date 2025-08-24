@@ -56,12 +56,12 @@ SimpleForm.setup do |config|
     # b.use :input, class: 'input', error_class: 'is-invalid', valid_class: 'is-valid'
     # b.use :label_input
     b.use :label, class: "block text-sm font-semibold text-subtext0 mb-1"
-    b.use :input, class: "w-full px-2 py-2 rounded-lg bg-base border-crust focus:border-mauve focus:ring-mauve transition", error_class: "border-1 border-red", valid_class: ""
+    b.use :input, class: "w-full px-2 py-2 rounded-lg bg-base border-crust focus:border-primary focus:ring-primary transition", error_class: "border-1 border-danger", valid_class: ""
 
     # b.use :hint,  wrap_with: { tag: :p, class: "mt-2 text-sm text-gray-500" }
     b.use :hint,  wrap_with: { tag: :p, class: "mt-2 text-sm text-subtext0" }
 
-    b.use :error, wrap_with: { tag: :p, class: "mt-2 text-sm text-red flex items-center gap-1" }
+    b.use :error, wrap_with: { tag: :p, class: "mt-2 text-sm text-danger flex items-center gap-1" }
 
 
     ## full_messages_for

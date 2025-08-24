@@ -23,7 +23,7 @@ class Components::App::Header < Components::Base
               class: "flex items-center gap-x-2 rounded-md px-3 py-1.5 text-text hover:bg-surface1",
               data: { action: "click->app--header-dropdown#toggle" }
             ) do
-              span(class: "w-5 h-5 bg-green/50 rounded-sm")
+              span(class: "w-5 h-5 bg-success/50 rounded-sm")
               span(class: "font-semibold") { project_name }
               render Components::Icons::ChevronDown.new(class: "h-5 w-5 text-subtext0")
             end
@@ -39,7 +39,7 @@ class Components::App::Header < Components::Base
                     href: project_path(project),
                     class: class_names(
                       "block px-4 py-2 text-sm hover:bg-surface2",
-                      (project == current_project) ? "text-green font-semibold" : "text-text"
+                      (project == current_project) ? "text-success font-semibold" : "text-text"
                     )
                   ) { project.name }
                 end
@@ -47,7 +47,7 @@ class Components::App::Header < Components::Base
                 div(class: "px-4 py-2 text-sm text-subtext1") { "No projects yet." }
               end
               div(class: "border-t border-crust my-1")
-              a(href: new_project_path, class: "block px-4 py-2 text-sm text-mauve hover:bg-surface2") { "Create new project" }
+              a(href: new_project_path, class: "block px-4 py-2 text-sm text-primary hover:bg-surface2") { "Create new project" }
             end
           end
         end
@@ -58,7 +58,7 @@ class Components::App::Header < Components::Base
             div(class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3") do
               render Components::Icons::Search.new(class: "h-5 w-5 text-subtext0")
             end
-            input(id: "search", name: "search", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-mauve", placeholder: "Search tasks...")
+            input(id: "search", name: "search", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search tasks...")
           end
         end
 

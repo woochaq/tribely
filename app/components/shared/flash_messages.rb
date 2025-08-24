@@ -17,13 +17,13 @@ class Components::Shared::FlashMessages < Components::Base
 
     type_classes = case type.to_sym
     when :notice
-      "border-l-blue text-blue"
+      "border-l-info text-info"
     when :alert, :error
-      "border-l-red text-red"
+      "border-l-danger text-danger"
     when :success
-      "border-l-green text-green"
+      "border-l-success text-success"
     else
-      "border-l-gray-500 text-text"
+      "border-l-surface2 text-text"
     end
 
     div(class: class_names(base_classes, type_classes),

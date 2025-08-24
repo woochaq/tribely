@@ -25,7 +25,7 @@ class Views::Devise::Sessions::New < Views::Base
 
               if @devise_mapping.rememberable?
                 div(class: "flex items-center") do
-                  f.check_box :remember_me, class: "h-4 w-4 rounded border-crust text-mauve focus:ring-mauve cursor-pointer"
+                  f.check_box :remember_me, class: "h-4 w-4 rounded border-crust text-primary focus:ring-primary cursor-pointer"
                   f.label :remember_me, class: "ml-2 block cursor-pointer"
                 end
               end

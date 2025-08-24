@@ -29,19 +29,19 @@ class Views::Projects::Index < Views::App::Base
       @projects.each do |project|
         div(class: "flex items-center justify-between bg-mantle p-4 rounded-2xl border border-crust shadow-lg shadow-crust/20") do
           a(href: project_path(project), class: "flex flex-grow items-center gap-4 group") do
-            span(class: "bg-mauve text-crust font-bold text-sm px-3 py-1 rounded-lg") { project.prefix }
-            h3(class: "text-xl font-semibold text-text group-hover:text-mauve transition-colors") { project.name }
+            span(class: "bg-primary text-crust font-bold text-sm px-3 py-1 rounded-lg") { project.prefix }
+            h3(class: "text-xl font-semibold text-text group-hover:text-primary transition-colors") { project.name }
           end
 
           div(class: "flex items-center gap-2") do
-            a(href: edit_project_path(project), class: "text-subtext0 hover:text-mauve p-2 rounded-md transition-colors", title: "Edit Project") do
+            a(href: edit_project_path(project), class: "text-subtext0 hover:text-primary p-2 rounded-md transition-colors", title: "Edit Project") do
               render Components::Icons::Edit.new(class: "w-5 h-5")
             end
           end
           button_to(project_path(project),
               method: :delete,
               form: { data: { turbo_confirm: "Are you sure you want to delete this project? This action cannot be undone." } },
-              class: "text-subtext0 p-2 rounded-md transition-colors cursor-pointer hover:text-mauve",
+              class: "text-subtext0 p-2 rounded-md transition-colors cursor-pointer hover:text-primary",
               title: "Delete Project"
             ) do
               render Components::Icons::Delete.new(class: "w-5 h-5")

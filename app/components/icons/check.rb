@@ -5,7 +5,7 @@ class Components::Icons::Check < Components::Base
 
   def view_template
     default_attributes = {
-      class: "h-6 w-6 flex-none text-green",
+      class: "h-6 w-6 flex-none text-success",
       viewBox: "0 0 20 20",
       fill: "currentColor",
       "aria-hidden": "true"

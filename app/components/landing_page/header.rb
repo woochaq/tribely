@@ -6,9 +6,9 @@ class Components::LandingPage::Header < Components::Base
           a(href: root_path, class: "text-xl font-bold text-text") { "Tribely" }
 
           div(class: "hidden md:flex items-center space-x-8") do
-            a(href: "#features", class: "font-semibold text-subtext0 hover:text-mauve transition-colors") { "Features" }
-            a(href: "#pricing", class: "font-semibold text-subtext0 hover:text-mauve transition-colors") { "Pricing" }
-            a(href: "#", class: "font-semibold text-subtext0 hover:text-mauve transition-colors") { "Docs" }
+            a(href: "#features", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
+            a(href: "#pricing", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
+            a(href: "#", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Docs" }
           end
 
            div(class: "flex items-center space-x-4") do

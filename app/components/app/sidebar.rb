@@ -10,7 +10,7 @@ class Components::App::Sidebar < Components::Base
     aside(class: class_names("flex flex-col w-64 flex-shrink-0 bg-surface0 border-r border-crust", "hidden": !@current_project.present?)) do
       # Top part with New Story button
       div(class: "p-4") do
-        a(href: "#", class: "w-full flex items-center justify-center gap-x-2 bg-mauve text-crust font-bold rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-mauve/20 px-4 py-2.5") do
+        a(href: "#", class: "w-full flex items-center justify-center gap-x-2 bg-primary text-crust font-bold rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 px-4 py-2.5") do
           # Plus icon
           render Components::Icons::Plus.new(class: "h-5 w-5")
           span { "Add Story" }
@@ -46,7 +46,7 @@ class Components::App::Sidebar < Components::Base
 
   def nav_item(text:, icon:, active: false)
     base_classes = "flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-semibold transition-colors"
-    active_classes = "bg-surface1 text-peach"
+    active_classes = "bg-surface1 text-accent"
     inactive_classes = "text-subtext0 hover:bg-surface1 hover:text-text"
 
     a(href: "#", class: class_names(base_classes, active ? active_classes : inactive_classes)) do

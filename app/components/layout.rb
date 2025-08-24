@@ -12,7 +12,7 @@ class Components::Layout < Components::Base
   def view_template(&block)
     doctype
 
-    html(class: "h-full bg-base") do
+    html(class: "h-full bg-base", data: { theme: "catppuccin" }) do
       head do
         title { @title }
         meta name: "viewport", content: "width=device-width,initial-scale=1"

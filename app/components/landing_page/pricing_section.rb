@@ -29,9 +29,9 @@ class Components::LandingPage::PricingSection < Components::Base
           end
 
           # Pro Plan (Highlighted)
-          div(class: "relative bg-mantle border-2 border-mauve rounded-2xl p-8 flex flex-col transform lg:scale-105 shadow-2xl shadow-mauve/20 reveal-on-scroll", style: "--animation-delay: 150ms;") do
+          div(class: "relative bg-mantle border-2 border-primary rounded-2xl p-8 flex flex-col transform lg:scale-105 shadow-2xl shadow-primary/20 reveal-on-scroll", style: "--animation-delay: 150ms;") do
             div(class: "absolute -top-4 left-1/2 -translate-x-1/2") do
-              span(class: "bg-mauve text-crust text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full") { "Most Popular" }
+              span(class: "bg-primary text-crust text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full") { "Most Popular" }
             end
             h3(class: "text-2xl font-bold text-text") { "Pro" }
             p(class: "text-4xl font-bold my-4 text-text") do
@@ -43,7 +43,7 @@ class Components::LandingPage::PricingSection < Components::Base
               feature_item("Advanced Dashboards")
               feature_item("Integrations & Priority Support")
             end
-            a(href: "#", class: "mt-auto block w-full py-3 px-6 bg-mauve text-crust font-bold rounded-lg hover:opacity-90 transition-opacity text-center") do
+            a(href: "#", class: "mt-auto block w-full py-3 px-6 bg-primary text-crust font-bold rounded-lg hover:opacity-90 transition-opacity text-center") do
               "Choose Pro"
             end
           end
@@ -69,7 +69,7 @@ class Components::LandingPage::PricingSection < Components::Base
   private def feature_item(text)
     li(class: "flex items-center gap-x-3") do
       # Checkmark Icon
-      render Components::Icons::Check.new(class: "h-6 w-6 flex-none text-green")
+      render Components::Icons::Check.new(class: "h-6 w-6 flex-none text-success")
       span { text }
     end
   end

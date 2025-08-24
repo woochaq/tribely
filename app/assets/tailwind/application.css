@@ -1,26 +1,68 @@
 @import "tailwindcss";
 @import "./ruby_ui.css";
 
-@theme {
-  /* -- Catppuccin Mocha Palette -- */
-  --color-base: #1e1e2e;
-  --color-mantle: #181825;
-  --color-crust: #11111b;
-  --color-surface0: #313244;
-  --color-surface1: #45475a;
-  --color-surface2: #585b70;
-  --color-text: #cdd6f4;
-  --color-subtext0: #a6adc8;
-  --color-overlay2: #9399b2;
-  --color-mauve: #cba6f7;
-  --color-peach: #fab387;
-  --color-green: #a6e3a1;
-  --color-teal: #94e2d5;
-  --color-red: #f38ba8;
-  --color-blue: #89b4fa;
-  --color-yellow: #f9e2af;
+/* --- THEME DEFINITIONS --- */
+[data-theme="catppuccin"] {
+  --color-base-val: #1e1e2e;
+  --color-mantle-val: #181825;
+  --color-crust-val: #11111b;
+  --color-surface0-val: #313244;
+  --color-surface1-val: #45475a;
+  --color-surface2-val: #585b70;
+  --color-text-val: #cdd6f4;
+  --color-subtext0-val: #a6adc8;
+  --color-overlay2-val: #9399b2;
+  --color-primary-val: #cba6f7;
+  --color-secondary-val: #94e2d5;
+  --color-accent-val: #fab387;
+  --color-success-val: #a6e3a1;
+  --color-warning-val: #f9e2af;
+  --color-danger-val: #f38ba8;
+  --color-info-val: #89b4fa;
+}
 
+[data-theme="tokyo-night"] {
+  --color-base-val: #1a1b26;
+  --color-mantle-val: #16161e;
+  --color-crust-val: #0f0f14;
+  --color-surface0-val: #1f2335;
+  --color-surface1-val: #292e42;
+  --color-surface2-val: #414868;
+  --color-text-val: #c0caf5;
+  --color-subtext0-val: #a9b1d6;
+  --color-overlay2-val: #7dcfff;
+  --color-primary-val: #bb9af7;
+  --color-secondary-val: #7dcfff;
+  --color-accent-val: #e0af68;
+  --color-success-val: #9ece6a;
+  --color-warning-val: #e0af68;
+  --color-danger-val: #f7768e;
+  --color-info-val: #7aa2f7;
+}
+/* --- END THEME DEFINITIONS --- */
+
+@theme {
   --font-sans: "Cascadia Mono", "monospace";
+
+  /* Base colors that Tailwind will use */
+  --color-base: var(--color-base-val);
+  --color-mantle: var(--color-mantle-val);
+  --color-crust: var(--color-crust-val);
+  --color-surface0: var(--color-surface0-val);
+  --color-surface1: var(--color-surface1-val);
+  --color-surface2: var(--color-surface2-val);
+  --color-text: var(--color-text-val);
+  --color-subtext0: var(--color-subtext0-val);
+  --color-overlay2: var(--color-overlay2-val);
+
+  /* Semantic colors that Tailwind will use */
+  --color-primary: var(--color-primary-val);
+  --color-secondary: var(--color-secondary-val);
+  --color-accent: var(--color-accent-val);
+  --color-success: var(--color-success-val);
+  --color-warning: var(--color-warning-val);
+  --color-danger: var(--color-danger-val);
+  --color-info: var(--color-info-val);
 }
 
 @keyframes fade-in-up {
@@ -56,7 +98,7 @@
 
 @layer components {
   .btn-primary {
-    @apply px-4 py-2 rounded-lg bg-peach text-crust font-semibold hover:opacity-90 transition-opacity cursor-pointer;
+    @apply px-4 py-2 rounded-lg bg-accent text-crust font-semibold hover:opacity-90 transition-opacity cursor-pointer;
   }
 
   /* Przycisk drugorzędny (np. Cancel, Login) */
@@ -65,7 +107,6 @@
   }
 
   .btn-warn {
-    @apply px-4 py-2 font-semibold text-red border-2 border-red rounded-lg bg-crust hover:bg-red hover:text-crust transition-colors cursor-pointer;
+    @apply px-4 py-2 font-semibold text-danger border-2 border-danger rounded-lg bg-crust hover:bg-danger hover:text-crust transition-colors cursor-pointer;
   }
 }
-

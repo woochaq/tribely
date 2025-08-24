@@ -13,9 +13,9 @@ class Components::LandingPage::FeaturesSection < Components::Base
         div(class: "grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-16") do
           # Feature Card 1
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
-            div(class: "w-12 h-12 rounded-xl bg-blue/20 flex items-center justify-center mb-6") do
+            div(class: "w-12 h-12 rounded-xl bg-info/20 flex items-center justify-center mb-6") do
               # Placeholder for an SVG icon
-              span(class: "text-2xl font-bold text-blue") { "S" }
+              span(class: "text-2xl font-bold text-info") { "S" }
             end
             h3(class: "text-xl font-bold text-text") do
               "Smart Task Management"
@@ -27,9 +27,9 @@ class Components::LandingPage::FeaturesSection < Components::Base
 
           # Feature Card 2
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll", style: "--animation-delay: 150ms;") do
-            div(class: "w-12 h-12 rounded-xl bg-peach/20 flex items-center justify-center mb-6") do
+            div(class: "w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mb-6") do
               # Placeholder for an SVG icon
-              span(class: "text-2xl font-bold text-peach") { "R" }
+              span(class: "text-2xl font-bold text-accent") { "R" }
             end
             h3(class: "text-xl font-bold text-text") do
               "Real-time Collaboration"
@@ -41,9 +41,9 @@ class Components::LandingPage::FeaturesSection < Components::Base
 
           # Feature Card 3
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll", style: "--animation-delay: 300ms;") do
-            div(class: "w-12 h-12 rounded-xl bg-green/20 flex items-center justify-center mb-6") do
+            div(class: "w-12 h-12 rounded-xl bg-success/20 flex items-center justify-center mb-6") do
               # Placeholder for an SVG icon
-              span(class: "text-2xl font-bold text-green") { "C" }
+              span(class: "text-2xl font-bold text-success") { "C" }
             end
             h3(class: "text-xl font-bold text-text") do
               "Customizable Dashboards"

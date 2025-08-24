@@ -1,7 +1,7 @@
 class Components::Shared::Avatar < Components::Base
   include Phlex::Rails::Helpers::ClassNames
 
-  def initialize(user:, url: nil, size: "h-10 w-10", bg: "bg-blue", font_color: "text-crust", font_size: "text-lg")
+  def initialize(user:, url: nil, size: "h-10 w-10", bg: "bg-info", font_color: "text-crust", font_size: "text-lg")
     @user = user
     @url = url
     @attributes = { size: size, bg: bg, font_color: font_color, font_size: font_size }

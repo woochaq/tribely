@@ -30,8 +30,8 @@ class Components::Projects::Board < Components::Base
     div(class: "flex-1 overflow-x-auto") do
       div(class: "inline-flex h-full") do
         render_column(title: "Backlog", tasks: initial_board_data[:backlog], color: "border-subtext0")
-        render_column(title: "In Progress", tasks: initial_board_data[:in_progress], color: "border-yellow")
-        render_column(title: "Done", tasks: initial_board_data[:done], color: "border-green")
+        render_column(title: "In Progress", tasks: initial_board_data[:in_progress], color: "border-warning")
+        render_column(title: "Done", tasks: initial_board_data[:done], color: "border-success")
       end
     end
   end
@@ -67,7 +67,7 @@ class Components::Projects::Board < Components::Base
       # You can add more details here like assignee, tags, etc.
       div(class: "flex items-center justify-between mt-4") do
         span(class: "text-xs text-subtext0") { "TBLY-#{task[:id]}" }
-        render Components::Shared::Avatar(user: view_context.current_user, size: "w-6 h-6", bg: "bg-blue/50", font_size: "text-xs")
+        render Components::Shared::Avatar(user: view_context.current_user, size: "w-6 h-6", bg: "bg-info/50", font_size: "text-xs")
       end
     end
   end
