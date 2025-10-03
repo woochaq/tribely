@@ -1,5 +1,6 @@
 class Components::App::Sidebar < Components::Base
   include Phlex::Rails::Helpers::ClassNames
+  include Phlex::Rails::Helpers::LinkTo
 
   def initialize(current_project:)
     @current_project = current_project
@@ -21,7 +22,7 @@ class Components::App::Sidebar < Components::Base
       nav(class: "flex-1 flex flex-col p-4 space-y-2") do
         nav_item(text: "My Work", icon: :my_work, active: true)
         div(class: "flex items-center justify-between px-3 py-2") do
-          span { "Boards" }
+          span { link_to "Boards", project_path(@current_project)  }
           span do
             render Components::Icons::Plus.new
           end

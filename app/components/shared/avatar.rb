@@ -11,10 +11,10 @@ class Components::Shared::Avatar < Components::Base
     base_class = "flex items-center justify-center rounded-full font-bold"
     if @url.present?
       a(href: @url, class: class_names(base_class, @attributes.values.join(" ")), title: "Edit profile") do
-        span { @user.initials }
+        span { @user&.initials || "-" }
       end
     else
-      div(class: class_names(base_class, @attributes.values.join(" "))) { @user.initials }
+      div(class: class_names(base_class, @attributes.values.join(" "))) { @user&.initials || "-" }
     end
   end
 end

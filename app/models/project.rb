@@ -13,6 +13,7 @@ class Project < ApplicationRecord
   has_many :users, through: :project_users
   accepts_nested_attributes_for :users
   has_many :boards, dependent: :destroy
+  has_many :stories, through: :boards
 
   after_create_commit :create_default_boards
 

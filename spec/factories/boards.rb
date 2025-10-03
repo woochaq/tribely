@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :board do
     name { "MyString" }
-    project { nil }
+    project { FactoryBot.create(:project) }
   end
 end
