@@ -9,6 +9,6 @@ class Views::Projects::Show < Views::App::Base
   end
 
   def view_template
-    render Components::Projects::Board.new(project: @project)
+    render Components::Projects::Boards.new(project: @project)
   end
 end

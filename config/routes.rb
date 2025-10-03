@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :projects do
+    resources :boards, only: [] do
+      resources :stories
+    end
+  end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   devise_for :user, controllers: {
     sessions: "users/sessions",
@@ -22,6 +27,4 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
-
-  resources :projects
 end

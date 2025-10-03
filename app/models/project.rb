@@ -14,7 +14,6 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :users
   has_many :boards, dependent: :destroy
 
-
   after_create_commit :create_default_boards
 
   def prefix_and_name

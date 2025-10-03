@@ -1,0 +1,25 @@
+class Components::Boards::Board < Components::Base
+  def initialize(board:)
+    @board = board
+  end
+
+  def view_template
+    div(class: "flex flex-col w-80 h-full") do
+      div(class: "flex items-center justify-between px-3 py-2 flex-shrink-0") do
+        h2(class: "text-md font-semibold text-text") do
+          span { @board.name }
+          span(class: "ml-2 text-sm font-normal text-subtext0") { @board.stories.count }
+        end
+        button(class: "p-1 text-subtext0 hover:text-text") { "..." }
+      end
+
+      div(class: "flex-1 overflow-y-auto p-1") do
+        div(class: "space-y-1") do
+          @board.stories.each do |story|
+            render Components::Stories::Story.new(story: story)
+          end
+        end
+      end
+    end
+  end
+end
