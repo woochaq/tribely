@@ -10,16 +10,16 @@ class StoriesController < ApplicationController
   end
 
   def show
-    render Views::Stories::ShowView.new(story: @story, board: @board, current_project: @current_project)
+    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project)
   end
 
   def new
     @story = @board.stories.build
-    render Views::Stories::NewView.new(story: @story, board: @board, current_project: @current_project)
+    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project)
   end
 
   def edit
-    render Views::Stories::EditView.new(story: @story, board: @board, current_project: @current_project)
+    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project)
   end
 
   def create
@@ -29,7 +29,7 @@ class StoriesController < ApplicationController
     if @story.save
       redirect_to project_board_story_path(@current_project, @board, @story), notice: "Story was successfully created."
     else
-      render Views::Stories::NewView.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
+      render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
     end
   end
 
@@ -37,7 +37,7 @@ class StoriesController < ApplicationController
     if @story.update(story_params)
       redirect_to project_board_story_path(@current_project, @board, @story), notice: "Story was successfully updated."
     else
-      render Views::Stories::EditView.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
+      render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
     end
   end
 

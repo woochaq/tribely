@@ -1,4 +1,6 @@
 class Components::Boards::Board < Components::Base
+  include Phlex::Rails::Helpers::LinkTo
+
   def initialize(board:)
     @board = board
   end
@@ -10,7 +12,7 @@ class Components::Boards::Board < Components::Base
           span { @board.name }
           span(class: "ml-2 text-sm font-normal text-subtext0") { @board.stories.count }
         end
-        button(class: "p-1 text-subtext0 hover:text-text") { "..." }
+        link_to "...", new_project_board_story_path(@board.project, @board), data: { turbo_frame: "modal" }, class: "p-1 text-subtext0 hover:text-text"
       end
 
       div(class: "flex-1 overflow-y-auto p-1") do

@@ -3,6 +3,7 @@ class Components::AppLayout < Components::Base
   include Phlex::Rails::Helpers::CSPMetaTag
   include Phlex::Rails::Helpers::JavaScriptImportmapTags
   include Phlex::Rails::Helpers::StylesheetLinkTag
+  include Phlex::Rails::Helpers::TurboFrameTag
 
   def initialize(title: "Tribely App", current_project: nil)
     @title = title
@@ -39,6 +40,7 @@ class Components::AppLayout < Components::Base
             main(class: "flex-1 flex flex-col p-4 sm:p-6lg:p-8 overflow-hidden overflow-y-auto", &block)
           end
         end
+        turbo_frame_tag "modal"
       end
     end
   end
