@@ -1,5 +1,6 @@
 class Components::Boards::Board < Components::Base
   include Phlex::Rails::Helpers::LinkTo
+  include Phlex::Rails::Helpers::DOMID
 
   def initialize(board:)
     @board = board
@@ -15,11 +16,9 @@ class Components::Boards::Board < Components::Base
         link_to "...", new_project_board_story_path(@board.project, @board), data: { turbo_frame: "modal" }, class: "p-1 text-subtext0 hover:text-text"
       end
 
-      div(class: "flex-1 overflow-y-auto p-1") do
-        div(class: "space-y-1") do
-          @board.stories.each do |story|
-            render Components::Stories::Story.new(story: story)
-          end
+      div(id: dom_id(@board), class: "flex-1 overflow-y-auto p-1 space-y-1") do
+        @board.stories.each do |story|
+          render Components::Stories::Story.new(story: story)
         end
       end
     end

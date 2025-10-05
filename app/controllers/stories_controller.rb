@@ -28,10 +28,8 @@ class StoriesController < ApplicationController
     @story.owner = current_user
 
     if @story.save
-      render turbo_stream: [
-        turbo_stream.update("modal", ""),
-        turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: "Story was successfully created."))
-      ]
+      story_stream = turbo_stream.append(helpers.dom_id(@board), Components::Stories::Story.new(story: @story))
+      respond_with_streams(story_stream: story_stream, message: "Story was successfully created.")
     else
       render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
     end
@@ -39,10 +37,8 @@ class StoriesController < ApplicationController
 
   def update
     if @story.update(story_params)
-      render turbo_stream: [
-        turbo_stream.update("modal", ""),
-        turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: "Story was successfully updated."))
-      ]
+      story_stream = turbo_stream.replace(helpers.dom_id(@story), Components::Stories::Story.new(story: @story))
+      respond_with_streams(story_stream: story_stream, message: "Story was successfully updated.")
     else
       render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
     end
@@ -50,14 +46,20 @@ class StoriesController < ApplicationController
 
   def destroy
     @story.destroy!
-    render turbo_stream: [
-      turbo_stream.update("modal", ""),
-      turbo_stream.remove(helpers.dom_id(@story)),
-      turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: "Story was successfully destroyed."))
-    ]
+    story_stream = turbo_stream.remove(helpers.dom_id(@story))
+    respond_with_streams(story_stream: story_stream, message: "Story was successfully deleted.")
   end
 
   private
+
+  def respond_with_streams(story_stream:, message:)
+    render turbo_stream: [
+      turbo_stream.update("modal", ""),
+      story_stream,
+      turbo_stream.append("flash-container",
+        Components::Shared::Toast.new(type: :success, message: message))
+    ]
+  end
 
   def set_project
     @board = current_user.projects.find(params[:project_id])
