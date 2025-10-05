@@ -12,7 +12,7 @@ class Components::Boards::Board < Components::Base
       div(class: "flex items-center justify-between px-3 py-2 flex-shrink-0") do
         h2(class: "text-md font-semibold text-text") do
           span { @board.name }
-          span(class: "ml-2 text-sm font-normal text-subtext0") { @board.stories.count }
+          render Components::Boards::StoriesCount.new(board: @board)
         end
         link_to "...", new_project_board_story_path(@board.project, @board), data: { turbo_frame: "modal" }, class: "p-1 text-subtext0 hover:text-text"
       end

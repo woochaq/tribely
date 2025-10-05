@@ -17,7 +17,8 @@ class Components::Stories::Form < Components::Base
       simple_form_for([ @current_project, @board, @story ]) do |f|
         div(class: "grid grid-cols-1 lg:grid-cols-3 lg:gap-8") do
           div(class: "lg:col-span-2 space-y-6") do
-            f.input :board_id, as: :hidden, value: @board.id
+            # f.input :board_id, as: :hidden, value: @board.id
+            f.association :board, collection: @current_project.boards
             f.input :title
             f.input :description, as: :text, input_html: { rows: 10 }
           end
