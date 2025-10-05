@@ -40,7 +40,7 @@ class Components::AppLayout < Components::Base
             main(class: "flex-1 flex flex-col p-4 sm:p-6lg:p-8 overflow-hidden overflow-y-auto", &block)
           end
         end
-        turbo_frame_tag "modal"
+        render Components::Shared::Modal
       end
     end
   end

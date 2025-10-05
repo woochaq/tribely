@@ -24,6 +24,10 @@ class User < ApplicationRecord
     end
   end
 
+  def name
+    full_name
+  end
+
   private
 
   def create_default_organization
