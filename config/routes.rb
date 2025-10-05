@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :projects do
     resources :boards, only: [] do
-      resources :stories
+      resources :stories, only: [ :show, :edit, :update, :create, :new, :destroy ]
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

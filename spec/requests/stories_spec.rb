@@ -27,13 +27,6 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
     create(:project_user, project: project, user: user)
   end
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      get project_board_stories_url(project, board)
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET /show" do
     it "renders a successful response" do
       get project_board_story_url(project, board, story)
@@ -65,7 +58,9 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
       it "redirects to the created story" do
         post project_board_stories_url(project, board), params: { story: valid_attributes }
-        expect(response).to redirect_to(project_board_story_url(project, board, Story.last))
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('<turbo-stream action="update" target="modal">')
+        expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
       end
     end
 
@@ -95,10 +90,12 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
         expect(story.title).to eq('New Valid Title')
       end
 
-      it "redirects to the story" do
+      it "return turbo-stream tags" do
         patch project_board_story_url(project, board, story), params: { story: new_attributes }
         story.reload
-        expect(response).to redirect_to(project_board_story_url(project, board, story))
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('<turbo-stream action="update" target="modal">')
+        expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
       end
     end
 
@@ -117,9 +114,10 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
       end.to change(Story, :count).by(-1)
     end
 
-    it "redirects to the stories list" do
+    it "renders turbo-stream tags" do
       delete project_board_story_url(project, board, story)
-      expect(response).to redirect_to(project_board_stories_url(project, board))
+      expect(response.body).to include("<turbo-stream action=\"remove\" target=\"story_#{story.id}\">")
+      expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
     end
   end
 end
