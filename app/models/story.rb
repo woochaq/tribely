@@ -7,6 +7,10 @@ class Story < ApplicationRecord
   validates :title, :story_type, :status, :number, presence: true
   validates_length_of :title, maximum: 255
 
+  after_create_commit -> { broadcast_append_to board, target: board, renderable: Components::Stories::Story.new(story: self) }
+  after_update_commit -> { broadcast_replace_to board, target: self, renderable: Components::Stories::Story.new(story: self) }
+  after_destroy_commit -> { broadcast_remove_to board }
+
   enum :story_type, { feature: 0, bug: 1, chore: 2, spike: 3 }, default: 0
   enum :status, { todo: 0, in_progress: 1, in_review: 2, done: 3, archived: 4 }, default: 0
 

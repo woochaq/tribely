@@ -28,8 +28,7 @@ class StoriesController < ApplicationController
     @story.owner = current_user
 
     if @story.save
-      story_stream = turbo_stream.append(helpers.dom_id(@board), Components::Stories::Story.new(story: @story))
-      respond_with_streams(story_stream: story_stream, message: "Story was successfully created.")
+      respond_with_streams(message: "Story was successfully created.")
     else
       render_form_with_errors
     end
@@ -37,8 +36,7 @@ class StoriesController < ApplicationController
 
   def update
     if @story.update(story_params)
-      story_stream = turbo_stream.replace(helpers.dom_id(@story), Components::Stories::Story.new(story: @story))
-      respond_with_streams(story_stream: story_stream, message: "Story was successfully updated.")
+      respond_with_streams(message: "Story was successfully updated.")
     else
       render_form_with_errors
     end
@@ -46,16 +44,14 @@ class StoriesController < ApplicationController
 
   def destroy
     @story.destroy!
-    story_stream = turbo_stream.remove(helpers.dom_id(@story))
-    respond_with_streams(story_stream: story_stream, message: "Story was successfully deleted.")
+    respond_with_streams(message: "Story was successfully deleted.")
   end
 
   private
 
-  def respond_with_streams(story_stream:, message:)
+  def respond_with_streams(message:)
     render turbo_stream: [
       turbo_stream.update("modal", ""),
-      story_stream,
       turbo_stream.append("flash-container",
         Components::Shared::Toast.new(type: :success, message: message))
     ]
