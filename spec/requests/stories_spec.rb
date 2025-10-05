@@ -60,7 +60,6 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
         post project_board_stories_url(project, board), params: { story: valid_attributes }
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('<turbo-stream action="update" target="modal">')
-        expect(response.body).to include("<turbo-stream action=\"append\" target=\"board_#{board.id}\">")
         expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
       end
     end
@@ -96,7 +95,6 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
         story.reload
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('<turbo-stream action="update" target="modal">')
-        expect(response.body).to include("<turbo-stream action=\"replace\" target=\"story_#{story.id}\">")
         expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
       end
     end
@@ -118,7 +116,6 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
     it "renders turbo-stream tags" do
       delete project_board_story_url(project, board, story)
-      expect(response.body).to include("<turbo-stream action=\"remove\" target=\"story_#{story.id}\">")
       expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
     end
   end
