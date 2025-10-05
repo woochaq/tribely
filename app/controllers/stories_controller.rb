@@ -31,7 +31,7 @@ class StoriesController < ApplicationController
       story_stream = turbo_stream.append(helpers.dom_id(@board), Components::Stories::Story.new(story: @story))
       respond_with_streams(story_stream: story_stream, message: "Story was successfully created.")
     else
-      render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
+      render_form_with_errors
     end
   end
 
@@ -40,7 +40,7 @@ class StoriesController < ApplicationController
       story_stream = turbo_stream.replace(helpers.dom_id(@story), Components::Stories::Story.new(story: @story))
       respond_with_streams(story_stream: story_stream, message: "Story was successfully updated.")
     else
-      render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
+      render_form_with_errors
     end
   end
 
@@ -61,13 +61,16 @@ class StoriesController < ApplicationController
     ]
   end
 
+  def render_form_with_errors
+    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
+  end
+
   def set_project
-    @board = current_user.projects.find(params[:project_id])
-    @current_project = @board
+    @current_project = current_user.projects.find(params[:project_id])
   end
 
   def set_board
-    @board = @board.boards.find(params[:board_id])
+    @board = @current_project.boards.find(params[:board_id])
   end
 
   def set_story
