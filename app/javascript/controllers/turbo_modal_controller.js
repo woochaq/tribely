@@ -2,11 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="turbo-modal"
 export default class extends Controller {
-  connect() {
+  static values = {
+    baseUrl: String
   }
 
   hideModal() {
-    this.element.parentElement.removeAttribute("src") // it might be nice to also remove the modal SRC
+    this.element.parentElement.removeAttribute("src")
     this.element.remove()
+    if (this.hasBaseUrlValue) {
+      window.history.pushState({}, "", this.baseUrlValue)
+    }
   }
 }

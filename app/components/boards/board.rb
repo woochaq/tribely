@@ -12,7 +12,7 @@ class Components::Boards::Board < Components::Base
         h2(class: "text-md font-semibold text-text") do
           span { @board.name }
         end
-        link_to "...", new_project_board_story_path(@board.project, @board), data: { turbo_frame: "modal" }, class: "p-1 text-subtext0 hover:text-text"
+        link_to "...", new_project_story_path(@board.project, board_id: @board.id), data: { turbo_frame: "modal" }, class: "p-1 text-subtext0 hover:text-text"
       end
 
       turbo_stream_from @board

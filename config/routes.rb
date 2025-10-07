@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   resources :projects do
-    resources :boards, only: [] do
-      resources :stories, only: [ :show, :edit, :update, :create, :new, :destroy ]
-    end
-    resources :stories, only: [] do
+    resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       patch :move, on: :member
     end
   end

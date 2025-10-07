@@ -1,31 +1,24 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_board, except: [ :move ]
-  before_action :set_story, only: %i[show edit update destroy]
+  before_action :set_story, only: %i[show update destroy]
   before_action :set_story_for_move, only: [ :move ]
 
-  def index
-    @stories = @board.stories
-    render Views::Stories::IndexView.new(stories: @stories, board: @board, current_project: @current_project)
-  end
-
   def show
-    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project)
+    if turbo_frame_request?
+      render Components::Stories::Form.new(story: @story, current_project: @current_project)
+    else
+      render Views::Projects::Show.new(project: @current_project, current_project: @current_project, story_to_show: @story)
+    end
   end
 
   def new
-    @story = @board.stories.build
-    @story.owner = current_user
-    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project)
-  end
-
-  def edit
-    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project)
+    @story = Story.new(owner: current_user, board: Board.find(params[:board_id]))
+    render Components::Stories::Form.new(story: @story, current_project: @current_project)
   end
 
   def create
-    @story = @board.stories.build(story_params)
+    @story = Story.new(story_params)
     @story.owner = current_user
 
     if @story.save
@@ -67,7 +60,7 @@ class StoriesController < ApplicationController
   end
 
   def render_form_with_errors
-    render Components::Stories::Form.new(story: @story, board: @board, current_project: @current_project), status: :unprocessable_content
+    render Components::Stories::Form.new(story: @story, current_project: @current_project), status: :unprocessable_content
   end
 
   def set_project

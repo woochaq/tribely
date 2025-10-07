@@ -5,18 +5,17 @@ class Components::Stories::Form < Components::Base
   include Phlex::Rails::Helpers::DOMClass
   include Phlex::Rails::Helpers::T
 
-  def initialize(story:, board: @board, current_project: nil)
+  def initialize(story:, current_project: nil)
     @story = story
-    @board = board
     @current_project = current_project
   end
 
   def view_template
-    render Components::Shared::Modal do
-      simple_form_for([ @current_project, @board, @story ]) do |f|
+    render Components::Shared::Modal.new(base_url: project_path(@current_project)) do
+      simple_form_for([ @current_project, @story ]) do |f|
         div(class: "grid grid-cols-1 lg:grid-cols-3 lg:gap-8") do
           div(class: "lg:col-span-2 space-y-6") do
-            f.input :board_id, as: :hidden, value: @board.id
+            f.input :board_id, as: :hidden
             f.input :title
             f.input :description, as: :text, input_html: { rows: 10 }
           end
@@ -28,7 +27,7 @@ class Components::Stories::Form < Components::Base
 
             div(class: "flex items-center justify-end gap-4 pt-4") do
               if @story.persisted?
-                link_to "Destroy", project_board_story_path(@current_project, @board, @story), class: "btn-warn", data: { turbo_method: :delete }
+                link_to "Destroy", project_story_path(@current_project, @story), class: "btn-warn", data: { turbo_method: :delete }
               end
               f.button :submit, class: "btn-primary"
             end
