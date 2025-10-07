@@ -14,7 +14,7 @@ class Components::Projects::Boards < Components::Base
     # Main board container with horizontal scroll
     div(class: "flex-1 overflow-x-auto") do
       div(class: "inline-flex h-full") do
-        @project.boards.includes(:project, stories: [ :user, :owner ]).each do |board|
+        @project.boards.each do |board|
           turbo_stream_from board
           render Components::Boards::Board.new(board: board)
         end

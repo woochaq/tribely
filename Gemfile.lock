@@ -89,6 +89,9 @@ GEM
     brakeman (7.1.0)
       racc
     builder (3.3.0)
+    bullet (8.0.8)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.40.0)
       addressable
       matrix
@@ -246,9 +249,6 @@ GEM
       phlex (~> 2.3.0)
       railties (>= 7.1, < 9)
       zeitwerk (~> 2.7)
-    positioning (0.4.7)
-      activerecord (>= 6.1)
-      activesupport (>= 6.1)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -435,6 +435,7 @@ GEM
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
+    uniform_notifier (1.18.0)
     uri (1.0.4)
     useragent (0.16.11)
     warden (1.2.9)
@@ -467,6 +468,7 @@ DEPENDENCIES
   acts_as_list
   bootsnap
   brakeman
+  bullet
   capybara
   database_cleaner-active_record
   debug
@@ -480,7 +482,6 @@ DEPENDENCIES
   letter_opener_web (~> 3.0)
   mysql2 (~> 0.5)
   phlex-rails
-  positioning
   propshaft
   pry
   puma (>= 5.0)

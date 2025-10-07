@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, except: [ :index, :new, :create ]
 
   def index
-    render Views::Projects::Index.new(projects: current_user.projects.includes(boards: { stories: [ :user, :owner ] }))
+    render Views::Projects::Index.new(projects: current_user.projects)
   end
 
   def show
@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = current_user.projects.includes(boards: { stories: [ :user, :owner ] }).find(params[:id])
+    @project = current_user.projects.find(params[:id])
   end
 
   def project_params

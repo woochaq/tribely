@@ -11,7 +11,7 @@ class Components::Boards::StoriesList < Components::Base
       class: "flex-1 overflow-y-auto p-1 space-y-1",
       data: { controller: "boards", "boards-group-value": "stories", "board-id": @board.id, "boards-move-url-value": move_project_story_path(@board.project, ":id") }
     ) do
-      @board.stories.includes(:user, :owner, board: [ :project ]).sort_by(&:position).each do |story|
+      @board.stories.includes(:user).order(position: :asc).each do |story|
         render Components::Stories::Story.new(story: story)
       end
     end

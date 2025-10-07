@@ -41,6 +41,7 @@ gem "thruster", require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  gem "bullet"
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -72,7 +73,6 @@ end
 gem "acts_as_list"
 gem "devise", "~> 4.9"
 gem "friendly_id", "~> 5.5.0"
-gem "positioning"
 gem "phlex-rails"
 gem "simple_form"
 gem "tailwindcss-rails", "~> 4.3"

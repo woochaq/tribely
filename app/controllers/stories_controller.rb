@@ -71,7 +71,7 @@ class StoriesController < ApplicationController
   end
 
   def set_project
-    @current_project = current_user.projects.includes(boards: { stories: [ :user, :owner ] }).find(params[:project_id])
+    @current_project = current_user.projects.find(params[:project_id])
   end
 
   def set_board
