@@ -3,8 +3,7 @@ class Components::Stories::Form < Components::Base
   include SimpleForm::ActionViewExtensions::FormHelper
   include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::DOMClass
-  include Phlex::Rails::Helpers::Routes
-  include Phlex::Rails::Helpers::ButtonTo
+  include Phlex::Rails::Helpers::T
 
   def initialize(story:, board: @board, current_project: nil)
     @story = story
@@ -22,10 +21,10 @@ class Components::Stories::Form < Components::Base
             f.input :description, as: :text, input_html: { rows: 10 }
           end
           div(class: "space-y-6") do
+            f.input :story_type, as: :select, collection: translated_story_types, include_blank: false
             f.association :owner, collection: @current_project.users, prompt: "Choose user"
             f.association :user, collection: @current_project.users, prompt: "Choose user"
-            f.input :status, as: :select, collection: ::Story.statuses.keys
-            f.input :story_type, as: :select, collection: ::Story.story_types.keys
+            f.input :status, as: :select, collection: translated_statuses, include_blank: false
 
             div(class: "flex items-center justify-end gap-4 pt-4") do
               if @story.persisted?
@@ -37,5 +36,15 @@ class Components::Stories::Form < Components::Base
         end
       end
     end
+  end
+
+  private
+
+  def translated_story_types
+    ::Story.story_types.keys.map { |type| [ t("activerecord.attributes.story.story_types.#{type}"), type ] }
+  end
+
+  def translated_statuses
+    ::Story.statuses.keys.map { |status| [ t("activerecord.attributes.story.statuses.#{status}"), status ] }
   end
 end

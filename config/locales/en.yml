@@ -29,3 +29,17 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      story:
+        story_types:
+          feature: "Feature"
+          bug: "Bug"
+          chore: "Chore"
+          spike: "Spike"
+        statuses:
+          todo: "To Do"
+          in_progress: "In Progress"
+          in_review: "In Review"
+          done: "Done"
+          archived: "Archived"

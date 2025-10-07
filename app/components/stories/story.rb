@@ -13,11 +13,32 @@ class Components::Stories::Story < Components::Base
       id: dom_id(@story),
       class: "block bg-surface0 border border-crust rounded-lg p-3 shadow-sm hover:bg-surface1 cursor-pointer"
     ) do
-      p(class: "font-semibold text-text") { @story.title }
-      div(class: "flex items-center justify-between mt-4") do
-        span(class: "text-xs text-subtext0") { "#{@story.board.project.prefix}-#{@story.number}" }
-        render Components::Shared::Avatar(user: @story.user, size: "w-6 h-6", bg: "bg-info/50", font_size: "text-xs")
+      div(class: "flex items-start gap-2") do
+        div(class: "flex-shrink-0") { story_type_icon }
+        p(class: "font-semibold text-text") { @story.title }
       end
+      div(class: "flex items-center justify-between mt-4") do
+        div(class: "flex items-center gap-2") do
+          span(class: "text-xs text-subtext0") { "#{@story.board.project.prefix}-#{@story.number}" }
+          render Components::Shared::StatusBadge.new(status: @story.status)
+        end
+        render Components::Shared::Avatar.new(user: @story.user, size: "w-6 h-6", bg: "bg-info/50", font_size: "text-xs")
+      end
+    end
+  end
+
+  private
+
+  def story_type_icon
+    case @story.story_type
+    when "feature"
+      render Components::Icons::FeatureStory.new
+    when "bug"
+      render Components::Icons::BugStory.new
+    when "chore"
+      render Components::Icons::ChoreStory.new
+    when "spike"
+      render Components::Icons::SpikeStory.new
     end
   end
 end
