@@ -9,7 +9,7 @@ class Components::Stories::Story < Components::Base
   def view_template
     link_to(
       project_board_story_path(@story.board.project, @story.board, @story),
-      data: { turbo_frame: "modal" },
+      data: { turbo_frame: "modal", "story-id": @story.id },
       id: dom_id(@story),
       class: "block bg-surface0 border border-crust rounded-lg p-3 shadow-sm hover:bg-surface1 cursor-pointer"
     ) do

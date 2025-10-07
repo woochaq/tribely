@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_03_145145) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_071721) do
   create_table "boards", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.bigint "project_id", null: false
@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_03_145145) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "number", null: false
+    t.integer "position", null: false
     t.index ["board_id"], name: "index_stories_on_board_id"
     t.index ["owner_id"], name: "index_stories_on_owner_id"
     t.index ["user_id"], name: "index_stories_on_user_id"

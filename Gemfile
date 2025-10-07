@@ -55,7 +55,7 @@ end
 
 group :development do
   gem "hotwire-spark"
-gem "letter_opener_web", "~> 3.0"
+  gem "letter_opener_web", "~> 3.0"
   gem "ruby_ui", "~> 1.0", require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
@@ -69,8 +69,10 @@ group :test do
   gem "shoulda-matchers", "~> 6.0"
 end
 
+gem "acts_as_list"
 gem "devise", "~> 4.9"
 gem "friendly_id", "~> 5.5.0"
+gem "positioning"
 gem "phlex-rails"
 gem "simple_form"
 gem "tailwindcss-rails", "~> 4.3"

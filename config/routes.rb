@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     resources :boards, only: [] do
       resources :stories, only: [ :show, :edit, :update, :create, :new, :destroy ]
     end
+    resources :stories, only: [] do
+      patch :move, on: :member
+    end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   devise_for :user, controllers: {

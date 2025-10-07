@@ -1,12 +1,12 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_project, except: [ :index, :new, :create ]
 
   def index
-    render Views::Projects::Index.new(projects: current_user.projects)
+    render Views::Projects::Index.new(projects: current_user.projects.includes(boards: { stories: [ :user, :owner ] }))
   end
 
   def show
-    @project = current_user.projects.find(params[:id])
     render Views::Projects::Show.new(project: @project, current_project: @project)
   end
 
@@ -16,7 +16,6 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = current_user.projects.find(params[:id])
     render Views::Projects::New.new(project: @project, current_project: @project)
   end
 
@@ -32,7 +31,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = current_user.projects.find(params[:id])
     if @project.update(project_params)
       flash[:success] = "Project #{@project.name} updated"
       redirect_to projects_path, status: :see_other
@@ -42,13 +40,16 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = current_user.projects.find(params[:id])
     @project.destroy
     flash[:success] = "Project #{@project.name} destroyed"
     redirect_to projects_path
   end
 
   private
+
+  def set_project
+    @project = current_user.projects.includes(boards: { stories: [ :user, :owner ] }).find(params[:id])
+  end
 
   def project_params
     params.require(:project).permit(:name, :prefix)

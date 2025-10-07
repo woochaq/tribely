@@ -1,8 +1,9 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_board
+  before_action :set_board, except: [ :move ]
   before_action :set_story, only: %i[show edit update destroy]
+  before_action :set_story_for_move, only: [ :move ]
 
   def index
     @stories = @board.stories
@@ -47,6 +48,14 @@ class StoriesController < ApplicationController
     respond_with_streams(message: "Story was successfully deleted.")
   end
 
+  def move
+     if @story.update(move_params)
+        head :ok
+     else
+        head :unprocessable_entity
+     end
+  end
+
   private
 
   def respond_with_streams(message:)
@@ -62,7 +71,7 @@ class StoriesController < ApplicationController
   end
 
   def set_project
-    @current_project = current_user.projects.find(params[:project_id])
+    @current_project = current_user.projects.includes(boards: { stories: [ :user, :owner ] }).find(params[:project_id])
   end
 
   def set_board
@@ -70,10 +79,18 @@ class StoriesController < ApplicationController
   end
 
   def set_story
-    @story = @board.stories.find(params[:id])
+    @story = @current_project.stories.find(params[:id])
+  end
+
+  def set_story_for_move
+    @story = @current_project.stories.find(params[:id])
   end
 
   def story_params
     params.require(:story).permit(:board_id, :user_id, :owner_id, :title, :description, :status, :story_type)
+  end
+
+  def move_params
+    params.require(:story).permit(:board_id, :position)
   end
 end

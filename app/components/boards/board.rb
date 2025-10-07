@@ -1,6 +1,5 @@
 class Components::Boards::Board < Components::Base
   include Phlex::Rails::Helpers::LinkTo
-  include Phlex::Rails::Helpers::DOMID
   include Phlex::Rails::Helpers::TurboStreamFrom
 
   def initialize(board:)
@@ -18,11 +17,8 @@ class Components::Boards::Board < Components::Base
       end
 
       turbo_stream_from @board
-      div(id: dom_id(@board), class: "flex-1 overflow-y-auto p-1 space-y-1") do
-        @board.stories.each do |story|
-          render Components::Stories::Story.new(story: story)
-        end
-      end
+
+      render Components::Boards::StoriesList.new(board: @board)
     end
   end
 end

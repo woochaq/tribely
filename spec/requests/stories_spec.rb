@@ -39,7 +39,7 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
       get new_project_board_story_url(project, board)
       expect(response).to be_successful
     end
-    end
+  end
 
   describe "GET /edit" do
     it "renders a successful response" do
@@ -117,6 +117,23 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
     it "renders turbo-stream tags" do
       delete project_board_story_url(project, board, story)
       expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
+    end
+  end
+
+  describe "PATCH /move" do
+    let(:board2) { create(:board, project: project) }
+    let!(:story2) { create(:story, board: board2) }
+
+    it "renders a successful response" do
+      expect(story.position).to eq(1)
+      expect(story.board).to eq(board)
+      expect(story2.position).to eq(1)
+      patch move_project_story_url(project, story), params: { story: { board_id: board2.id, position: 1 } }
+      story.reload; story2.reload
+      expect(story.position).to eq(1)
+      expect(story.board).to eq(board2)
+      expect(story2.position).to eq(2)
+      expect(response).to be_successful
     end
   end
 end
