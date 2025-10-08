@@ -1,20 +1,19 @@
 class Components::Icons::Settings < Components::Base
+  DEFAULT_ATTRIBUTES = {
+    class: "h-5 w-5 mr-2",
+    viewBox: "0 0 20 20",
+    fill: "none",
+    viewbox: "0 0 24 24",
+    stroke_width: "1.5",
+    stroke: "currentColor"
+  }.freeze
+
   def initialize(attributes = {})
     @attributes = attributes
   end
 
   def view_template
-    default_attributes = {
-      class: "h-5 w-5 mr-2",
-      viewBox: "0 0 20 20",
-      fill: "none",
-      viewbox: "0 0 24 24",
-      stroke_width: "1.5",
-      stroke: "currentColor"
-    }
-    merged_attributes = default_attributes.merge(@attributes)
-
-    svg(**merged_attributes) do |svg|
+    svg(**DEFAULT_ATTRIBUTES, **@attributes) do |svg|
       svg.path(
         stroke_linecap: "round",
         stroke_linejoin: "round",
