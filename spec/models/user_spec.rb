@@ -5,6 +5,8 @@ RSpec.describe User, type: :model do
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:password) }
     it { should validate_length_of(:password).is_at_least(6).is_at_most(128) }
+    it { should validate_content_type_of(:avatar).allowing(User::ACCEPTED_CONTENT_TYPES) } # possible to use an Array or *splatted array
+    it { should validate_size_of(:avatar).less_than(1.megabyte) }
 
     it "should have a valid factory" do
       expect(FactoryBot.build(:user)).to be_valid

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  ACCEPTED_CONTENT_TYPES = [ "image/png", "image/jpeg", "image/webp", "image/avif", "image/svg+xml" ].freeze
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -11,6 +13,10 @@ class User < ApplicationRecord
   has_many :projects, through: :project_users
   has_many :organization_users, inverse_of: :user, dependent: :destroy
   has_many :organizations, through: :organization_users
+  has_one_attached :avatar do |attachable|
+    attachable.variant :thumb, resize_to_limit: [ 100, 100 ]
+  end
+  validates :avatar, content_type: { in: ACCEPTED_CONTENT_TYPES }, size: { less_than: 1.megabytes }
 
   after_create_commit :create_default_organization
 
