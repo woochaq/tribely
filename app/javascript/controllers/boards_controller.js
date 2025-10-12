@@ -32,6 +32,7 @@ export default class extends Sortable {
     return {
       group: this.groupValue,
       onEnd: this.onEnd.bind(this),
+      forceFallback: true
     }
   }
 }
