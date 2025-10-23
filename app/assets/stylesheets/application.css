@@ -15,7 +15,12 @@ lexxy-editor.wysiwyg-editor .lexxy-editor__content {
 
 @media (min-width: 768px) {
   lexxy-editor.wysiwyg-editor {
-    min-height: 35rem;
+    min-height: 35rem; 
     max-height: 50rem;
   }
+}
+
+lexxy-editor.wysiwyg-editor .lexxy-editor__content a {
+  color: revert;
+  text-decoration: revert;
 }
