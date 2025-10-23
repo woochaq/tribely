@@ -24,7 +24,7 @@ services:
     # Port mapping. Redirects port 3306 from the container to port 3306 on your host machine.
     # The format is 'HOST_PORT:CONTAINER_PORT'.
     ports:
-      - '3306:3306'
+      - '127.0.0.1:3306:3306'
       
     # Volumes are the way to persist data. This is the most important part!
     volumes:

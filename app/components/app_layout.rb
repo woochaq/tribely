@@ -25,6 +25,7 @@ class Components::AppLayout < Components::Base
         link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous"
         link href: "https://fonts.googleapis.com/css2?family=Cascadia+Mono:wght@400;700&display=swap", rel: "stylesheet"
 
+        stylesheet_link_tag "lexxy"
         stylesheet_link_tag :app, "data-turbo-track": "reload"
         javascript_importmap_tags
       end

@@ -2,6 +2,9 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
+// import "trix"
+import "lexxy"
+
 document.addEventListener("turbo:load", () => {
   const observerOptions = {
     root: null,

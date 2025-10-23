@@ -1,12 +1,21 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+lexxy-editor.wysiwyg-editor {
+  display: flex;
+  flex-direction: column;
+  min-height: 40vh;
+  max-height: 60vh;
+  resize: vertical;
+  overflow: hidden;
+}
 
+lexxy-editor.wysiwyg-editor .lexxy-editor__content {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
 
+@media (min-width: 768px) {
+  lexxy-editor.wysiwyg-editor {
+    min-height: 35rem;
+    max-height: 50rem;
+  }
+}

@@ -1,6 +1,8 @@
 class Story < ApplicationRecord
   belongs_to :board
   acts_as_list scope: :board
+  has_rich_text :description
+
   belongs_to :user, optional: true
   belongs_to :owner, class_name: User.to_s
   before_validation :set_number, on: :create

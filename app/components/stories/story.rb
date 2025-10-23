@@ -14,7 +14,7 @@ class Components::Stories::Story < Components::Base
     ) do
       link_to(
         project_story_path(@story.board.project, @story),
-        data: { turbo_frame: "modal", "turbo-action": "advance" },
+        data: { turbo_frame: "_top", "turbo-action": "advance" },
         class: "block w-full"
       ) do
         div(class: "flex items-start gap-2") do

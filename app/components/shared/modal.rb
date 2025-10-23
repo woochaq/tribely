@@ -11,12 +11,12 @@ class Components::Shared::Modal < Components::Base
       if block_given?
         # Modal Backdrop
         div(
-          class: "fixed inset-0 z-50 bg-mantle/50 flex items-center justify-center",
+          class: "fixed inset-0 z-50 bg-mantle/50 flex items-center justify-center p-4",
           data: { controller: "turbo-modal", action: "click->turbo-modal#hideModal:self keydown.esc@window->turbo-modal#hideModal", "turbo-modal-base-url-value": @base_url }
         ) do
           # Modal content
           div(
-            class: "relative bg-mantle rounded-2xl shadow-lg border border-crust p-6 w-full max-w-lg lg:max-w-4xl",
+            class: "relative bg-mantle rounded-2xl shadow-lg border border-crust p-6 w-full max-w-lg lg:max-w-7xl max-h-[95vh] overflow-y-auto",
           ) do
             button(class: "absolute top-4 right-4 cursor-pointer", data: { action: "click->turbo-modal#hideModal" }) { render Components::Icons::XMark }
             yield
