@@ -17,7 +17,7 @@ class Components::Stories::Form < Components::Base
           div(class: "lg:col-span-2 space-y-6") do
             f.input :board_id, as: :hidden
             f.input :title
-            f.rich_text_area :description, class: "bg-white lexxy-content wysiwyg-editor"
+            f.rich_text_area :description, class: "bg-base lexxy-content wysiwyg-editor"
           end
           div(class: "space-y-6") do
             f.input :story_type, as: :select, collection: translated_story_types, include_blank: false

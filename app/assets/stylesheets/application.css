@@ -21,6 +21,13 @@ lexxy-editor.wysiwyg-editor .lexxy-editor__content {
 }
 
 lexxy-editor.wysiwyg-editor .lexxy-editor__content a {
-  color: revert;
+  color: var(--color-primary);
   text-decoration: revert;
+}
+
+lexxy-editor.wysiwyg-editor .lexxy-link-dialog input {
+  background-color: var(--color-base);
+}
+lexxy-editor.wysiwyg-editor .lexxy-link-dialog input:focus {
+  outline-color: none;
 }

@@ -1,0 +1,49 @@
+:root {
+  --lexxy-color-ink: var(--color-text-val);
+  --lexxy-color-ink-medium: var(--color-subtext0-val);
+  --lexxy-color-ink-light: var(--color-surface2-val);
+  --lexxy-color-ink-lighter: var(--color-surface1-val);
+  --lexxy-color-ink-lightest: var(--color-surface0-val);
+  --lexxy-color-ink-inverted: var(--color-base-val);
+
+  --lexxy-color-accent-dark: var(--color-primary-val);
+  --lexxy-color-accent-medium: var(--color-info-val);
+  --lexxy-color-accent-light: var(--color-surface1-val);
+  --lexxy-color-accent-lightest: var(--color-surface0-val);
+
+  --lexxy-color-red: var(--color-danger-val);
+  --lexxy-color-green: var(--color-success-val);
+  --lexxy-color-blue: var(--color-info-val);
+  --lexxy-color-purple: var(--color-primary-val);
+
+  --lexxy-color-code-token-att: var(--color-accent-val);
+  --lexxy-color-code-token-comment: var(--color-subtext0-val);
+  --lexxy-color-code-token-function: var(--color-primary-val);
+  --lexxy-color-code-token-operator: var(--color-danger-val);
+  --lexxy-color-code-token-property: var(--color-info-val);
+  --lexxy-color-code-token-punctuation: var(--color-overlay2-val);
+  --lexxy-color-code-token-selector: var(--color-success-val);
+  --lexxy-color-code-token-variable: var(--color-accent-val);
+
+  --lexxy-color-canvas: var(--lexxy-color-ink-inverted);
+  --lexxy-color-text: var(--lexxy-color-ink);
+  --lexxy-color-text-subtle: var(--lexxy-color-ink-medium);
+  --lexxy-color-link: var(--lexxy-color-accent-dark);
+  --lexxy-color-selected: var(--lexxy-color-accent-lightest);
+  --lexxy-color-selected-hover: var(--lexxy-color-accent-light);
+  --lexxy-color-selected-dark: var(--lexxy-color-blue);
+  --lexxy-color-code-bg: var(--color-mantle-val);
+
+  --lexxy-font-base: system-ui, sans-serif;
+  --lexxy-font-mono: ui-monospace, "Menlo", "Monaco", Consolas, monospace;
+  --lexxy-text-small: 0.875rem;
+  --lexxy-content-margin: 1rem;
+
+  --lexxy-focus-ring-color: var(--lexxy-color-accent-dark);
+  --lexxy-focus-ring-offset: 2px;
+  --lexxy-focus-ring-size: 2px;
+
+  --lexxy-radius: 0.5ch;
+  --lexxy-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --lexxy-z-popup: 1000;
+}
