@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
 
 
   def show
-    render Components::Comments::Comment.new(comment: @comment)
+    render Components::Comments::Comment.new(comment: @comment, current_user: current_user)
   end
 
   def new
@@ -28,8 +28,9 @@ class CommentsController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.prepend(helpers.dom_id(@story, "comments"), Components::Comments::Comment.new(comment: @comment)),
-            turbo_stream.update(helpers.dom_id(@story, "new_comment_form"), Components::Comments::NewCommentPlaceholder.new(story: @story))
+            turbo_stream.prepend(helpers.dom_id(@story, "comments"), Components::Comments::Comment.new(comment: @comment, current_user: current_user)),
+            turbo_stream.update(helpers.dom_id(@story, "new_comment_form"), Components::Comments::NewCommentPlaceholder.new(story: @story)),
+            turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: "Comment was successfully created."))
           ]
         end
         format.html { redirect_to project_story_path(@current_project, @story), notice: "Comment was successfully created." }
@@ -44,10 +45,7 @@ class CommentsController < ApplicationController
       message = "Comment was successfully updated."
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: [
-            turbo_stream.replace(@comment, Components::Comments::Comment.new(comment: @comment)),
-            turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: message))
-          ]
+          render turbo_stream: turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: message))
         end
         format.html { redirect_to project_story_path(@current_project, @story), notice: message }
       end
@@ -61,10 +59,7 @@ class CommentsController < ApplicationController
     message = "Comment was sucessfully destroyed."
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: [
-            turbo_stream.remove(@comment),
-            turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: message))
-        ]
+        render turbo_stream: turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: message))
       end
       format.html { redirect_to project_story_path(@current_project, @story), notice: message }
     end

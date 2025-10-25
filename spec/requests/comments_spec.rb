@@ -89,7 +89,7 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
       it "returns a turbo_stream response" do
         patch project_story_comment_url(project, story, comment), params: { comment: new_attributes }, as: :turbo_stream
         expect(response.media_type).to eq Mime[:turbo_stream]
-        expect(response.body).to include("<turbo-stream action=\"replace\" target=\"comment_#{comment.id}\">")
+        expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
       end
     end
 
@@ -112,7 +112,7 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     it "returns a turbo_stream response" do
       delete project_story_comment_url(project, story, comment), as: :turbo_stream
       expect(response.media_type).to eq Mime[:turbo_stream]
-      expect(response.body).to include("<turbo-stream action=\"remove\" target=\"comment_#{comment.id}\"")
+      expect(response.body).to include("<turbo-stream action=\"append\" target=\"flash-container\">")
     end
 
     it "is forbidden for another user" do

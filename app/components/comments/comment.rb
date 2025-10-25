@@ -4,8 +4,9 @@ class Components::Comments::Comment < Components::Base
   include Phlex::Rails::Helpers::TimeAgoInWords
   include Phlex::Rails::Helpers::TurboFrameTag
 
-  def initialize(comment:)
+  def initialize(comment:, current_user: nil)
     @comment = comment
+    @current_user = current_user
   end
 
   def view_template
@@ -21,7 +22,7 @@ class Components::Comments::Comment < Components::Base
             end
             # Placeholder for edit/delete actions
             div(class: "flex items-center gap-2") do
-              if view_context.current_user == @comment.user
+              if @current_user && @current_user == @comment.user
                 link_to view_context.edit_project_story_comment_path(@comment.story.board.project, @comment.story, @comment),
                   class: "text-subtext0 hover:text-text" do
                   render Components::Icons::Edit.new(class: "w-4 h-4")

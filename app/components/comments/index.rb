@@ -17,7 +17,7 @@ class Components::Comments::Index < Components::Base
 
       div(id: dom_id(@story, "comments"), data: { controller: "syntax-highlight" }) do
         @story.comments.order(created_at: :desc).each do |comment|
-          render Components::Comments::Comment.new(comment: comment)
+          render Components::Comments::Comment.new(comment: comment, current_user: view_context.current_user)
         end
       end
     end
