@@ -1,6 +1,5 @@
 class Components::Boards::Board < Components::Base
   include Phlex::Rails::Helpers::LinkTo
-  include Phlex::Rails::Helpers::TurboStreamFrom
 
   def initialize(board:)
     @board = board
@@ -14,8 +13,6 @@ class Components::Boards::Board < Components::Base
         end
         link_to "+", new_project_story_path(@board.project, board_id: @board.id), data: { turbo_frame: "modal" }, class: "p-1 text-subtext0 hover:text-text"
       end
-
-      turbo_stream_from @board
 
       render Components::Boards::StoriesList.new(board: @board)
     end

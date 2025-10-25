@@ -14,9 +14,9 @@ class Story < ApplicationRecord
   enum :story_type, { feature: 0, bug: 1, chore: 2, spike: 3 }, default: 0
   enum :status, { todo: 0, in_progress: 1, in_review: 2, done: 3, archived: 4 }, default: 0
 
-  after_create_commit  -> { broadcast_board_update(board) }
+  after_create_commit  -> { broadcast_project_update(board) }
   after_update_commit  :broadcast_on_update
-  after_destroy_commit -> { broadcast_board_update(board) }
+  after_destroy_commit -> { broadcast_project_update(board) }
 
   private
 
@@ -29,16 +29,16 @@ class Story < ApplicationRecord
       old_board_id, _new_board_id = board_id_previous_change
       old_board = Board.find(old_board_id)
 
-      broadcast_board_update(old_board)
-      broadcast_board_update(board)
+      broadcast_project_update(old_board)
+      broadcast_project_update(board)
     else
-      broadcast_board_update(board)
+      broadcast_project_update(board)
     end
   end
 
-  def broadcast_board_update(target_board)
+  def broadcast_project_update(target_board)
     broadcast_replace_to(
-      target_board,
+      target_board.project,
       target: "board_#{target_board.id}",
       renderable: Components::Boards::StoriesList.new(board: target_board)
     )
