@@ -2,23 +2,34 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
   before_action :set_story
-  before_action :set_comment, only: [ :update, :destroy ]
+  before_action :set_comment, only: [ :update, :destroy, :edit, :show ]
+
+
+  def show
+    render Components::Comments::Comment.new(comment: @comment)
+  end
 
   def new
     @comment = Comment.new(user: current_user, story: @story)
     render Components::Comments::Form.new(story: @story, comment: @comment)
   end
 
+
+  def edit
+    render Components::Comments::EditForm.new(story: @story, comment: @comment)
+  end
+
   def create
     @comment = @story.comments.new(comment_params)
     @comment.user = current_user
+
 
     if @comment.save
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.prepend(helpers.dom_id(@story, "comments"), Components::Comments::Comment.new(comment: @comment)),
-            turbo_stream.update(helpers.dom_id(@story, "new_comment_form"), Components::Comments::Form.new(story: @story, comment: Comment.new))
+            turbo_stream.update(helpers.dom_id(@story, "new_comment_form"), Components::Comments::NewCommentPlaceholder.new(story: @story))
           ]
         end
         format.html { redirect_to project_story_path(@current_project, @story), notice: "Comment was successfully created." }

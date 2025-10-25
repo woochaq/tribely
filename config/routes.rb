@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       patch :move, on: :member
 
-      resources :comments, only: [ :update, :create, :new, :destroy ]
+      resources :comments, only: [ :update, :create, :new, :destroy, :edit, :show ]
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

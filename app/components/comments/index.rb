@@ -1,5 +1,7 @@
 class Components::Comments::Index < Components::Base
   include Phlex::Rails::Helpers::DOMID
+  include Phlex::Rails::Helpers::TurboFrameTag
+  include Phlex::Rails::Helpers::LinkTo
 
   def initialize(story:)
     @story = story
@@ -9,7 +11,9 @@ class Components::Comments::Index < Components::Base
     div(class: "mt-8 pt-6 border-t border-crust") do
       h2(class: "text-xl font-semibold text-text mb-4") { "Comments" }
 
-      render Components::Comments::Form.new(story: @story, comment: ::Comment.new(user: view_context.current_user))
+      render Components::Comments::NewCommentPlaceholder.new(story: @story)
+
+      div(class: "my-6 border-t border-surface0")
 
       div(id: dom_id(@story, "comments"), data: { controller: "syntax-highlight" }) do
         @story.comments.order(created_at: :desc).each do |comment|

@@ -17,7 +17,7 @@ class Views::Devise::Registrations::New < Views::Base
     section(id: "log-in", class: "py-10 md:py-18") do
       div(class: "container mx-auto") do
         div(class: "max-w-3xl mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-2xl shadow-crust/20") do
-          h2(class: "text-2xl font-bold text-center text-text mb-6") { "Sign in to Tribely" }
+          h2(class: "text-2xl font-bold text-center text-text mb-6") { "Sign up to Tribely" }
           simple_form_for(@resource, as: @resource_name, url: registration_path(@resource_name)) do |f|
             div(class: "space-y-6") do
               f.input :email, autofocus: true, autocomplete: "email"

@@ -32,8 +32,9 @@ class Components::App::Header < Components::Base
               class: "hidden absolute left-0 z-10 mt-2 w-80 origin-top-left rounded-md bg-surface1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none",
               data: { "app--header-dropdown-target": "menu" }
             ) do
-              a(href: projects_path, class: "block px-4 py-2 text-sm text-subtext1 hover:bg-surface2") { "Your Projects" }
               if view_context.current_user.projects.any?
+                a(href: projects_path, class: "block px-4 py-2 text-sm text-subtext1 hover:bg-surface2") { "Your Projects" }
+                div(class: "border-t border-crust my-1")
                 view_context.current_user.projects.each do |project|
                   a(
                     href: project_path(project),

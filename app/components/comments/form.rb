@@ -11,8 +11,8 @@ class Components::Comments::Form < Components::Base
   end
 
   def view_template
-    turbo_frame_tag "comments_section" do
-      div(id: dom_id(@story, "new_comment_form"), class: "mt-6") do
+    turbo_frame_tag dom_id(@story, "new_comment_form") do
+      div(class: "mt-6") do
         div(id: dom_id(@comment, :form)) do
           simple_form_for([ @story.board.project, @story, @comment ], html: { data: { turbo_frame: dom_id(@story, "comments_form") } }) do |f|
             f.input :content, as: :rich_text_area, label: false, placeholder: "Add a comment...", input_html: { class: "lexxy-content wysiwyg-editor prose max-w-none" }
