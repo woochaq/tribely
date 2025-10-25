@@ -1,0 +1,10 @@
+import { Controller } from "@hotwired/stimulus"
+import { highlightAll } from "lexxy"
+
+// Connects to data-controller="syntax-highlight"
+export default class extends Controller {
+  connect() {
+    console.log("connected")
+    highlightAll()
+  }
+}

@@ -11,6 +11,7 @@ class User < ApplicationRecord
 
   has_many :project_users, inverse_of: :user, dependent: :destroy
   has_many :projects, through: :project_users
+  has_many :comments, dependent: :nullify
   has_many :organization_users, inverse_of: :user, dependent: :destroy
   has_many :organizations, through: :organization_users
   has_one_attached :avatar do |attachable|

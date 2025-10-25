@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   resources :projects do
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       patch :move, on: :member
+
+      resources :comments, only: [ :update, :create, :new, :destroy ]
     end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?

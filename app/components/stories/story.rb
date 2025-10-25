@@ -24,9 +24,11 @@ class Components::Stories::Story < Components::Base
         div(class: "flex items-center justify-between mt-4") do
           div(class: "flex items-center gap-2") do
             span(class: "text-xs text-subtext0") { "#{@story.board.project.prefix}-#{@story.number}" }
-            render Components::Shared::StatusBadge.new(status: @story.status)
           end
-          render Components::Shared::Avatar.new(user: @story.user, size: "w-6 h-6", bg: "bg-info/50", font_size: "text-xs")
+          div(class: "flex items-center gap-2") do
+            render Components::Shared::StatusBadge.new(status: @story.status)
+            render Components::Shared::Avatar.new(user: @story.user, size: "w-6 h-6", bg: "bg-info/50", font_size: "text-xs")
+          end
         end
       end
     end

@@ -1,8 +1,6 @@
 lexxy-editor.wysiwyg-editor {
   display: flex;
   flex-direction: column;
-  min-height: 40vh;
-  max-height: 60vh;
   resize: vertical;
   overflow: hidden;
 }
@@ -11,13 +9,6 @@ lexxy-editor.wysiwyg-editor .lexxy-editor__content {
   flex-grow: 1;
   overflow-y: auto;
   min-height: 0;
-}
-
-@media (min-width: 768px) {
-  lexxy-editor.wysiwyg-editor {
-    min-height: 30rem; 
-    max-height: 45rem;
-  }
 }
 
 lexxy-editor.wysiwyg-editor .lexxy-editor__content a {

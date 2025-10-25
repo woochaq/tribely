@@ -1,13 +1,14 @@
 class Story < ApplicationRecord
-  belongs_to :board
   acts_as_list scope: :board
   has_rich_text :description
 
+  belongs_to :board
   belongs_to :user, optional: true
   belongs_to :owner, class_name: User.to_s
-  before_validation :set_number, on: :create
+  has_many :comments, dependent: :nullify
 
-  validates :title, :story_type, :status, :number, presence: true
+  before_validation :set_number, on: :create
+  validates_presence_of :title, :story_type, :status, :number
   validates_length_of :title, maximum: 255
 
   enum :story_type, { feature: 0, bug: 1, chore: 2, spike: 3 }, default: 0

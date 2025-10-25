@@ -54,8 +54,7 @@ class StoriesController < ApplicationController
   def respond_with_streams(message:)
     render turbo_stream: [
       turbo_stream.update("modal", ""),
-      turbo_stream.append("flash-container",
-        Components::Shared::Toast.new(type: :success, message: message))
+      turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :success, message: message))
     ]
   end
 
