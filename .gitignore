@@ -9,6 +9,7 @@
 
 # Ignore all environment files.
 /.env*
+/.kamal/envs/
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -38,3 +39,7 @@
 
 .gemini/*
 GEMINI.md
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
