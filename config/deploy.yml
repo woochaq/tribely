@@ -18,6 +18,7 @@ servers:
 #
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
+  app_port: 3000
   ssl: true
   host: tribely.work
 
@@ -93,7 +94,7 @@ builder:
 # ssh:
 #   user: app
 
-# Use accessory services (secrets come from .kamal/secrets).
+# Use accessory services (se First web container is unhealthy on <SERVER_IP>, not booting any other rolecrets come from .kamal/secrets).
 accessories:
   db:
     image: mysql:8.3
