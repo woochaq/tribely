@@ -18,11 +18,11 @@ class Components::Stories::Story < Components::Base
         class: "block w-full"
       ) do
         div(class: "flex items-start gap-2") do
-          div(class: "flex-shrink-0") { story_type_icon }
           p(class: "font-semibold text-text") { @story.title }
         end
         div(class: "flex items-center justify-between mt-4") do
           div(class: "flex items-center gap-2") do
+            story_type_icon
             span(class: "text-xs text-subtext0") { "#{@story.board.project.prefix}-#{@story.number}" }
           end
           div(class: "flex items-center gap-2") do
