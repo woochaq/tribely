@@ -15,18 +15,18 @@ class Comment < ApplicationRecord
   private
 
   def broadcast_create
-    broadcast_prepend_to(
+    broadcast_prepend_later_to(
       story.board.project,
       target: dom_id(story, "comments"),
-      renderable: Components::Comments::Comment.new(comment: self)
+      renderable: Components::Comments::Comment, locals: { comment: self }
     )
   end
 
   def broadcast_update
-    broadcast_replace_to(
+    broadcast_replace_later_to(
       story.board.project,
       target: self,
-      renderable: Components::Comments::Comment.new(comment: self)
+      renderable: Components::Comments::Comment, locals: { comment: self }
     )
   end
 
