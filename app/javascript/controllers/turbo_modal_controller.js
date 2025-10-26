@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="turbo-modal"
 export default class extends Controller {
   static values = {
-    baseUrl: String
+    baseUrl: String,
+    shouldUpdateUrl: Boolean
   }
 
   connect() {
@@ -24,6 +25,9 @@ export default class extends Controller {
   disconnect() {
     // When the controller is disconnected (e.g., modal is closed),
     // clean up by removing the event listener to prevent memory leaks.
+    if(this.fnnerHTML === '') {
+      this.hideModal()
+    }
     if (this.frame) {
       this.frame.removeEventListener("turbo:frame-load", this.boundUpdateUrl)
     }
@@ -31,7 +35,7 @@ export default class extends Controller {
 
   updateUrl() {
     const frameSrc = this.frame.getAttribute("src")
-    if (frameSrc) {
+    if (this.shouldUpdateUrlValue && frameSrc) {
       window.history.pushState({}, "", frameSrc)
     }
   }
