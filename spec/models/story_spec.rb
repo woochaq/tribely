@@ -36,4 +36,24 @@ RSpec.describe Story, type: :model do
       expect(story4.number).to eq 4
     end
   end
+
+  describe "@handle_board_change" do
+    let(:project) { FactoryBot.create(:project) }
+    let(:done_board) { FactoryBot.create(:board, name: "Done", project: project) }
+    let(:icebox_board) { FactoryBot.create(:board, name: "Icebox", project: project) }
+    let!(:story) { FactoryBot.create(:story, board: icebox_board) }
+
+    context "when moveing story between Done and Icebox" do
+      it "should change status to done and set done_at" do
+        expect(story.status).to eq("todo")
+        expect(story.done_at).to be_nil
+        story.update(board: done_board)
+        expect(story.status).to eq("done")
+        expect(story.done_at).to be_present
+        story.update(board: icebox_board)
+        expect(story.status).to eq("todo")
+        expect(story.done_at).to be_nil
+      end
+    end
+  end
 end

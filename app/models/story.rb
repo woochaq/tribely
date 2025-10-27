@@ -18,6 +18,8 @@ class Story < ApplicationRecord
   after_update_commit  :broadcast_on_update
   after_destroy_commit -> { broadcast_project_update(board) }
 
+  before_save :handle_board_change, if: -> { board_id_changed? }
+
   private
 
   def set_number
@@ -42,5 +44,17 @@ class Story < ApplicationRecord
       target: "board_#{target_board.id}",
       renderable: Components::Boards::StoriesList.new(board: target_board)
     )
+  end
+
+  def handle_board_change
+    if board_id_changed?
+      if board.done?
+        self.done_at = Time.current
+        self.status = :done
+      elsif board.icebox?
+        self.done_at = nil
+        self.status = :todo
+      end
+    end
   end
 end
