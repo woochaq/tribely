@@ -75,6 +75,7 @@ gem "acts_as_list"
 gem "devise", "~> 4.9"
 gem "friendly_id", "~> 5.5.0"
 gem "lexxy", "~> 0.1.4.beta" # Need to specify the version since it's a pre-release
+gem "mission_control-jobs"
 gem "openssl"
 gem "phlex-rails"
 gem "simple_form"
