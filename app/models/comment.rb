@@ -18,7 +18,7 @@ class Comment < ApplicationRecord
     broadcast_prepend_later_to(
       story.board.project,
       target: dom_id(story, "comments"),
-      renderable: Components::Comments::Comment, locals: { comment: self }
+      partial: "comments/comment", locals: { comment: self }
     )
   end
 
@@ -26,7 +26,7 @@ class Comment < ApplicationRecord
     broadcast_replace_later_to(
       story.board.project,
       target: self,
-      renderable: Components::Comments::Comment, locals: { comment: self }
+      partial: "comments/comment", locals: { comment: self }
     )
   end
 
