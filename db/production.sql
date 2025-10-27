@@ -8,13 +8,9 @@ CREATE DATABASE IF NOT EXISTS `tribely_production_queue` CHARACTER SET utf8mb4 C
 CREATE DATABASE IF NOT EXISTS `tribely_production_cable` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Step 2: Create the 'tribely' user (as specified in database.yml)
--- We use the password passed via an environment variable.
-CREATE USER 'tribely'@'%' IDENTIFIED BY '<REDACTED>';
-
--- Set the password from the TRIBELY_DATABASE_PASSWORD secret
--- (this variable is available to the db container)
-ALTER USER 'tribely'@'%' IDENTIFIED BY '<REDACTED>';
-ALTER USER 'tribely'@'%' IDENTIFIED WITH mysql_native_password BY_ENV 'TRIBELY_DATABASE_PASSWORD';
+-- and set its password *directly* from the environment variable.
+-- This is cleaner and avoids temporary passwords.
+CREATE USER 'tribely'@'%' IDENTIFIED WITH mysql_native_password BY_ENV 'TRIBELY_DATABASE_PASSWORD';
 
 -- Step 3: Grant the new user full privileges on ALL of its databases
 GRANT ALL PRIVILEGES ON `tribely_production`.* TO 'tribely'@'%';
