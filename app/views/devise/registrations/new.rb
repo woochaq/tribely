@@ -20,9 +20,9 @@ class Views::Devise::Registrations::New < Views::Base
           h2(class: "text-2xl font-bold text-center text-text mb-6") { "Sign up to Tribely" }
           simple_form_for(@resource, as: @resource_name, url: registration_path(@resource_name)) do |f|
             div(class: "space-y-6") do
-              f.input :email, autofocus: true, autocomplete: "email"
-              f.input :password, autocomplete: "new-password", hint: "Minimum #{@minimum_password_length} characters"
-              f.input :password_confirmation, autocomplete: "new-password"
+              f.input :email, autofocus: true, input_html: { autocomplete: "username" }
+              f.input :password, hint: "Minimum #{@minimum_password_length} characters", input_html: { autocomplete: "new-password" }
+              f.input :password_confirmation, input_html: { autocomplete: "new-password" }
               f.button :submit, "Sign in", class: "btn-primary w-full"
             end
           end

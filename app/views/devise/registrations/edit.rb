@@ -69,9 +69,9 @@ class Views::Devise::Registrations::Edit < Views::App::Base
                 div { plain "Currently waiting confirmation for: #{@resource.unconfirmed_email}" }
               end
               hr
-              f.input :password, autocomplete: "new-password", hint: "Leave blank if you don't want to change it"
-              f.input :password_confirmation, autocomplete: "new-password"
-              f.input :current_password, autocomplete: "current-password"
+              f.input :password, hint: "Leave blank if you don't want to change it", input_html: { autocomplete: "new-password" }
+              f.input :password_confirmation, input_html: { autocomplete: "new-password" }
+              f.input :current_password, input_html: { autocomplete: "current-password" }
               f.button :submit, "Save", class: "btn-primary w-full"
             end
           end

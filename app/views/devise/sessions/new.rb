@@ -20,7 +20,7 @@ class Views::Devise::Sessions::New < Views::Base
           h2(class: "text-2xl font-bold text-center text-text mb-6") { "Log in to Tribely" }
           simple_form_for(@resource, as: @resource_name, url: session_path(@resource_name)) do |f|
             div(class: "space-y-6") do
-              f.input :email, autofocus: true, input_html: { autocomplete: "email" }
+              f.input :email, autofocus: true, input_html: { autocomplete: "username" }
               f.input :password, input_html: { autocomplete: "current-password" }
 
               if @devise_mapping.rememberable?
