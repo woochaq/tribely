@@ -48,6 +48,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "@name" do
+    let(:user) { FactoryBot.build(:user, email: "example@gmail.com", full_name: full_name) }
+    subject { user.name }
+
+    context "when full_name is present" do
+      let(:full_name) { "John Doe" }
+      it { is_expected.to eq("John Doe") }
+    end
+
+    context "when full_name is not present" do
+      let(:full_name) { "" }
+      it { is_expected.to eq("example@gmail.com") }
+    end
+  end
+
   describe "@create_default_organization" do
     it "should create default organization for user after create" do
       user = FactoryBot.create(:user, email: "john.cena@google.com")

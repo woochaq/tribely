@@ -32,7 +32,7 @@ class User < ApplicationRecord
   end
 
   def name
-    full_name
+    full_name.presence || email
   end
 
   private
