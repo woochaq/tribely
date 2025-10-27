@@ -27,6 +27,7 @@ class Components::Layout < Components::Base
 
         # link rel: "manifest", href: pwa_manifest_path(format: :json)
 
+        stylesheet_link_tag "lexxy"
         # Google Fonts
         link rel: "preconnect", href: "https://fonts.googleapis.com"
         link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous"
