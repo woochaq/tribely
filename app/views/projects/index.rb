@@ -57,7 +57,7 @@ class Views::Projects::Index < Views::App::Base
       p(class: "text-subtext0 mt-2") { "It looks like you haven't created any projects." }
 
       div(class: "mt-6") do
-        a(href: "#", class: "btn-primary") { "Create Your First Project" }
+        a(href: new_project_path, class: "btn-primary") { "Create Your First Project" }
       end
     end
   end
