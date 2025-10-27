@@ -108,7 +108,7 @@ accessories:
         - TRIBELY_DATABASE_PASSWORD
     files:
       # - config/mysql/production.cnf:/etc/mysql/my.cnf
-      - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
+      - db/production.sql.sh:/docker-entrypoint-initdb.d/setup.sql.sh
     directories:
       - tribely_mysql_data:/var/lib/mysql
 #   redis:
