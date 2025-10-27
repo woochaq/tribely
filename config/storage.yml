@@ -10,7 +10,7 @@ ovh:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:production, :ovh, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:production, :ovh, :secret_access_key) %>
-  region: "EU-WEST-PAR"
+  region: "eu-west-par"
   bucket: "tribely-s3"
   endpoint: "https://s3.eu-west-par.io.cloud.ovh.net/"
 
