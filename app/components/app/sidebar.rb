@@ -29,7 +29,7 @@ class Components::App::Sidebar < Components::Base
         end
         hr
         @current_project.boards.each do |board|
-          nav_item(text: board.name, icon: :current)
+          nav_item(text: board.kind.upcase, icon: :current)
         end
         hr
         nav_item(text: "Reports", icon: :reports)

@@ -2,8 +2,6 @@ class Project < ApplicationRecord
   include FriendlyId
   friendly_id :prefix_and_name, use: [ :slugged, :finders ], slug_limit: 255
 
-  DEFAULT_BOARDS = [ "Current", "Backlog", "Icebox", "Done" ]
-
   validates_uniqueness_of :slug
   validates_presence_of :name, :slug, :prefix
   validates_length_of :name, :slug, maximum: 255
@@ -26,8 +24,8 @@ class Project < ApplicationRecord
   end
 
   def create_default_boards
-    DEFAULT_BOARDS.each do |board_name|
-      self.boards.find_or_create_by(name: board_name)
+    Board.kinds.keys.each do |board_kind|
+      self.boards.find_or_create_by(kind: board_kind)
     end
   end
 end

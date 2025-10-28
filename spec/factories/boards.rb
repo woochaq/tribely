@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :board do
-    name { "MyString" }
+    kind { :current }
     project { FactoryBot.create(:project) }
   end
 end

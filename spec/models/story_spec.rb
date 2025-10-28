@@ -39,8 +39,8 @@ RSpec.describe Story, type: :model do
 
   describe "@handle_board_change" do
     let(:project) { FactoryBot.create(:project) }
-    let(:done_board) { FactoryBot.create(:board, name: "Done", project: project) }
-    let(:icebox_board) { FactoryBot.create(:board, name: "Icebox", project: project) }
+    let(:done_board) { FactoryBot.create(:board, kind: :done, project: project) }
+    let(:icebox_board) { FactoryBot.create(:board, kind: :icebox, project: project) }
     let!(:story) { FactoryBot.create(:story, board: icebox_board) }
 
     context "when moveing story between Done and Icebox" do

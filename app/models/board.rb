@@ -2,13 +2,7 @@ class Board < ApplicationRecord
   belongs_to :project
   has_many :stories, dependent: :destroy
 
-  validates_presence_of :name
+  validates_presence_of :kind
 
-  def done?
-    name == "Done"
-  end
-
-  def icebox?
-    name == "Icebox"
-  end
+  enum :kind, { current: 0, backlog: 1, icebox: 2, done: 3 }, default: 0
 end
