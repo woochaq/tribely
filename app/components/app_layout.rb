@@ -38,7 +38,7 @@ class Components::AppLayout < Components::Base
 
           div(class: "flex flex-1 overflow-hidden") do
             render Components::App::Sidebar.new(current_project: @current_project)
-            main(class: "flex-1 flex flex-col p-4 sm:p-6lg:p-8 overflow-hidden", &block)
+            main(class: "flex-1 flex flex-col p-4 sm:p-6lg:p-8 overflow-y-auto", &block)
           end
         end
         render Components::Shared::Modal
