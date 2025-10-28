@@ -7,50 +7,45 @@ class Components::App::Sidebar < Components::Base
   end
 
   def view_template
-    return if @current_project.nil?
-    aside(class: class_names("flex flex-col w-64 flex-shrink-0 bg-surface0 border-r border-crust", "hidden": !@current_project.present?)) do
-      # Top part with New Story button
-      div(class: "p-4") do
-        a(href: "#", class: "w-full flex items-center justify-center gap-x-2 bg-primary text-crust font-bold rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 px-4 py-2.5") do
-          # Plus icon
-          render Components::Icons::Plus.new(class: "h-5 w-5")
-          span { "Add Story" }
+    aside(class: "hidden lg:flex flex-col w-64 flex-shrink-0 bg-surface0 border-r border-crust", data: { "mobile-navigation-target": "sidebar" }) do
+      render Components::App::Sidebar::ProjectSwitcher.new(
+        current_project: @current_project,
+        projects: view_context.current_user.projects
+      )
+      if @current_project
+        nav(class: "flex-1 flex flex-col p-4 space-y-2") do
+          nav_item(text: "Boards", icon: :boards, href: project_path(@current_project), active: true)
+          nav_item(text: "All Stories", icon: :all_stories, href: "#")
+          nav_item(text: "Reports", icon: :reports, href: "#")
+          nav_item(text: "Project Settings", icon: :settings, href: "#")
         end
       end
 
-      # Navigation
-      nav(class: "flex-1 flex flex-col p-4 space-y-2") do
-        nav_item(text: "My Work", icon: :my_work, active: true)
-        div(class: "flex items-center justify-between px-3 py-2") do
-          span { link_to "Boards", project_path(@current_project)  }
-          span do
-            render Components::Icons::Plus.new
+      div(class: "mt-auto") do
+        nav(class: "flex flex-col p-4 space-y-2 border-t border-crust") do
+          nav_item(text: "My Stories", icon: :my_stories, href: "#")
+          div(class: "flex items-center gap-x-3 rounded-md px-3 py-2") do
+            link_to edit_user_registration_path do
+              render Components::Shared::Avatar.new(user: view_context.current_user, url: nil, size: "w-10 h-10")
+            end
+            div(class: "flex flex-col") do
+              link_to view_context.current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text"
+              link_to "Logout", destroy_user_session_path, class: "text-xs text-subtext0 hover:text-text", data: { turbo_method: :delete }
+            end
           end
         end
-        hr
-        @current_project.boards.each do |board|
-          nav_item(text: board.kind.upcase, icon: :current)
-        end
-        hr
-        nav_item(text: "Reports", icon: :reports)
-        nav_item(text: "Settings", icon: :settings)
       end
-
-      # Bottom part (e.g., for docs or help)
-      # div(class: "mt-auto p-4") do
-      #  nav_item(text: "Help & Documentation", icon: :help)
-      # end
     end
   end
 
   private
 
-  def nav_item(text:, icon:, active: false)
+  def nav_item(text:, icon:, href: "#", active: false)
     base_classes = "flex items-center gap-x-3 rounded-md px-3 py-2 text-sm font-semibold transition-colors"
     active_classes = "bg-surface1 text-accent"
     inactive_classes = "text-subtext0 hover:bg-surface1 hover:text-text"
 
-    a(href: "#", class: class_names(base_classes, active ? active_classes : inactive_classes)) do
+    link_to(href, class: class_names(base_classes, active ? active_classes : inactive_classes)) do
       render_icon(icon)
       span { text }
     end
@@ -58,20 +53,16 @@ class Components::App::Sidebar < Components::Base
 
   def render_icon(name)
     case name
-    when :my_work
-      render Components::Icons::User.new(class: "h-5 w-5")
-    when :current
+    when :boards
       render Components::Icons::Folder.new(class: "h-5 w-5")
-    when :icebox
-      render Components::Icons::Cube.new(class: "h-5 w-5")
-    when :epics
+    when :all_stories
       render Components::Icons::Bars3.new(class: "h-5 w-5")
     when :reports
       render Components::Icons::ChartBar.new(class: "h-5 w-5")
     when :settings
       render Components::Icons::Settings.new(class: "h-5 w-5")
-    when :help
-      render Components::Icons::QuestionMarkCircle.new(class: "h-5 w-5")
+    when :my_stories
+      render Components::Icons::User.new(class: "h-5 w-5")
     end
   end
 end
