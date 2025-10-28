@@ -6,7 +6,7 @@ class Components::Boards::Board < Components::Base
   end
 
   def view_template
-    div(class: "flex flex-col w-80 h-full") do
+    div(class: "flex flex-col w-5/6 lg:w-80 h-full flex-shrink-0") do
       div(class: "flex items-center justify-between px-3 py-2 flex-shrink-0") do
         h2(class: "text-md font-semibold text-text") do
           span { @board.kind.upcase }
