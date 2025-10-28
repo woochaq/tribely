@@ -35,7 +35,7 @@ class Components::Comments::Comment < Components::Base
               end
             end
           end
-          div(class: "lexxy-content prose max-w-none mt-2") do
+          div(class: "lexxy-content prose max-w-none mt-2", data: { controller: "syntax-highlight" }) do
             safe(@comment.content.to_s)
           end
         end

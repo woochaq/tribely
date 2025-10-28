@@ -15,7 +15,7 @@ class Components::Comments::Index < Components::Base
 
       div(class: "my-6 border-t border-surface0")
 
-      div(id: dom_id(@story, "comments"), data: { controller: "syntax-highlight" }) do
+      div(id: dom_id(@story, "comments")) do
         @story.comments.order(created_at: :desc).each do |comment|
           render Components::Comments::Comment.new(comment: comment, current_user: view_context.current_user)
         end
