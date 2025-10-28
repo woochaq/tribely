@@ -5,7 +5,7 @@ class Story < ApplicationRecord
   belongs_to :board
   belongs_to :user, optional: true
   belongs_to :owner, class_name: User.to_s
-  has_many :comments, dependent: :nullify
+  has_many :comments, dependent: :destroy
 
   before_validation :set_number, on: :create
   validates_presence_of :title, :story_type, :status, :number
