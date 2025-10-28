@@ -5,7 +5,10 @@ class Components::LandingPage::Header < Components::Base
      header(class: "fixed top-0 left-0 w-full z-50") do
       div(class: "w-full px-6 py-4") do
         nav(class: "w-full bg-mantle/70 backdrop-blur-xl border border-crust/50 rounded-2xl flex justify-between items-center px-6 py-3") do
-          a(href: root_path, class: "text-xl font-bold text-text") { "Tribely" }
+          a(href: projects_path, class: "flex items-center gap-x-2") do
+            img(src: view_context.image_path("logo.png"), alt: "Tribely Logo", class: "h-10 w-auto")
+            span(class: "text-xl font-bold text-text") { "Tribely" }
+          end
 
           div(class: "hidden md:flex items-center space-x-8") do
             a(href: "#features", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
