@@ -14,7 +14,7 @@ class Components::Projects::Boards < Components::Base
       end
 
       # Container for boards that grows and scrolls horizontally
-      div(class: "flex-1 flex overflow-x-auto") do
+      div(class: "flex-1 flex gap-x-2 overflow-x-auto") do
         @project.boards.each do |board|
           render Components::Boards::Board.new(board: board)
         end
