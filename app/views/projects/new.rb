@@ -21,4 +21,3 @@ class Views::Projects::New < Views::App::Base
     end
   end
 end
-
