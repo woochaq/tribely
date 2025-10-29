@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::Organization < Phlex::HTML
   DEFAULT_ATTRIBUTES = {
       xmlns: "http://www.w3.org/2000/svg",

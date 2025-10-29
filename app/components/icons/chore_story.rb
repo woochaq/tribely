@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::ChoreStory < Components::Base
   def view_template
     svg(

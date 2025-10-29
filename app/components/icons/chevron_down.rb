@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::ChevronDown < Components::Base
   DEFAULT_ATTRIBUTES = {
     viewBox: "0 0 20 20",

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::InformationCircle < Components::Base
   DEFAULT_ATTRIBUTES = {
     class: "w-full h-full",

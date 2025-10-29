@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::Delete < Components::Base
   DEFAULT_ATTRIBUTES = {
     class: "w-5 h-5",

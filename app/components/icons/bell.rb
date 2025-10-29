@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::Bell < Components::Base
   DEFAULT_ATTRIBUTES = {
     fill: "none",

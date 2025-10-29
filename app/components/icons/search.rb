@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::Search < Components::Base
   DEFAULT_ATTRIBUTES = {
     viewBox: "0 0 20 20",

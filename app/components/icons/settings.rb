@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::Settings < Components::Base
   DEFAULT_ATTRIBUTES = {
     class: "h-5 w-5 mr-2",

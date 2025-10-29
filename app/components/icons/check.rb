@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Icons::Check < Components::Base
   DEFAULT_ATTRIBUTES = {
     class: "h-6 w-6 flex-none text-success",
