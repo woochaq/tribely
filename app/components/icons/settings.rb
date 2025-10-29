@@ -1,9 +1,8 @@
 class Components::Icons::Settings < Components::Base
   DEFAULT_ATTRIBUTES = {
     class: "h-5 w-5 mr-2",
-    viewBox: "0 0 20 20",
     fill: "none",
-    viewbox: "0 0 24 24",
+    viewbox: "0 0 22 22",
     stroke_width: "1.5",
     stroke: "currentColor"
   }.freeze

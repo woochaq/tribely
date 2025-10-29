@@ -23,6 +23,7 @@ class Components::App::Sidebar < Components::Base
 
       div(class: "mt-auto") do
         nav(class: "flex flex-col p-4 space-y-2 border-t border-crust") do
+          nav_item(text: "My Organizations", icon: :organizations, href: "#")
           nav_item(text: "My Stories", icon: :my_stories, href: "#")
           div(class: "flex items-center gap-x-3 rounded-md px-3 py-2") do
             link_to edit_user_registration_path do
@@ -61,6 +62,8 @@ class Components::App::Sidebar < Components::Base
       render Components::Icons::ChartBar.new(class: "h-5 w-5")
     when :settings
       render Components::Icons::Settings.new(class: "h-5 w-5")
+    when :organizations
+      render Components::Icons::Organization.new(class: "h-5 w-5")
     when :my_stories
       render Components::Icons::User.new(class: "h-5 w-5")
     end
