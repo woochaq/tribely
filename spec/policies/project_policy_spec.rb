@@ -51,19 +51,15 @@ RSpec.describe ProjectPolicy, type: :policy do
 
   describe "Scope" do
     it "resolves the correct scope for a user" do
-      # Create another project to ensure the scope is specific
       other_project = create(:project)
       create(:project_user, user: other_user, project: other_project, role: :owner)
 
-      # Scope for the owner should only include their project
       owner_scope = described_class::Scope.new(owner, Project.all).resolve
       expect(owner_scope).to contain_exactly(project)
 
-      # Scope for the member should also only include their project
       member_scope = described_class::Scope.new(member, Project.all).resolve
       expect(member_scope).to contain_exactly(project)
 
-      # Scope for the other_user should only include their project
       other_user_scope = described_class::Scope.new(other_user, Project.all).resolve
       expect(other_user_scope).to contain_exactly(other_project)
     end
@@ -95,4 +91,3 @@ RSpec.describe ProjectPolicy, type: :policy do
     end
   end
 end
-

@@ -1,4 +1,10 @@
 class ProjectPolicy < ApplicationPolicy
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      user.projects
+    end
+  end
+
   def index?
     true
   end
@@ -8,7 +14,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def new?
-    true # TODO: check if user can add project to organization
+    true
   end
 
   def edit?
@@ -20,17 +26,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    user.project_users.exists?(project_id: record.id, role: :owner) # TODO: check in scope of organization maby
+    edit?
   end
 
   def destroy?
-    user.project_users.exists?(project_id: record.id, role: :owner) # TODO: check in scope of organization maby
-  end
-
-  class Scope < ApplicationPolicy::Scope
-    def resolve
-      user.projects
-    end
+    edit?
   end
 
   def permitted_attributes_for_create
