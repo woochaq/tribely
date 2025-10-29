@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project, except: [ :index, :new, :create ]
+  before_action :set_organizations, only: [ :new, :edit, :create ]
 
   def index
     authorize Project
@@ -14,22 +15,22 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     authorize @project
-    render Views::Projects::New.new(project: @project, current_project: nil)
+    render Views::Projects::New.new(project: @project, organizations: @organizations, current_project: nil)
   end
 
   def edit
-    render Views::Projects::New.new(project: @project, current_project: @project)
+    render Views::Projects::New.new(project: @project, organizations: @organizations, current_project: @project)
   end
 
   def create
     @project = Project.new(project_params)
-    @project.users << current_user
+    @project.project_users.build(user: current_user, role: :owner) # Build association before saving
     authorize @project
     if @project.save
-      flash[:success] = "Project #{@project.name} create"
-      redirect_to projects_path(@project), status: :see_other
+      flash[:success] = "Project #{@project.name} created"
+      redirect_to project_path(@project), status: :see_other
     else
-      render Views::Projects::New.new(project: @project, current_project: nil), status: :unprocessable_content
+      render Views::Projects::New.new(project: @project, organizations: @organizations, current_project: nil), status: :unprocessable_content
     end
   end
 
@@ -38,7 +39,7 @@ class ProjectsController < ApplicationController
       flash[:success] = "Project #{@project.name} updated"
       redirect_to projects_path, status: :see_other
     else
-      render Views::Projects::New.new(project: @project, current_project: @project), status: :unprocessable_content
+      render Views::Projects::New.new(project: @project, organizations: [], current_project: @project), status: :unprocessable_content
     end
   end
 
@@ -55,7 +56,11 @@ class ProjectsController < ApplicationController
     authorize @project
   end
 
+  def set_organizations
+    @organizations = current_user.organizations
+  end
+
   def project_params
-    params.require(:project).permit(:name, :prefix)
+    params.require(:project).permit(:name, :prefix, :organization_id)
   end
 end

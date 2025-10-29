@@ -4,8 +4,9 @@ class Components::Projects::Form < Components::AppLayout
   include Phlex::Rails::Helpers::DOMClass
   include Phlex::Rails::Helpers::TurboFrameTag
 
-  def initialize(project:)
+  def initialize(project:, organizations: [])
     @project = project
+    @organizations = organizations
   end
 
 
@@ -14,6 +15,13 @@ class Components::Projects::Form < Components::AppLayout
       div(class: "max-w-2xl mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-lg shadow-crust/20") do
         simple_form_for(@project, html: { data: { turbo_frame: "_top" } }) do |f|
           div(class: "space-y-6") do
+            unless @project.persisted?
+              f.association :organization,
+                            collection: @organizations,
+                            label_method: :name,
+                            value_method: :id,
+                            prompt: "Choose an organization"
+            end
             f.input :name, autofocus: true, input_html: { autocomplete: "off" }
             f.input :prefix, input_html: { autocomplete: "off", maxlength: 5 }, hint: "Used to identify tasks and actions within this project (e.g., TRB-123)"
 

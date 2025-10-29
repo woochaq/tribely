@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :project do
-    name { "Project name" }
-    prefix { "PN" }
-    slug { nil }
+    association :organization
+    name { "MyString" }
+    prefix { "MyString" }
   end
 end

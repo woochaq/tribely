@@ -7,6 +7,7 @@ class Project < ApplicationRecord
   validates_length_of :name, :slug, maximum: 255
   validates_length_of :prefix, maximum: 10
 
+  belongs_to :organization
   has_many :project_users, inverse_of: :project, dependent: :destroy
   has_many :users, through: :project_users
   accepts_nested_attributes_for :users

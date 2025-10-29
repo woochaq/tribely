@@ -8,5 +8,6 @@ RSpec.describe Organization, type: :model do
   describe 'associations' do
     it { should have_many(:organization_users) }
     it { should have_many(:users) }
+    it { should have_many(:projects).dependent(:destroy) }
   end
 end

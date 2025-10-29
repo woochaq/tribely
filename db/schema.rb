@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_28_085826) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_29_141452) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -95,9 +95,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_085826) do
   create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
+    t.bigint "organization_id", null: false
     t.string "prefix", null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_projects_on_organization_id"
     t.index ["slug"], name: "index_projects_on_slug", unique: true
   end
 
@@ -149,6 +151,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_28_085826) do
   add_foreign_key "organization_users", "users"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
+  add_foreign_key "projects", "organizations"
   add_foreign_key "stories", "boards"
   add_foreign_key "stories", "users"
   add_foreign_key "stories", "users", column: "owner_id"

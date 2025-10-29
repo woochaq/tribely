@@ -11,6 +11,7 @@ RSpec.describe Project, type: :model do
 
   describe 'associations' do
     it { should have_many(:users) }
+    it { should belong_to(:organization) }
   end
 
   describe '#friendly_id' do
