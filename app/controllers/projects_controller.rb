@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(project_params)
+    @project = Project.new(permitted_attributes(Project))
     @project.project_users.build(user: current_user, role: :owner) # Build association before saving
     authorize @project
     if @project.save
@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    if @project.update(project_params)
+    if @project.update(permitted_attributes(@project))
       flash[:success] = "Project #{@project.name} updated"
       redirect_to projects_path, status: :see_other
     else
@@ -58,9 +58,5 @@ class ProjectsController < ApplicationController
 
   def set_organizations
     @organizations = current_user.organizations
-  end
-
-  def project_params
-    params.require(:project).permit(:name, :prefix, :organization_id)
   end
 end

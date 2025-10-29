@@ -1,100 +1,98 @@
 require 'rails_helper'
 
 RSpec.describe ProjectPolicy, type: :policy do
-  let(:user1) { FactoryBot.create(:user) }
-  let!(:project1) { FactoryBot.create(:project, project_users: [ FactoryBot.build(:project_user, user: user1, role: :owner) ]) }
-
-  let(:member_user1) { FactoryBot.create(:user) }
-  let!(:project_member_association) { FactoryBot.create(:project_user, user: member_user1, project: project1, role: :member) }
-
-  let(:user2) { FactoryBot.create(:user) }
-  let!(:project2) { FactoryBot.create(:project, project_users: [ FactoryBot.build(:project_user, user: user2, role: :owner) ]) }
-
-  let(:lonely_user) { FactoryBot.create(:user) }
-
   subject { described_class }
 
-  permissions :index? do
-    it "grants access to everybody" do
-      expect(subject).to permit(user1, Project)
-      expect(subject).to permit(member_user1, Project)
-      expect(subject).to permit(user2, Project)
-      expect(subject).to permit(lonely_user, Project)
+  let(:owner) { create(:user) }
+  let(:member) { create(:user) }
+  let(:other_user) { create(:user) }
+  let(:project) { create(:project) }
+
+  before do
+    create(:project_user, user: owner, project: project, role: :owner)
+    create(:project_user, user: member, project: project, role: :member)
+  end
+
+  permissions :index?, :new?, :create? do
+    it "grants access to any authenticated user" do
+      expect(subject).to permit(owner, Project)
+      expect(subject).to permit(member, Project)
+      expect(subject).to permit(other_user, Project)
     end
   end
 
   permissions :show? do
-    it "grants access if the project belongs to the user (owner or member)" do
-      expect(subject).to permit(user1, project1)
-      expect(subject).to permit(member_user1, project1)
+    it "grants access to the project owner" do
+      expect(subject).to permit(owner, project)
     end
 
-    it "denies access if the project does not belong to the user" do
-      expect(subject).not_to permit(user2, project1)
-      expect(subject).not_to permit(lonely_user, project1)
+    it "grants access to a project member" do
+      expect(subject).to permit(member, project)
     end
-  end
 
-  permissions :new?, :create? do
-    it "grants access to everybody" do
-      expect(subject).to permit(user1, Project)
-      expect(subject).to permit(member_user1, Project)
-      expect(subject).to permit(user2, Project)
-      expect(subject).to permit(lonely_user, Project)
+    it "denies access to an unrelated user" do
+      expect(subject).not_to permit(other_user, project)
     end
   end
 
   permissions :edit?, :update?, :destroy? do
     it "grants access to the project owner" do
-      expect(subject).to permit(user1, project1)
+      expect(subject).to permit(owner, project)
     end
 
     it "denies access to a project member" do
-      expect(subject).not_to permit(member_user1, project1)
+      expect(subject).not_to permit(member, project)
     end
 
-    it "denies access if the project does not belong to the user" do
-      expect(subject).not_to permit(user2, project1)
-      expect(subject).not_to permit(lonely_user, project1)
+    it "denies access to an unrelated user" do
+      expect(subject).not_to permit(other_user, project)
     end
   end
 
   describe "Scope" do
-    subject { described_class::Scope.new(user, scope).resolve }
+    it "resolves the correct scope for a user" do
+      # Create another project to ensure the scope is specific
+      other_project = create(:project)
+      create(:project_user, user: other_user, project: other_project, role: :owner)
 
-    let(:scope) { Project.all }
+      # Scope for the owner should only include their project
+      owner_scope = described_class::Scope.new(owner, Project.all).resolve
+      expect(owner_scope).to contain_exactly(project)
 
-    context "for a project owner (user1)" do
-      let(:user) { user1 }
+      # Scope for the member should also only include their project
+      member_scope = described_class::Scope.new(member, Project.all).resolve
+      expect(member_scope).to contain_exactly(project)
 
-      it "includes projects the user owns" do
-        expect(subject).to contain_exactly(project1)
+      # Scope for the other_user should only include their project
+      other_user_scope = described_class::Scope.new(other_user, Project.all).resolve
+      expect(other_user_scope).to contain_exactly(other_project)
+    end
+  end
+
+  describe "permitted_attributes" do
+    context "for the :create action" do
+      it "returns the correct attributes for any user" do
+        policy = described_class.new(other_user, Project.new)
+        expect(policy.permitted_attributes_for_create).to contain_exactly(:name, :prefix, :organization_id)
       end
     end
 
-    context "for a project member (member_user1)" do
-      let(:user) { member_user1 }
-
-      it "includes projects the user is a member of" do
-        expect(subject).to contain_exactly(project1)
+    context "for the :update action" do
+      it "returns correct attributes for the owner" do
+        policy = described_class.new(owner, project)
+        expect(policy.permitted_attributes_for_update).to contain_exactly(:name, :prefix)
       end
-    end
 
-    context "for a user not associated with project1 (user2)" do
-      let(:user) { user2 }
-
-      it "includes projects the user owns and excludes others" do
-        expect(subject).to contain_exactly(project2)
-        expect(subject).not_to include(project1)
+      it "returns an empty array for a member" do
+        policy = described_class.new(member, project)
+        expect(policy.permitted_attributes_for_update).to be_empty
       end
-    end
 
-    context "for a user with no projects (lonely_user)" do
-      let(:user) { lonely_user }
-
-      it "returns an empty scope" do
-        expect(subject).to be_empty
+      it "returns an empty array for an unrelated user" do
+        policy = described_class.new(other_user, project)
+        expect(policy.permitted_attributes_for_update).to be_empty
       end
     end
   end
 end
+

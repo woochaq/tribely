@@ -154,9 +154,10 @@ RSpec.describe "/projects", type: :request do
     context "when authenticated as a project owner" do
       before { sign_in owner }
       it "updates the project and redirects" do
-        patch project_url(project), params: { project: { name: "Updated Name" } }
+        patch project_url(project), params: { project: { name: "Updated Name", organization_id: nil } }
         project.reload
         expect(project.name).to eq("Updated Name")
+        expect(project.organization).to eq(organization)
         expect(response).to redirect_to(projects_url)
       end
     end

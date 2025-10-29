@@ -32,4 +32,16 @@ class ProjectPolicy < ApplicationPolicy
       user.projects
     end
   end
+
+  def permitted_attributes_for_create
+    [ :name, :prefix, :organization_id ]
+  end
+
+  def permitted_attributes_for_update
+    if user.project_users.exists?(project_id: record.id, role: :owner)
+      [ :name, :prefix ]
+    else
+      []
+    end
+  end
 end
