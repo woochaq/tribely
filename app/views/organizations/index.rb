@@ -7,7 +7,7 @@ class Views::Organizations::Index < Views::App::Base
     div(class: "container mx-auto px-4 py-8") do
       h1(class: "text-3xl font-bold mb-6") { "My Organizations" }
 
-      div(class: "bg-mantle rounded-lg border border-crust shadow-lg hover:bg-surface0") do
+      div(class: "bg-mantle rounded-lg border border-crust shadow-lg") do
         ul(class: "divide-y divide-crust") do
           @organizations.each do |organization|
             render Components::Organizations::ListItem.new(

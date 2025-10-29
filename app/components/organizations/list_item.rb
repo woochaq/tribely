@@ -10,7 +10,7 @@ class Components::Organizations::ListItem < Components::Base
   end
 
   def view_template
-    li(class: "p-4 flex items-center justify-between") do
+    li(class: "p-4 flex items-center justify-between  hover:bg-surface0") do
       link_to(organization_path(organization), class: "flex-grow flex items-center gap-x-4") do
         # Placeholder Icon
         div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0")

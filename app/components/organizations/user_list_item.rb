@@ -8,7 +8,7 @@ class Components::Organizations::UserListItem < Components::Base
   def view_template
     li(class: "p-4 flex items-center justify-between") do
       div(class: "flex items-center gap-x-4") do
-        render Components::Shared::Avatar.new(user: view_context.current_user, url: nil, size: "w-10 h-10")
+        render Components::Shared::Avatar.new(user: organization_user.user, url: nil, size: "w-10 h-10")
 
         div do
           p(class: "font-semibold text-text") { organization_user.user.name }
