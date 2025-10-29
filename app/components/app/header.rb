@@ -26,7 +26,7 @@ class Components::App::Header < Components::Base
           div(class: "h-6 w-px bg-crust lg:hidden", "aria-hidden": "true")
 
           a(href: projects_path, class: "flex items-center gap-x-2") do
-            img(src: view_context.image_path("logo.png"), alt: "Tribely Logo", class: "h-10 w-auto")
+            img(src: view_context.image_path("logo.webp"), alt: "Tribely Logo", class: "h-10 w-auto")
             span(class: "text-xl font-bold text-text") { "Tribely" }
           end
           span(class: "h-6 w-px bg-crust", "aria-hidden": "true")

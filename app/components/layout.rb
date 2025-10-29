@@ -21,12 +21,8 @@ class Components::Layout < Components::Base
         csrf_meta_tags
         csp_meta_tag
         content_for :head
-        link rel: "icon", href: "/icon.png", type: "image/png"
-        link rel: "icon", href: "/icon.svg", type: "image/svg+xml"
-        link rel: "apple-touch-icon", href: "/icon.png"
 
-        # link rel: "manifest", href: pwa_manifest_path(format: :json)
-
+        render Components::Shared::Favicon.new
         stylesheet_link_tag "lexxy"
         # Google Fonts
         link rel: "preconnect", href: "https://fonts.googleapis.com"
