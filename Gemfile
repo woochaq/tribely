@@ -80,6 +80,7 @@ gem "lexxy", "~> 0.1.4.beta" # Need to specify the version since it's a pre-rele
 gem "mission_control-jobs"
 gem "openssl"
 gem "phlex-rails"
+gem "pundit"
 gem "simple_form"
 gem "tailwindcss-rails", "~> 4.3"
 gem "tailwindcss-ruby", "~> 4.1"

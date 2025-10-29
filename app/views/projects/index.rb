@@ -33,12 +33,13 @@ class Views::Projects::Index < Views::App::Base
             h3(class: "text-xl font-semibold text-text group-hover:text-primary transition-colors") { project.name }
           end
 
-          div(class: "flex items-center gap-2") do
-            a(href: edit_project_path(project), class: "text-subtext0 hover:text-primary p-2 rounded-md transition-colors", title: "Edit Project") do
-              render Components::Icons::Edit.new(class: "w-5 h-5")
+          if view_context.policy(project).update?
+            div(class: "flex items-center gap-2") do
+              a(href: edit_project_path(project), class: "text-subtext0 hover:text-primary p-2 rounded-md transition-colors", title: "Edit Project") do
+                render Components::Icons::Edit.new(class: "w-5 h-5")
+              end
             end
-          end
-          button_to(project_path(project),
+            button_to(project_path(project),
               method: :delete,
               form: { data: { turbo_confirm: "Are you sure you want to delete this project? This action cannot be undone." } },
               class: "text-subtext0 p-2 rounded-md transition-colors cursor-pointer hover:text-primary",
@@ -46,6 +47,7 @@ class Views::Projects::Index < Views::App::Base
             ) do
               render Components::Icons::Delete.new(class: "w-5 h-5")
             end
+          end
         end
       end
     end

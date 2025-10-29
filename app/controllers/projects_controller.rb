@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
   before_action :set_project, except: [ :index, :new, :create ]
 
   def index
-    render Views::Projects::Index.new(projects: current_user.projects)
+    authorize Project
+    render Views::Projects::Index.new(projects: policy_scope(Project))
   end
 
   def show
@@ -12,6 +13,7 @@ class ProjectsController < ApplicationController
 
   def new
     @project = Project.new
+    authorize @project
     render Views::Projects::New.new(project: @project, current_project: nil)
   end
 
@@ -22,6 +24,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.users << current_user
+    authorize @project
     if @project.save
       flash[:success] = "Project #{@project.name} create"
       redirect_to projects_path(@project), status: :see_other
@@ -48,7 +51,8 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = current_user.projects.find(params[:id])
+    @project = policy_scope(Project).find(params[:id])
+    authorize @project
   end
 
   def project_params
