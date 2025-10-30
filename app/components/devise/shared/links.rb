@@ -2,7 +2,6 @@ class Components::Devise::Shared::Links < Components::Base
   include Phlex::Rails::Helpers::ButtonTo
   include Phlex::Rails::Helpers::ControllerName
   include Phlex::Rails::Helpers::LinkTo
-  include Phlex::Rails::Helpers::Routes
   include ::Devise::Controllers::UrlHelpers
 
   attr_accessor :resource_class, :resource_name

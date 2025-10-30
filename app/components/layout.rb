@@ -12,12 +12,13 @@ class Components::Layout < Components::Base
   def view_template(&block)
     doctype
 
-    html(class: "h-full bg-base", data: { theme: "catppuccin" }) do
+    html(lang: "en", class: "h-full bg-base", data: { theme: "catppuccin" }) do
       head do
         title { @title }
         meta name: "viewport", content: "width=device-width,initial-scale=1"
         meta name: "apple-mobile-web-app-capable", content: "yes"
         meta name: "mobile-web-app-capable", content: "yes"
+        meta name: "description", content: "Tribely: Streamline your workflow with our intuitive project management tool. Manage projects, track stories, and collaborate with your team effortlessly."
         csrf_meta_tags
         csp_meta_tag
         content_for :head
