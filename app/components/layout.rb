@@ -24,7 +24,6 @@ class Components::Layout < Components::Base
         content_for :head
 
         render Components::Shared::Favicon.new
-        stylesheet_link_tag "lexxy"
         # Google Fonts
         link rel: "preconnect", href: "https://fonts.googleapis.com"
         link rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous"

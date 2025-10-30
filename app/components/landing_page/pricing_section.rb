@@ -6,12 +6,11 @@ class Components::LandingPage::PricingSection < Components::Base
           h2(class: "text-3xl md:text-4xl font-bold text-text mb-4 reveal-on-scroll") do
             "Choose the Perfect Plan for You"
           end
-          p(class: "text-lg text-subtext0 reveal-on-scroll", style: "--animation-delay: 100ms;") do
+          p(class: "text-lg text-subtext0 reveal-on-scroll") do
             "Simple, transparent pricing. Choose the plan that fits your needs and scale as you grow."
           end
         end
         div(class: "grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto mt-16") do
-          # Free Plan
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             h3(class: "text-2xl font-bold text-text") { "Free" }
             p(class: "text-4xl font-bold my-4 text-text") do
@@ -29,7 +28,7 @@ class Components::LandingPage::PricingSection < Components::Base
           end
 
           # Pro Plan (Highlighted)
-          div(class: "relative bg-mantle border-2 border-primary rounded-2xl p-8 flex flex-col transform lg:scale-105 shadow-2xl shadow-primary/20 reveal-on-scroll", style: "--animation-delay: 150ms;") do
+          div(class: "relative bg-mantle border-2 border-primary rounded-2xl p-8 flex flex-col transform lg:scale-105 shadow-2xl shadow-primary/20 reveal-on-scroll") do
             div(class: "absolute -top-4 left-1/2 -translate-x-1/2") do
               span(class: "bg-primary text-crust text-xs font-bold uppercase tracking-wider px-4 py-1 rounded-full") { "Most Popular" }
             end
@@ -49,7 +48,7 @@ class Components::LandingPage::PricingSection < Components::Base
           end
 
           # Enterprise Plan
-          div(class: "bg-surface0 border border-crust rounded-2xl p-8 flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll", style: "--animation-delay: 300ms;") do
+          div(class: "bg-surface0 border border-crust rounded-2xl p-8 flex flex-col transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             h3(class: "text-2xl font-bold text-text") { "Enterprise" }
             p(class: "text-4xl font-bold my-4 text-text") { "Contact Us" }
             ul(class: "space-y-4 text-subtext0 my-6 text-left") do

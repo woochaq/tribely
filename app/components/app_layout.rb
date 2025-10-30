@@ -30,7 +30,7 @@ class Components::AppLayout < Components::Base
         link href: "https://fonts.googleapis.com/css2?family=Cascadia+Mono:wght@400;700&display=swap", rel: "stylesheet"
 
         render Components::Shared::Favicon.new
-        stylesheet_link_tag "lexxy"
+        stylesheet_link_tag "lexxy", "data-turbo-track": "reload"
         stylesheet_link_tag :app, "data-turbo-track": "reload"
         javascript_importmap_tags
       end

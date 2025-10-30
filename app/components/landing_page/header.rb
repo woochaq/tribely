@@ -6,7 +6,7 @@ class Components::LandingPage::Header < Components::Base
       div(class: "w-full px-6 py-4") do
         nav(class: "w-full bg-mantle/70 backdrop-blur-xl border border-crust/50 rounded-2xl flex justify-between items-center px-6 py-3") do
           a(href: projects_path, class: "flex items-center gap-x-2") do
-            img(src: view_context.image_path("logo.webp"), alt: "Tribely Logo", class: "h-10 w-auto")
+            img(src: view_context.image_path("logo.webp"), alt: "Tribely Logo", class: "h-10 w-auto", width: "70px", height: "70px")
             span(class: "text-xl font-bold text-text") { "Tribely" }
           end
 

@@ -6,7 +6,7 @@ class Components::LandingPage::FeaturesSection < Components::Base
           h2(class: "text-3xl md:text-4xl font-bold text-text mb-4 reveal-on-scroll") do
             "Everything You Need in One Place"
           end
-          p(class: "text-lg text-subtext0 reveal-on-scroll", style: "--animation-delay: 100ms;") do
+          p(class: "text-lg text-subtext0 reveal-on-scroll") do
             "Stop juggling between apps. Our platform provides a unified, streamlined experience for your entire workflow."
           end
         end
@@ -26,7 +26,7 @@ class Components::LandingPage::FeaturesSection < Components::Base
           end
 
           # Feature Card 2
-          div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll", style: "--animation-delay: 150ms;") do
+          div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             div(class: "w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mb-6") do
               # Placeholder for an SVG icon
               span(class: "text-2xl font-bold text-accent") { "R" }
@@ -40,7 +40,7 @@ class Components::LandingPage::FeaturesSection < Components::Base
           end
 
           # Feature Card 3
-          div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll", style: "--animation-delay: 300ms;") do
+          div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             div(class: "w-12 h-12 rounded-xl bg-success/20 flex items-center justify-center mb-6") do
               # Placeholder for an SVG icon
               span(class: "text-2xl font-bold text-success") { "C" }
