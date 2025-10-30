@@ -3,7 +3,7 @@ class Components::LandingPage::Header < Components::Base
 
   def view_template
      header(class: "fixed top-0 left-0 w-full z-50") do
-      div(class: "w-full px-6 py-4") do
+      div(class: "w-full px-2 sm:px-6 py-4") do
         nav(class: "w-full bg-mantle/70 backdrop-blur-xl border border-crust/50 rounded-2xl flex justify-between items-center px-6 py-3") do
           a(href: projects_path, class: "flex items-center gap-x-2") do
             img(src: view_context.image_path("logo.webp"), alt: "Tribely Logo", class: "h-10 w-auto", width: "70px", height: "70px")
@@ -24,8 +24,8 @@ class Components::LandingPage::Header < Components::Base
                 end
               end
             else
-              a(href: new_user_session_path, class: "btn-secondary py-2 px-5") { "Login" }
-              a(href: new_user_registration_path, class: "btn-primary") { "Sign Up" }
+              a(href: new_user_session_path, class: "btn-secondary text-sm") { "Login" }
+              a(href: new_user_registration_path, class: "btn-primary text-sm sm:text-base") { "Sign Up" }
             end
           end
         end
