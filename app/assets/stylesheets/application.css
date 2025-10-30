@@ -22,3 +22,6 @@ lexxy-editor.wysiwyg-editor .lexxy-link-dialog input {
 lexxy-editor.wysiwyg-editor .lexxy-link-dialog input:focus {
   outline-color: none;
 }
+.turbo-progress-bar {
+  background-color: var(--color-accent-val, #cba6f7);
+}

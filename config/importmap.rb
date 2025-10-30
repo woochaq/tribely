@@ -27,3 +27,4 @@ pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.12
 pin "sortablejs" # @1.15.6
 pin "lexxy", to: "lexxy.min.js"
 pin "@rails/activestorage", to: "activestorage.esm.js"
+pin "turbo_progress_bar"

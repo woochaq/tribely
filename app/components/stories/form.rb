@@ -12,7 +12,7 @@ class Components::Stories::Form < Components::Base
 
   def view_template
     render Components::Shared::Modal.new(base_url: project_path(@current_project), should_update_url: @story.persisted?) do
-      simple_form_for([ @current_project, @story ]) do |f|
+      simple_form_for([ @current_project, @story ], data: { turbo_progress_bar: true }) do |f|
         div(class: "grid grid-cols-1 lg:grid-cols-3 lg:gap-8") do
           div(class: "lg:col-span-2 space-y-4") do
             f.input :board_id, as: :hidden
