@@ -35,7 +35,7 @@ class Components::AppLayout < Components::Base
         javascript_importmap_tags
       end
 
-      body(class: "h-full font-sans text-text") do
+      body(class: "h-full font-sans text-text", data: { controller: "lexxy" }) do
         render Components::Shared::FlashMessages.new
 
         div(class: "flex flex-col h-full", data: { controller: "mobile-navigation" }) do

@@ -4,7 +4,6 @@ import "controllers"
 import "turbo_progress_bar"
 
 // import "trix"
-import "lexxy"
 
 document.addEventListener("turbo:load", () => {
   const observerOptions = {
