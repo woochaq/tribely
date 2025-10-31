@@ -26,7 +26,7 @@ class Views::Organizations::Base < Views::App::Base
       end
 
       # Tabs
-      div(class: "mb-8") do
+      div(class: "mb-4") do
         # Mobile - Segmented Control
         div(class: "sm:hidden") do
           nav(class: "isolate flex divide-x divide-surface0 rounded-lg shadow-sm", aria_label: "Tabs") do
@@ -43,10 +43,20 @@ class Views::Organizations::Base < Views::App::Base
               class: "#{base_mobile_classes} rounded-r-lg #{current_page?(members_organization_path(@organization)) ? active_mobile_classes : inactive_mobile_classes}"
             ) { "Members" }
           end
+          # Mobile Action Button
+          div(class: "mt-4 flex justify-end") do
+            if current_page?(organization_path(@organization)) && policy(Project.new(organization: @organization)).create?
+              a(href: new_project_path(organization_id: @organization.id), class: "btn-primary") { "New Project" }
+            end
+            # Placeholder for future "Add Member" button
+            # if current_page?(members_organization_path(@organization)) && policy(...).create?
+            #   a(href: new_member_path, class: "btn-primary w-full text-center") { "Add Member" }
+            # end
+          end
         end
 
-        # Desktop - Tabs
-        div(class: "hidden sm:block") do
+        # Desktop - Tabs and Action Button
+        div(class: "hidden sm:flex sm:items-center sm:justify-between") do
           nav(class: "flex space-x-2", aria_label: "Tabs") do
             base_classes = "font-bold rounded-md px-4 py-2 text-sm"
             active_classes = "bg-mantle text-primary"
@@ -60,6 +70,17 @@ class Views::Organizations::Base < Views::App::Base
               href: members_organization_path(@organization),
               class: "#{base_classes} #{current_page?(members_organization_path(@organization)) ? active_classes : inactive_classes}"
             ) { "Members" }
+          end
+
+          # Desktop Action Button
+          div do
+            if current_page?(organization_path(@organization)) && policy(Project.new(organization: @organization)).create?
+              a(href: new_project_path(project: { organization_id: @organization.id }), class: "btn-primary") { "New Project" }
+            end
+            # Placeholder for future "Add Member" button
+            # if current_page?(members_organization_path(@organization)) && policy(...).create?
+            #   a(href: new_member_path, class: "btn-primary") { "Add Member" }
+            # end
           end
         end
       end
