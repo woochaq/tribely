@@ -83,4 +83,47 @@ RSpec.describe User, type: :model do
       expect(user.organization_users.first.role).to eq "owner"
     end
   end
+
+  describe "#owns_organization?" do
+    let(:organization) { create(:organization) }
+    let(:owner) { create(:user) }
+    let(:member) { create(:user) }
+    let(:unrelated_user) { create(:user) }
+
+    before do
+      create(:organization_user, organization: organization, user: owner, role: :owner)
+      create(:organization_user, organization: organization, user: member, role: :member)
+    end
+
+    it "returns true if the user is an owner of the organization" do
+      expect(owner.owns_organization?(organization)).to be true
+    end
+
+    it "returns false if the user is a member but not an owner" do
+      expect(member.owns_organization?(organization)).to be false
+    end
+
+    it "returns false if the user is not associated with the organization" do
+      expect(unrelated_user.owns_organization?(organization)).to be false
+    end
+  end
+
+  describe "@owns_project?" do
+    let(:project) { create(:project) }
+    let(:owner) { create(:user) }
+    let(:member) { create(:user) }
+
+    before do
+      create(:project_user, project: project, user: owner, role: :owner)
+      create(:project_user, project: project, user: member, role: :member)
+    end
+
+    it "returns true if the user is an owner of the project" do
+      expect(owner.owns_project?(project)).to be true
+    end
+
+    it "returns false if the user is a member of the project" do
+      expect(member.owns_project?(project)).to be false
+    end
+  end
 end

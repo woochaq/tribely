@@ -40,6 +40,14 @@ class User < ApplicationRecord
     Project.where(id: self.project_ids).or(Project.where(organization_id: owner_organization_ids)).distinct
   end
 
+  def owns_organization?(organization)
+    organization_users.exists?(organization: organization, role: :owner)
+  end
+
+  def owns_project?(project)
+    project_users.exists?(project: project, role: :owner)
+  end
+
   private
 
   def create_default_organization

@@ -18,13 +18,13 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def edit?
-    return true if user.organization_users.exists?(organization_id: record.organization_id, role: :owner)
-    user.project_users.exists?(project_id: record.id, role: :owner)
+    return true if user.owns_organization?(record.organization)
+    user.owns_project?(record)
   end
 
   def create?
     return true if record.organization_id.nil?
-    user.organization_users.exists?(organization_id: record.organization_id, role: :owner)
+    user.owns_organization?(record.organization)
   end
 
   def update?
@@ -40,7 +40,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_update
-    if user.project_users.exists?(project_id: record.id, role: :owner)
+    if user.owns_project?(record)
       [ :name, :prefix ]
     else
       []

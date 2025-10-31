@@ -8,4 +8,8 @@ class Components::Base < Phlex::HTML
       super
     end
   end
+
+  def current_user
+    view_context.current_user
+  end
 end

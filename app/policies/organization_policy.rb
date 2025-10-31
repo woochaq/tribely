@@ -14,7 +14,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.organization_users.exists?(organization_id: record.id, role: :owner)
+    user.owns_organization?(record)
   end
 
   def update?
@@ -22,7 +22,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user.organization_users.exists?(organization_id: record.id, role: :owner)
+    if user.owns_organization?(record)
       [ :name ]
     else
       []

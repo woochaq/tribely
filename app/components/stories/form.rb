@@ -1,4 +1,5 @@
 class Components::Stories::Form < Components::Base
+  include Pundit::Authorization
   include SimpleForm::ActionViewExtensions::FormHelper
   include Phlex::Rails::Helpers::FormFor
   include Phlex::Rails::Helpers::LinkTo
@@ -16,7 +17,7 @@ class Components::Stories::Form < Components::Base
         div(class: "grid grid-cols-1 lg:grid-cols-3 lg:gap-8") do
           div(class: "lg:col-span-2 space-y-4") do
             f.input :board_id, as: :hidden
-            f.input :title
+            f.input :title, input_html: { disabled: !policy(@story).update? }
 
             if @story.persisted?
               div(class: "flex items-center gap-4") do
@@ -31,24 +32,28 @@ class Components::Stories::Form < Components::Base
                   "#{@current_project.prefix}-#{@story.number}"
                 end
 
-                link_to(
-                  project_story_path(@current_project, @story),
-                  class: "text-subtext0 hover:text-danger",
-                  data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this story?" }
-                ) do
-                  render Icons::Delete.new
+                if policy(@story).update?
+                  link_to(
+                    project_story_path(@current_project, @story),
+                    class: "text-subtext0 hover:text-danger",
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this story?" }
+                  ) do
+                    render Icons::Delete.new
+                  end
                 end
               end
             end
 
-            f.input :description, as: :rich_text_area, label: false, input_html: { class: "prose max-w-none lexxy-content wysiwyg-editor min-h-[35vh] max-h-[45vh]" }
+            f.input :description, as: :rich_text_area, label: false, input_html: { class: "prose max-w-none lexxy-content wysiwyg-editor min-h-[35vh] max-h-[45vh]", disabled: !policy(@story).update? }
           end
           div(class: "space-y-4") do
-            f.input :story_type, as: :select, collection: translated_story_types, include_blank: false
-            f.association :owner, collection: @current_project.users, prompt: "Choose user"
-            f.association :user, collection: @current_project.users, prompt: "Choose user"
-            f.input :status, as: :select, collection: translated_statuses, include_blank: false
-            f.button :submit, class: "btn-primary"
+            f.input :story_type, as: :select, collection: translated_story_types, include_blank: false, input_html: { disabled: !policy(@story).update? }
+            f.association :owner, collection: @current_project.users, prompt: "Choose user", input_html: { disabled: !policy(@story).update? }
+            f.association :user, collection: @current_project.users, prompt: "Choose user", input_html: { disabled: !policy(@story).update? }
+            f.input :status, as: :select, collection: translated_statuses, include_blank: false, input_html: { disabled: !policy(@story).update? }
+            if policy(@story).update?
+              f.button :submit, class: "btn-primary"
+            end
           end
         end
       end

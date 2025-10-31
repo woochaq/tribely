@@ -5,6 +5,7 @@ class StoriesController < ApplicationController
   before_action :set_story_for_move, only: [ :move ]
 
   def show
+    authorize @story
     if turbo_frame_request?
       render Components::Stories::Form.new(story: @story, current_project: @current_project)
     else
@@ -14,12 +15,14 @@ class StoriesController < ApplicationController
 
   def new
     @story = Story.new(owner: current_user, board: Board.find(params[:board_id]))
+    authorize @story
     render Components::Stories::Form.new(story: @story, current_project: @current_project)
   end
 
   def create
     @story = Story.new(story_params)
     @story.owner = current_user
+    authorize @story
 
     if @story.save
       respond_with_streams(message: "Story was successfully created.")
@@ -29,6 +32,7 @@ class StoriesController < ApplicationController
   end
 
   def update
+    authorize @story
     if @story.update(story_params)
       respond_with_streams(message: "Story was successfully updated.")
     else
@@ -37,16 +41,18 @@ class StoriesController < ApplicationController
   end
 
   def destroy
+    authorize @story
     @story.destroy!
     respond_with_streams(message: "Story was successfully deleted.")
   end
 
   def move
-     if @story.update(move_params)
-        head :ok
-     else
-        head :unprocessable_entity
-     end
+    authorize @story
+    if @story.update(move_params)
+      head :ok
+    else
+      head :unprocessable_entity
+    end
   end
 
   private
@@ -63,7 +69,7 @@ class StoriesController < ApplicationController
   end
 
   def set_project
-    @current_project = current_user.projects.find(params[:project_id])
+    @current_project = policy_scope(Project).find(params[:project_id])
   end
 
   def set_board
@@ -71,11 +77,11 @@ class StoriesController < ApplicationController
   end
 
   def set_story
-    @story = @current_project.stories.find(params[:id])
+    @story = policy_scope(@current_project.stories).find(params[:id])
   end
 
   def set_story_for_move
-    @story = @current_project.stories.find(params[:id])
+    @story = policy_scope(@current_project.stories).find(params[:id])
   end
 
   def story_params

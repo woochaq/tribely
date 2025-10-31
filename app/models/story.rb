@@ -39,7 +39,7 @@ class Story < ApplicationRecord
   end
 
   def broadcast_project_update(target_board)
-    broadcast_replace_to(
+    broadcast_update_to(
       target_board.project,
       target: "board_#{target_board.id}",
       renderable: Components::Boards::StoriesList.new(board: target_board)
