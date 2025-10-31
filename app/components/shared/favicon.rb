@@ -15,7 +15,7 @@ class Components::Shared::Favicon < Components::Base
       href: "/favicon/favicon.svg"
     )
 
-    link(rel: "shortcut icon", href: "favicon/favicon.ico")
+    link(rel: "shortcut icon", href: "/favicon/favicon.ico")
 
     link(
       rel: "apple-touch-icon",
