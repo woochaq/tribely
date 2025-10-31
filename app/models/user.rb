@@ -35,6 +35,11 @@ class User < ApplicationRecord
     full_name.presence || email
   end
 
+  def all_projects
+    owner_organization_ids = organization_users.owner.pluck(:organization_id)
+    Project.where(id: self.project_ids).or(Project.where(organization_id: owner_organization_ids)).distinct
+  end
+
   private
 
   def create_default_organization

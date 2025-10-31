@@ -3,7 +3,7 @@ class Project < ApplicationRecord
   friendly_id :prefix_and_name, use: [ :slugged, :finders ], slug_limit: 255
 
   validates_uniqueness_of :slug
-  validates_presence_of :name, :slug, :prefix
+  validates_presence_of :name, :slug, :prefix, :organization
   validates_length_of :name, :slug, maximum: 255
   validates_length_of :prefix, maximum: 10
 

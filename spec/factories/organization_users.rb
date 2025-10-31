@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :organization_user do
-    user { FactoryBot.create(:user) }
-    organization { FactoryBot.create(:organization) }
-    role { 0 }
+    user { create(:user) }
+    organization { create(:organization) }
+    role { 0 } # owner
   end
 end

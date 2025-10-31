@@ -97,19 +97,29 @@ RSpec.describe "/projects", type: :request do
 
   describe "POST /create" do
     context "when authenticated" do
-      before { sign_in member }
+      before { sign_in owner }
 
       context "with valid parameters" do
-        it "creates a new Project and makes the creator an owner" do
-          expect { post projects_url, params: { project: valid_attributes } }.to change(Project, :count).by(1)
-          new_project = Project.last
-          expect(new_project.organization).to eq(organization)
-          expect(new_project.project_users.find_by(user: member).role).to eq("owner")
+        context "as owner" do
+          it "creates a new Project and makes the creator an owner" do
+            expect { post projects_url, params: { project: valid_attributes } }.to change(Project, :count).by(1)
+            new_project = Project.last
+            expect(new_project.organization).to eq(organization)
+            expect(new_project.project_users.find_by(user: owner).role).to eq("owner")
+          end
+
+          it "redirects to the created project" do
+            post projects_url, params: { project: valid_attributes }
+            expect(response).to redirect_to(project_url(Project.last))
+          end
         end
 
-        it "redirects to the created project" do
-          post projects_url, params: { project: valid_attributes }
-          expect(response).to redirect_to(project_url(Project.last))
+        context "as member" do
+          before { sign_in member }
+
+          it "is forbidden and raises NotAuthorizedError" do
+            expect { post projects_url, params: { project: valid_attributes } }.to raise_error(Pundit::NotAuthorizedError)
+          end
         end
       end
 

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :story do
     association :board
-    owner { FactoryBot.create(:user) }
+    owner { create(:user) }
     association :user
     title { "My first story" }
     description { "Story description" }

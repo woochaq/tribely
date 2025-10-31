@@ -38,10 +38,10 @@ RSpec.describe Story, type: :model do
   end
 
   describe "@handle_board_change" do
-    let(:project) { FactoryBot.create(:project) }
-    let(:done_board) { FactoryBot.create(:board, kind: :done, project: project) }
-    let(:icebox_board) { FactoryBot.create(:board, kind: :icebox, project: project) }
-    let!(:story) { FactoryBot.create(:story, board: icebox_board) }
+    let(:project) { create(:project) }
+    let(:done_board) { create(:board, kind: :done, project: project) }
+    let(:icebox_board) { create(:board, kind: :icebox, project: project) }
+    let!(:story) { create(:story, board: icebox_board) }
 
     context "when moveing story between Done and Icebox" do
       it "should change status to done and set done_at" do

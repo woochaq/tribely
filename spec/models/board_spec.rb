@@ -6,7 +6,7 @@ RSpec.describe Board, type: :model do
   end
 
   describe "@done?" do
-    let(:board) { FactoryBot.create(:board, kind: board_kind) }
+    let(:board) { create(:board, kind: board_kind) }
     subject { board.done? }
 
     context "board kind is 'Done'" do
@@ -21,7 +21,7 @@ RSpec.describe Board, type: :model do
   end
 
   describe "@icebox?" do
-    let(:board) { FactoryBot.create(:board, kind: board_kind) }
+    let(:board) { create(:board, kind: board_kind) }
     subject { board.icebox? }
 
     context "board kind is 'Icebox'" do

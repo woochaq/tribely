@@ -3,21 +3,46 @@ require 'rails_helper'
 RSpec.describe ProjectPolicy, type: :policy do
   subject { described_class }
 
+  let(:organization) { create(:organization) }
   let(:owner) { create(:user) }
   let(:member) { create(:user) }
   let(:other_user) { create(:user) }
-  let(:project) { create(:project) }
-
-  before do
-    create(:project_user, user: owner, project: project, role: :owner)
-    create(:project_user, user: member, project: project, role: :member)
+  let!(:project) do
+    create(:project, organization: organization, project_users: [
+      build(:project_user, user: owner, role: :owner),
+      build(:project_user, user: member, role: :member)
+    ])
   end
 
-  permissions :index?, :new?, :create? do
+  before do
+    create(:organization_user, user: owner, organization: organization, role: :owner)
+  end
+
+  permissions :index?, :new? do
     it "grants access to any authenticated user" do
       expect(subject).to permit(owner, Project)
       expect(subject).to permit(member, Project)
       expect(subject).to permit(other_user, Project)
+    end
+  end
+
+  permissions :create? do
+    it "grants access for owner to create project in organization" do
+      expect(subject).to permit(owner, build(:project, organization: organization))
+    end
+
+    it "grants access any user to create projet without organization" do
+      expect(subject).to permit(owner, build(:project, organization: nil))
+      expect(subject).to permit(member, build(:project, organization: nil))
+      expect(subject).to permit(other_user, build(:project, organization: nil))
+    end
+
+    it "denies access for member to create project in organization" do
+      expect(subject).not_to permit(member, build(:project, organization: organization))
+    end
+
+    it "denies access for other _user to create project in origanization" do
+      expect(subject).not_to permit(member, build(:project, organization: organization))
     end
   end
 
@@ -40,6 +65,11 @@ RSpec.describe ProjectPolicy, type: :policy do
       expect(subject).to permit(owner, project)
     end
 
+    it "grants access to the organization owner" do
+      owner.projects = []
+      expect(subject).to permit(owner, project)
+    end
+
     it "denies access to a project member" do
       expect(subject).not_to permit(member, project)
     end
@@ -50,12 +80,16 @@ RSpec.describe ProjectPolicy, type: :policy do
   end
 
   describe "Scope" do
+    let(:owner_organization) { owner.organization_users.owner.first.organization }
+    let(:project_organization) { create(:project, organization: owner_organization) }
+    let(:project_organization2) { create(:project, organization: owner_organization, project_users: [ build(:project_user, user: owner, role: :member) ]) }
+
     it "resolves the correct scope for a user" do
       other_project = create(:project)
       create(:project_user, user: other_user, project: other_project, role: :owner)
 
       owner_scope = described_class::Scope.new(owner, Project.all).resolve
-      expect(owner_scope).to contain_exactly(project)
+      expect(owner_scope).to contain_exactly(project, project_organization, project_organization2)
 
       member_scope = described_class::Scope.new(member, Project.all).resolve
       expect(member_scope).to contain_exactly(project)

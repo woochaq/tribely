@@ -2,7 +2,12 @@ require "rails_helper"
 
 RSpec.describe OrganizationUser, type: :model do
   describe "validations" do
+    let(:organization) { create(:organization) }
+    let(:user) { create(:user) }
+    subject { create(:organization_user, user: user, organization: organization) }
+
     it { should validate_presence_of(:role) }
+    it { should validate_uniqueness_of(:organization_id).scoped_to(:user_id) }
   end
 
   describe "enum role" do

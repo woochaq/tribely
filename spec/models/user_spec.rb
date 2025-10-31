@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
     it { should validate_size_of(:avatar).less_than(1.megabyte) }
 
     it "should have a valid factory" do
-      expect(FactoryBot.build(:user)).to be_valid
+      expect(build(:user)).to be_valid
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "@initials" do
-    let(:user) { FactoryBot.build(:user, email: "example@gmail.com", full_name: full_name) }
+    let(:user) { build(:user, email: "example@gmail.com", full_name: full_name) }
     subject { user.initials }
 
     context "when full_name is a single word" do
@@ -49,7 +49,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "@name" do
-    let(:user) { FactoryBot.build(:user, email: "example@gmail.com", full_name: full_name) }
+    let(:user) { build(:user, email: "example@gmail.com", full_name: full_name) }
     subject { user.name }
 
     context "when full_name is present" do
@@ -63,9 +63,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "@all_projects" do
+    let(:owner) { create(:user) }
+    let(:organization) { owner.organization_users.owner.first.organization }
+    let(:project) { create(:project, organization: organization) }
+    let(:project2) { create(:project, organization: organization, project_users: [ build(:project_user, user: owner, role: :owner) ]) }
+    let(:project3) { create(:project, organization: organization, project_users: [ build(:project_user, user: owner, role: :member) ]) }
+
+    it "should return all projects event not assigned to user owner" do
+      expect(owner.all_projects).to contain_exactly(project, project2, project3)
+    end
+  end
+
   describe "@create_default_organization" do
     it "should create default organization for user after create" do
-      user = FactoryBot.create(:user, email: "john.cena@google.com")
+      user = create(:user, email: "john.cena@google.com")
       expect(user.organizations.count).to eq 1
       expect(user.organizations.first.name).to eq "John.Cena Workspace"
       expect(user.organization_users.first.role).to eq "owner"

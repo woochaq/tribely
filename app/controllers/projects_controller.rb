@@ -24,7 +24,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(permitted_attributes(Project))
-    @project.project_users.build(user: current_user, role: :owner) # Build association before saving
+    @project.project_users.build(user: current_user, role: :owner)
     authorize @project
     if @project.save
       flash[:success] = "Project #{@project.name} created"
