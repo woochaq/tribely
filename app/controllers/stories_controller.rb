@@ -20,7 +20,7 @@ class StoriesController < ApplicationController
   end
 
   def create
-    @story = Story.new(story_params)
+    @story = Story.new(permitted_attributes(Story))
     @story.owner = current_user
     authorize @story
 
@@ -33,7 +33,7 @@ class StoriesController < ApplicationController
 
   def update
     authorize @story
-    if @story.update(story_params)
+    if @story.update(permitted_attributes(@story))
       respond_with_streams(message: "Story was successfully updated.")
     else
       render_form_with_errors
@@ -82,10 +82,6 @@ class StoriesController < ApplicationController
 
   def set_story_for_move
     @story = policy_scope(@current_project.stories).find(params[:id])
-  end
-
-  def story_params
-    params.require(:story).permit(:board_id, :user_id, :owner_id, :title, :description, :status, :story_type)
   end
 
   def move_params
