@@ -13,7 +13,8 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = Project.new
+    params[:project] ||= { organization_id: nil }
+    @project = Project.new(permitted_attributes(Project))
     authorize @project
     render Views::Projects::New.new(project: @project, organizations: @organizations, current_project: nil)
   end

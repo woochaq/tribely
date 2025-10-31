@@ -13,6 +13,10 @@ class OrganizationPolicy < ApplicationPolicy
     user.organizations.exists?(id: record.id)
   end
 
+  def members?
+    show?
+  end
+
   def edit?
     user.owns_organization?(record)
   end

@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_organization, only: [ :show, :edit, :update ]
+  before_action :set_organization, only: [ :show, :edit, :update, :members ]
 
   def index
     authorize Organization
@@ -12,6 +12,10 @@ class OrganizationsController < ApplicationController
     render Views::Organizations::Show.new(organization: @organization)
   end
 
+  def members
+    render Views::Organizations::Members::Index.new(organization: @organization)
+  end
+
   def edit
     render Views::Organizations::Edit.new(organization: @organization)
   end
@@ -19,7 +23,7 @@ class OrganizationsController < ApplicationController
   def update
     if @organization.update(permitted_attributes(@organization))
       flash[:success] = "Organization '#{@organization.name}' updated."
-      redirect_to organizations_path, status: :see_other
+      redirect_to organization_path, status: :see_other
     else
       render Views::Organizations::Edit.new(organization: @organization), status: :unprocessable_content
     end

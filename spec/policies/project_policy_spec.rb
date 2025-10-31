@@ -80,11 +80,11 @@ RSpec.describe ProjectPolicy, type: :policy do
   end
 
   describe "Scope" do
-    let(:owner_organization) { owner.organization_users.owner.first.organization }
-    let(:project_organization) { create(:project, organization: owner_organization) }
-    let(:project_organization2) { create(:project, organization: owner_organization, project_users: [ build(:project_user, user: owner, role: :member) ]) }
+    let!(:owner_organization) { owner.organization_users.owner.first.organization }
+    let!(:project_organization) { create(:project, organization: owner_organization) }
+    let!(:project_organization2) { create(:project, organization: owner_organization, project_users: [ build(:project_user, user: owner, role: :member) ]) }
 
-    it "resolves the correct scope for a user" do
+    it "resolves all projects for a user when scoped to all" do
       other_project = create(:project)
       create(:project_user, user: other_user, project: other_project, role: :owner)
 
@@ -96,6 +96,24 @@ RSpec.describe ProjectPolicy, type: :policy do
 
       other_user_scope = described_class::Scope.new(other_user, Project.all).resolve
       expect(other_user_scope).to contain_exactly(other_project)
+    end
+
+    it "filters the scope to only projects the user can see within that scope" do
+      org = create(:organization)
+      user = create(:user)
+      project_in_scope = create(:project, organization: org)
+      project_outside_scope = create(:project, organization: org)
+      other_org_project = create(:project)
+
+      create(:project_user, user: user, project: project_in_scope, role: :member)
+      create(:project_user, user: user, project: other_org_project, role: :member)
+
+      initial_scope = org.projects
+
+      resolved_scope = described_class::Scope.new(user, initial_scope).resolve
+      expect(resolved_scope).to contain_exactly(project_in_scope)
+      expect(resolved_scope).not_to include(project_outside_scope)
+      expect(resolved_scope).not_to include(other_org_project)
     end
   end
 

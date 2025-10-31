@@ -90,7 +90,7 @@ RSpec.describe "/organizations", type: :request do
         patch organization_url(shared_organization), params: { organization: valid_attributes }
         shared_organization.reload
         expect(shared_organization.name).to eq("Updated Org Name")
-        expect(response).to redirect_to(organizations_url)
+        expect(response).to redirect_to(organization_url)
       end
     end
 

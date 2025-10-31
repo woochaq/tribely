@@ -20,8 +20,8 @@ RSpec.describe OrganizationPolicy, type: :policy do
     end
   end
 
-  permissions :show? do
-    it "grants access to the organization owner" do
+  permissions :show?, :members? do
+    it "grants access to the shared_organization owner" do
       expect(subject).to permit(owner, shared_organization)
     end
 

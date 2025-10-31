@@ -1,7 +1,7 @@
 class ProjectPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
     def resolve
-      user.all_projects
+      scope.where(id: user.all_projects.pluck(:id))
     end
   end
 
@@ -33,6 +33,10 @@ class ProjectPolicy < ApplicationPolicy
 
   def destroy?
     edit?
+  end
+
+  def permitted_attributes_for_new
+    [ :organization_id ]
   end
 
   def permitted_attributes_for_create

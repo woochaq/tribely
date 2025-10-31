@@ -13,4 +13,8 @@ class Views::Base < Phlex::HTML
   def page_title
     "Tribely"
   end
+
+  def current_user
+    view_context.current_user
+  end
 end

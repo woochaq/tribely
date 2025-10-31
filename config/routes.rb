@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
-  resources :organizations, only: [ :index, :edit, :update, :show ]
+  resources :organizations, only: [ :index, :edit, :update, :show ] do
+    get :members, on: :member
+  end
   resources :projects do
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       patch :move, on: :member

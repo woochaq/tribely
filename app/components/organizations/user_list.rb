@@ -5,7 +5,6 @@ class Components::Organizations::UserList < Components::Base
 
   def view_template
     div do
-      h2(class: "text-xl font-semibold mb-4 border-b border-crust pb-2") { "Members" }
       div(class: "bg-mantle rounded-lg border border-crust shadow-lg") do
         ul(class: "divide-y divide-crust") do
           if @organization.organization_users.any?
