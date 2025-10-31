@@ -11,7 +11,7 @@ RSpec.describe OrganizationUser, type: :model do
   end
 
   describe "enum role" do
-    it { should define_enum_for(:role).with_values(owner: 0, member: 1) }
+    it { should define_enum_for(:role).with_values(owner: 0, member: 1, guest: 2) }
   end
 
   describe "associations" do
