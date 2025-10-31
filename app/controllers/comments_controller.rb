@@ -6,23 +6,26 @@ class CommentsController < ApplicationController
 
 
   def show
+    authorize @comment
     render Components::Comments::Comment.new(comment: @comment, current_user: current_user)
   end
 
   def new
     @comment = Comment.new(user: current_user, story: @story)
+    authorize @comment
     render Components::Comments::Form.new(story: @story, comment: @comment)
   end
 
 
   def edit
+    authorize @comment
     render Components::Comments::EditForm.new(story: @story, comment: @comment)
   end
 
   def create
-    @comment = @story.comments.new(comment_params)
+    @comment = @story.comments.new(permitted_attributes(Comment))
     @comment.user = current_user
-
+    authorize @comment
 
     if @comment.save
       respond_to do |format|
@@ -41,7 +44,8 @@ class CommentsController < ApplicationController
   end
 
   def update
-    if @comment.update(comment_params)
+    authorize @comment
+    if @comment.update(permitted_attributes(@comment))
       message = "Comment was successfully updated."
       respond_to do |format|
         format.turbo_stream do
@@ -55,6 +59,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    authorize @comment
     @comment.destroy!
     message = "Comment was sucessfully destroyed."
     respond_to do |format|
@@ -72,7 +77,7 @@ class CommentsController < ApplicationController
   end
 
   def set_project
-    @current_project = current_user.projects.find(params[:project_id])
+    @current_project = policy_scope(Project).find(params[:project_id])
   end
 
   def set_story
@@ -80,7 +85,7 @@ class CommentsController < ApplicationController
   end
 
   def set_comment
-    @comment = @story.comments.where(user: current_user).find(params[:id])
+    @comment = policy_scope(@story.comments).find(params[:id])
   end
 
   def comment_params
