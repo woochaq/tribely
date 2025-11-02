@@ -86,7 +86,4 @@ RSpec.describe "InvitationAcceptances", type: :request do
       end
     end
   end
-
-  # The #create action is now handled by Devise RegistrationsController
-  # and SessionsController, so no direct tests here.
 end

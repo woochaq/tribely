@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :invitations, only: [ :create, :destroy ], controller: "organizations/invitations" do
       post :resend, on: :member
     end
+    resources :members, only: [:destroy], controller: 'organizations/members'
   end
 
   get "invitations/:token/accept", to: "invitation_acceptances#new", as: :accept_invitation

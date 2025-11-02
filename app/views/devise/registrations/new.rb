@@ -23,7 +23,7 @@ class Views::Devise::Registrations::New < Views::Base
               f.input :email, autofocus: true, input_html: { autocomplete: "username" }
               f.input :password, hint: "Minimum #{@minimum_password_length} characters", input_html: { autocomplete: "new-password" }
               f.input :password_confirmation, input_html: { autocomplete: "new-password" }
-              f.button :submit, "Sign in", class: "btn-primary w-full"
+              f.button :submit, "Sign up", class: "btn-primary w-full"
             end
           end
           render Components::Devise::Shared::Links.new(devise_mapping: view_context.devise_mapping, resource_class: @resource.class, resource_name: @resource_name)

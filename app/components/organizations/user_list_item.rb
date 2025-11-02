@@ -1,4 +1,9 @@
 class Components::Organizations::UserListItem < Components::Base
+  include Pundit::Authorization
+  include SimpleForm::ActionViewExtensions::FormHelper
+  include Phlex::Rails::Helpers::FormFor
+  include Phlex::Rails::Helpers::DOMClass
+
   attr_reader :organization_user
 
   def initialize(organization_user:)
@@ -16,7 +21,10 @@ class Components::Organizations::UserListItem < Components::Base
         end
       end
 
-      render_role_badge
+      div(class: "flex items-center gap-x-4") do
+        render_role_badge
+        render_delete_button
+      end
     end
   end
 
@@ -32,6 +40,17 @@ class Components::Organizations::UserListItem < Components::Base
 
     span(class: "px-2 py-1 text-xs font-bold rounded-full #{color_classes}") do
       role.capitalize
+    end
+  end
+
+  def render_delete_button
+    return unless policy(organization_user.organization).destroy_member?
+    return if organization_user.user == current_user
+
+    simple_form_for(organization_user, url: organization_member_path(organization_user.organization, organization_user), method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{organization_user.user.name} from the organization?" }) do |f|
+      button(type: "submit", class: "p-1 rounded-full hover:bg-crust transition-colors duration-200 cursor-pointer") do
+        render Components::Icons::Delete.new(class: "w-4 h-4 text-red")
+      end
     end
   end
 end
