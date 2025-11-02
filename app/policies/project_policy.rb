@@ -35,6 +35,26 @@ class ProjectPolicy < ApplicationPolicy
     edit?
   end
 
+  def settings?
+    show?
+  end
+
+  def add_member?
+    edit?
+  end
+
+  def edit_member?
+    edit?
+  end
+
+  def update_member?
+    edit?
+  end
+
+  def remove_member?
+    edit?
+  end
+
   def permitted_attributes_for_new
     [ :organization_id ]
   end

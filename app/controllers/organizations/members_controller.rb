@@ -40,7 +40,10 @@ class Organizations::MembersController < ApplicationController
 
     @organization_user.destroy
 
-    redirect_to members_organization_path(@organization), notice: "#{@organization_user.user.name} has been removed from the organization."
+    respond_to do |format|
+      format.html { redirect_to members_organization_path(@organization), notice: "#{@organization_user.user.name} has been removed from the organization." }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@organization_user) }
+    end
   end
 
   private

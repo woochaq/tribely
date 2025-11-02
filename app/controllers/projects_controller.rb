@@ -50,6 +50,11 @@ class ProjectsController < ApplicationController
     redirect_to projects_path
   end
 
+  def settings
+    authorize @project, :settings?
+    render Views::Projects::Settings::Show.new(project: @project)
+  end
+
   private
 
   def set_project

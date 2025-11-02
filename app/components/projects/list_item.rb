@@ -26,8 +26,8 @@ class Components::Projects::ListItem < Components::Base
       div(class: "flex items-center gap-x-2 flex-shrink-0") do
         render_role_badge
 
-        if policy(project).edit?
-          link_to "Edit", edit_project_path(project), class: "btn-secondary"
+        if policy(project).show?
+          link_to "Edit", settings_project_path(project), class: "btn-secondary"
         end
 
         if policy(project).destroy?

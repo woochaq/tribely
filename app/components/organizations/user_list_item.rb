@@ -62,7 +62,7 @@ class Components::Organizations::UserListItem < Components::Base
     return if organization_user.user == current_user
 
     simple_form_for(organization_user, url: organization_member_path(organization_user.organization, organization_user), method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{organization_user.user.name} from the organization?" }) do |f|
-      button(type: "submit", class: "p-1 rounded-full hover:bg-crust transition-colors duration-200 cursor-pointer") do
+      button(type: "submit", class: "p-1 rounded-full hover:text-danger transition-colors duration-200 cursor-pointer") do
         render Components::Icons::Delete.new(class: "w-4 h-4 text-red")
       end
     end

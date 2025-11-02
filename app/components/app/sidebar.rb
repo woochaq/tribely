@@ -15,9 +15,9 @@ class Components::App::Sidebar < Components::Base
       if @current_project
         nav(class: "flex-1 flex flex-col p-4 space-y-2") do
           nav_item(text: "Boards", icon: :boards, href: project_path(@current_project), active: true)
-          nav_item(text: "All Stories", icon: :all_stories, href: "#")
-          nav_item(text: "Reports", icon: :reports, href: "#")
-          nav_item(text: "Project Settings", icon: :settings, href: "#")
+          # nav_item(text: "All Stories", icon: :all_stories, href: "#")
+          # nav_item(text: "Reports", icon: :reports, href: "#")
+          nav_item(text: "Project Settings", icon: :settings, href: settings_project_path(@current_project))
         end
       end
 
