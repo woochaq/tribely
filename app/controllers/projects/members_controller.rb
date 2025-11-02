@@ -5,6 +5,7 @@ class Projects::MembersController < ApplicationController
 
   def create
     @project_user = @project.project_users.build(project_user_params)
+    @project_user.role = params.require(:project_user).fetch(:role, @project_user.role)
     authorize @project, :add_member?
 
     if @project_user.save
@@ -34,7 +35,8 @@ class Projects::MembersController < ApplicationController
       return
     end
 
-    if @project_user.update(project_user_params)
+    @project_user.role = params.require(:project_user).fetch(:role, @project_user.role)
+    if @project_user.save
       render turbo_stream: turbo_stream.replace(@project_user, Components::Projects::UserListItem.new(project_user: @project_user))
     else
       render Components::Projects::Members::Edit.new(project_user: @project_user), status: :unprocessable_content
@@ -70,6 +72,6 @@ class Projects::MembersController < ApplicationController
   end
 
   def project_user_params
-    params.require(:project_user).permit(:user_id, :role)
+    params.require(:project_user).permit(:user_id)
   end
 end
