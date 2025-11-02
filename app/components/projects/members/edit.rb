@@ -23,7 +23,7 @@ class Components::Projects::Members::Edit < Components::Base
                 f.input :email, input_html: { value: project_user.user.email, disabled: true }, label: false
               end
               div(class: "w-48") do
-                f.input :role, collection: ProjectUser.roles.keys.map { |r| [r.humanize, r] }, label: false, include_blank: false
+                f.input :role, collection: ProjectUser.roles.keys.map { |r| [ r.humanize, r ] }, label: false, include_blank: false
               end
               f.button :submit, "Save", class: "btn-primary"
             end
