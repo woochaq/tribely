@@ -3,12 +3,12 @@ Rails.application.routes.draw do
 
   resources :organizations, only: [ :index, :edit, :update, :show ] do
     get :members, on: :member
-    resources :invitations, only: [:create, :destroy], controller: 'organizations/invitations' do
+    resources :invitations, only: [ :create, :destroy ], controller: "organizations/invitations" do
       post :resend, on: :member
     end
   end
 
-  get 'invitations/:token/accept', to: 'invitation_acceptances#new', as: :accept_invitation
+  get "invitations/:token/accept", to: "invitation_acceptances#new", as: :accept_invitation
 
   resources :projects do
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
