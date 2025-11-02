@@ -1,0 +1,12 @@
+<p>Hi,</p>
+
+<p><%= @sender.name %> has invited you to join the <strong><%= @organization.name %></strong> organization on Tribely.</p>
+
+<p>To accept this invitation, please click the link below:</p>
+
+<p><%= link_to "Accept Invitation", accept_invitation_url(token: @invitation.token) %></p>
+
+<p>If you were not expecting this invitation, you can safely ignore this email.</p>
+
+<p>Thanks,</p>
+<p>The Tribely Team</p>

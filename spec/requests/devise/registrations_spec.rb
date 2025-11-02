@@ -28,6 +28,33 @@ describe "Devise::RegistrationsController", type: :request do
         expect(response).to have_http_status(:unprocessable_content)
       end
     end
+
+    context 'when registering a new user with an invitation token in session' do
+      let(:organization) { create(:organization) }
+      let(:sender) { create(:user) }
+      let(:new_user_email) { 'register_user@example.com' }
+      let(:invitation) { create(:invitation, organization: organization, sender: sender, email: new_user_email, role: :member) }
+
+      before do
+        create(:organization_user, organization: organization, user: sender, role: :owner)
+        get accept_invitation_path(token: invitation.token)
+      end
+
+      it 'creates a new user, accepts the invitation, and adds them to the organization' do
+        valid_registration_params = { user: { email: new_user_email, password: 'password', password_confirmation: 'password', full_name: 'New User' } }
+
+        expect {
+          post user_registration_path, params: valid_registration_params
+        }.to change(User, :count).by(1)
+         .and change { invitation.reload.status }.to('accepted')
+         .and change { organization.users.count }.by(1)
+
+        new_user = User.find_by(email: new_user_email)
+        expect(new_user.organizations).to include(organization)
+        expect(new_user.organization_users.find_by(organization: organization).role).to eq('member')
+        expect(session[:invitation_token]).to be_nil
+      end
+    end
   end
 
   describe "GET /user/edit" do

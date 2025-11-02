@@ -1,0 +1,12 @@
+Hi,
+
+<%= @sender.name %> has invited you to join the <%= @organization.name %> organization on Tribely.
+
+To accept this invitation, please click the link below:
+
+<%= accept_invitation_url(token: @invitation.token) %>
+
+If you were not expecting this invitation, you can safely ignore this email.
+
+Thanks,
+The Tribely Team

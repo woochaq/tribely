@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_29_141452) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_02_094532) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -64,6 +64,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_29_141452) do
     t.bigint "user_id", null: false
     t.index ["story_id"], name: "index_comments_on_story_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.bigint "organization_id", null: false
+    t.bigint "recipient_id"
+    t.integer "role", default: 1, null: false
+    t.bigint "sender_id", null: false
+    t.integer "status", default: 0
+    t.string "token"
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "email"], name: "index_invitations_on_organization_id_and_email", unique: true
+    t.index ["organization_id"], name: "index_invitations_on_organization_id"
+    t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
+    t.index ["sender_id"], name: "index_invitations_on_sender_id"
+    t.index ["token"], name: "index_invitations_on_token", unique: true
   end
 
   create_table "organization_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -147,6 +164,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_29_141452) do
   add_foreign_key "boards", "projects"
   add_foreign_key "comments", "stories"
   add_foreign_key "comments", "users"
+  add_foreign_key "invitations", "organizations"
+  add_foreign_key "invitations", "users", column: "recipient_id"
+  add_foreign_key "invitations", "users", column: "sender_id"
   add_foreign_key "organization_users", "organizations"
   add_foreign_key "organization_users", "users"
   add_foreign_key "project_users", "projects"

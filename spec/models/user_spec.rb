@@ -16,6 +16,8 @@ RSpec.describe User, type: :model do
   describe "associations" do
     it { should have_many(:organization_users) }
     it { should have_many(:organizations) }
+    it { should have_many(:sent_invitations) }
+    it { should have_many(:received_invitations) }
   end
 
   describe "@initials" do

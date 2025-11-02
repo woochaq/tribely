@@ -24,6 +24,14 @@ class Users::SessionsController < Devise::SessionsController
   protected
 
   def after_sign_in_path_for(resource)
+    if session[:invitation_token]
+      invitation = Invitation.find_by(token: session.delete(:invitation_token))
+      if invitation
+        AcceptInvitation.call(invitation: invitation, user: resource)
+        return organization_path(invitation.organization)
+      end
+    end
+
     stored_location_for(resource) || projects_path
   end
 

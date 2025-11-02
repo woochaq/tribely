@@ -17,6 +17,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
 
     if resource.persisted?
+      if session[:invitation_token]
+        invitation = Invitation.find_by(token: session[:invitation_token])
+        if invitation
+          AcceptInvitation.call(invitation: invitation, user: resource)
+          session.delete(:invitation_token)
+        end
+      end
+
       if resource.active_for_authentication?
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
