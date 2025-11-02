@@ -56,7 +56,6 @@ class Components::Stories::Form < Components::Base
             end
           end
         end
-      div { safe(@story.description.to_s) }
       end
 
       render Components::Comments::Index.new(story: @story) if @story.persisted?
