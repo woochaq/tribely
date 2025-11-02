@@ -25,7 +25,7 @@ class Components::App::Sidebar < Components::Base
         nav(class: "flex flex-col p-4 space-y-2 border-t border-crust") do
           nav_item(text: "My Projects", icon: :my_projects, href: projects_path, active: view_context.current_page?(projects_path))
           nav_item(text: "My Organizations", icon: :organizations, href: organizations_path, active: view_context.current_page?(organizations_path))
-          nav_item(text: "My Stories", icon: :my_stories, href: "#")
+          # nav_item(text: "My Stories", icon: :my_stories, href: "#")
           div(class: "flex items-center gap-x-3 rounded-md px-3 py-2") do
             link_to edit_user_registration_path do
               render Components::Shared::Avatar.new(user: view_context.current_user, url: nil, size: "w-10 h-10")
