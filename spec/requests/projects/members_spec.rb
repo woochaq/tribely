@@ -33,6 +33,7 @@ RSpec.describe "Projects::Members", type: :request do
 
         expect(response).to redirect_to(settings_project_path(project))
         expect(flash[:notice]).to eq("#{user_to_add.name} has been added to the project.")
+        expect(ProjectUser.last.added_by).to eq(owner_org)
       end
 
       it 'does not add an existing member' do

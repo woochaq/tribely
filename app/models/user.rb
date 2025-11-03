@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :organizations, through: :organization_users
   has_many :sent_invitations, class_name: "Invitation", foreign_key: "sender_id", dependent: :destroy
   has_many :received_invitations, class_name: "Invitation", foreign_key: "recipient_id", dependent: :destroy
+  has_many :added_project_users, class_name: "ProjectUser", foreign_key: "added_by_id", dependent: :nullify, inverse_of: :added_by
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [ 100, 100 ]
   end

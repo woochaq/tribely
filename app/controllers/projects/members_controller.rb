@@ -5,6 +5,7 @@ class Projects::MembersController < ApplicationController
 
   def create
     @project_user = @project.project_users.build(project_user_params)
+    @project_user.added_by = current_user
     @project_user.role = params.require(:project_user).fetch(:role, @project_user.role)
     authorize @project, :add_member?
 

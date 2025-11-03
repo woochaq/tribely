@@ -1,6 +1,7 @@
 class ProjectUser < ApplicationRecord
   belongs_to :project
   belongs_to :user
+  belongs_to :added_by, class_name: "User", optional: true
 
   enum :role, { owner: 0, member: 1, guest: 2 }, default: :member
 

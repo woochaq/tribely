@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_03_174335) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_03_210205) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -99,11 +99,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_174335) do
   end
 
   create_table "project_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "added_by_id"
     t.datetime "created_at", null: false
     t.bigint "project_id", null: false
     t.integer "role", default: 0
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.index ["added_by_id"], name: "index_project_users_on_added_by_id"
     t.index ["project_id"], name: "index_project_users_on_project_id"
     t.index ["user_id"], name: "index_project_users_on_user_id"
   end
@@ -170,6 +172,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_174335) do
   add_foreign_key "organization_users", "users"
   add_foreign_key "project_users", "projects"
   add_foreign_key "project_users", "users"
+  add_foreign_key "project_users", "users", column: "added_by_id"
   add_foreign_key "projects", "organizations"
   add_foreign_key "stories", "boards"
   add_foreign_key "stories", "users"

@@ -21,7 +21,13 @@ class Components::Projects::UserListItem < Components::Base
 
           div do
             p(class: "font-semibold text-text") { project_user.user.name }
-            p(class: "text-sm text-subtext0") { "Joined #{project_user.created_at}" }
+            p(class: "text-sm text-subtext0") do
+              if project_user.added_by
+                "Added by #{project_user.added_by.name} on #{project_user.created_at}"
+              else
+                "Joined on #{project_user.created_at}"
+              end
+            end
           end
         end
 

@@ -18,6 +18,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:organizations) }
     it { should have_many(:sent_invitations) }
     it { should have_many(:received_invitations) }
+    it { should have_many(:added_project_users).class_name('ProjectUser').with_foreign_key('added_by_id').dependent(:nullify) }
   end
 
   describe "@initials" do
