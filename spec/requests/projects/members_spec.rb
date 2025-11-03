@@ -30,6 +30,7 @@ RSpec.describe "Projects::Members", type: :request do
         expect {
           post project_members_path(project), params: valid_attributes
         }.to change(project.project_users, :count).by(1)
+        .and have_enqueued_mail(ProjectMemberMailer, :added_to_project_email)
 
         expect(response).to redirect_to(settings_project_path(project))
         expect(flash[:notice]).to eq("#{user_to_add.name} has been added to the project.")

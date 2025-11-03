@@ -1,0 +1,10 @@
+<p>Hi <%= @project_user.user.name %>,</p>
+
+<p><%= @added_by.name %> has added you to the project <strong><%= @project.name %></strong> on Tribely.</p>
+
+<p>You can view the project by clicking the link below:</p>
+
+<p><%= link_to "Go to Project", project_url(@project) %></p>
+
+<p>Thanks,</p>
+<p>The Tribely Team</p>

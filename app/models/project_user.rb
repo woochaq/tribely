@@ -7,4 +7,10 @@ class ProjectUser < ApplicationRecord
 
   validates_presence_of :role
   validates_uniqueness_of :project_id, scope: :user_id, allow_nil: false
+
+  after_create_commit :send_added_to_project_email
+
+  def send_added_to_project_email
+    ProjectMemberMailer.added_to_project_email(self).deliver_later if added_by.present?
+  end
 end
