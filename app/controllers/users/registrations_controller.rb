@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [ :update ]
 
   def new
-    build_resource
+    build_resource(sign_up_params)
     yield resource if block_given?
     render Views::Devise::Registrations::New.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name)
   end
