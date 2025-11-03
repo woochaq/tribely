@@ -15,11 +15,21 @@ class Views::Projects::Base < Views::App::Base
       div(class: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8") do
         div(class: "flex items-center gap-x-3") do
           h1(class: "text-3xl font-bold text-text") do
-            a(href: projects_path, class: "text-primary") { "My Projects" }
+            a(href: projects_path, class: "text-primary hover:underline") { "My Projects" }
             span(class: "mx-2 text-subtext0") { "/" }
-            span { @project.name }
+            if @project.persisted?
+              if current_page?(edit_project_path(@project))
+                a(href: settings_project_path(@project), class: "text-primary hover:underline") { @project.name }
+                span(class: "mx-2 text-subtext0") { "/" }
+                span { "Edit" }
+              else
+                span { @project.name }
+              end
+            else
+                span { "New project" }
+            end
           end
-          if policy(@project).edit?
+          if @project.persisted? && policy(@project).edit? && !current_page?(edit_project_path(@project))
             a(href: edit_project_path(@project), class: "text-subtext0 hover:text-text") do
               render Icons::Edit.new(class: "w-6 h-6")
             end
@@ -29,31 +39,33 @@ class Views::Projects::Base < Views::App::Base
 
       # Tabs
       div(class: "mb-4") do
-        # Mobile - Segmented Control
-        div(class: "sm:hidden") do
-          nav(class: "isolate flex divide-x divide-surface0 rounded-lg shadow-sm", aria_label: "Tabs") do
-            base_mobile_classes = "group relative min-w-0 flex-1 overflow-hidden bg-mantle py-3 px-4 text-center text-sm font-semibold hover:bg-surface2 focus:z-10"
-            active_mobile_classes = "text-primary"
-            inactive_mobile_classes = "text-text"
+        if @project.persisted? && !current_page?(edit_project_path(@project))
+          # Mobile - Segmented Control
+          div(class: "sm:hidden") do
+            nav(class: "isolate flex divide-x divide-surface0 rounded-lg shadow-sm", aria_label: "Tabs") do
+              base_mobile_classes = "group relative min-w-0 flex-1 overflow-hidden bg-mantle py-3 px-4 text-center text-sm font-semibold hover:bg-surface2 focus:z-10"
+              active_mobile_classes = "text-primary"
+              inactive_mobile_classes = "text-text"
 
-            a(
-              href: settings_project_path(@project),
-              class: "#{base_mobile_classes} rounded-lg #{current_page?(settings_project_path(@project)) ? active_mobile_classes : inactive_mobile_classes}"
-            ) { "Members" }
+              a(
+                href: settings_project_path(@project),
+                class: "#{base_mobile_classes} rounded-lg #{current_page?(settings_project_path(@project)) ? active_mobile_classes : inactive_mobile_classes}"
+              ) { "Members" }
+            end
           end
-        end
 
-        # Desktop - Tabs and Action Button
-        div(class: "hidden sm:flex sm:items-center sm:justify-between") do
-          nav(class: "flex space-x-2", aria_label: "Tabs") do
-            base_classes = "font-bold rounded-md px-4 py-2 text-sm"
-            active_classes = "bg-mantle text-primary"
-            inactive_classes = "text-subtext0 hover:bg-mantle hover:text-text"
+          # Desktop - Tabs and Action Button
+          div(class: "hidden sm:flex sm:items-center sm:justify-between") do
+            nav(class: "flex space-x-2", aria_label: "Tabs") do
+              base_classes = "font-bold rounded-md px-4 py-2 text-sm"
+              active_classes = "bg-mantle text-primary"
+              inactive_classes = "text-subtext0 hover:bg-mantle hover:text-text"
 
-            a(
-              href: settings_project_path(@project),
-              class: "#{base_classes} #{current_page?(settings_project_path(@project)) ? active_classes : inactive_classes}"
-            ) { "Members" }
+              a(
+                href: settings_project_path(@project),
+                class: "#{base_classes} #{current_page?(settings_project_path(@project)) ? active_classes : inactive_classes}"
+              ) { "Members" }
+            end
           end
         end
       end

@@ -12,7 +12,7 @@ class Components::Projects::Form < Components::AppLayout
 
   def view_template
     turbo_frame_tag "projects-form" do
-      div(class: "max-w-2xl mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-lg shadow-crust/20") do
+      div(class: "mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-lg shadow-crust/20") do
         simple_form_for(@project, html: { data: { turbo_frame: "_top" } }) do |f|
           div(class: "space-y-6") do
             unless @project.persisted?

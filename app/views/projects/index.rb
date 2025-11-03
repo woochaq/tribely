@@ -10,7 +10,7 @@ class Views::Projects::Index < Views::App::Base
   end
 
   def view_template
-    div(class: "container mx-auto px-4 py-8") do
+    div(class: "container mx-auto px-4 sm:px-6 lg:px-8 py-8") do
       div(class: "flex items-center justify-between gap-4 mb-6") do
         h1(class: "text-3xl font-bold text-text") { "My Projects" }
         a(href: new_project_path, class: "btn-primary") { "New Project" }
