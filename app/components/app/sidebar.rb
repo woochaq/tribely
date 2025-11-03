@@ -10,7 +10,7 @@ class Components::App::Sidebar < Components::Base
     aside(class: "hidden lg:flex flex-col w-64 flex-shrink-0 bg-surface0 border-r border-crust", data: { "mobile-navigation-target": "sidebar" }) do
       render Components::App::Sidebar::ProjectSwitcher.new(
         current_project: @current_project,
-        projects: view_context.current_user.projects
+        projects: current_user.projects
       )
       if @current_project
         nav(class: "flex-1 flex flex-col p-4 space-y-2") do
@@ -28,10 +28,10 @@ class Components::App::Sidebar < Components::Base
           # nav_item(text: "My Stories", icon: :my_stories, href: "#")
           div(class: "flex items-center gap-x-3 rounded-md px-3 py-2") do
             link_to edit_user_registration_path do
-              render Components::Shared::Avatar.new(user: view_context.current_user, url: nil, size: "w-10 h-10")
+              render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
             end
             div(class: "flex flex-col") do
-              link_to view_context.current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text"
+              link_to current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text"
               link_to "Logout", destroy_user_session_path, class: "text-xs text-subtext0 hover:text-text", data: { turbo_method: :delete }
             end
           end

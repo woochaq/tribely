@@ -12,7 +12,7 @@ class Views::Organizations::Index < Views::App::Base
           @organizations.each do |organization|
             render Components::Organizations::ListItem.new(
               organization: organization,
-              current_user: view_context.current_user
+              current_user: current_user
             )
           end
         end

@@ -1,4 +1,4 @@
-class Components::Shared::HeaderAvatar< Components::Base
+class Components::Shared::HeaderAvatar < Components::Base
   def initialize(user:)
     @user = user
   end
@@ -6,7 +6,7 @@ class Components::Shared::HeaderAvatar< Components::Base
   def view_template
     RubyUI::Popover(options: { placement: "bottom-end" }) do
       PopoverTrigger(class: "w-full") do
-        render Components::Shared::Avatar.new(user: view_context.current_user, url: nil, size: "w-10 h-10")
+        render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
       end
       PopoverContent(class: "w-48 origin-top-right bg-surface1 py-1 shadow-lg border-black ring-opacity-5 focus:outline-none") do
         Link(href: edit_user_registration_path, variant: :ghost, class: "w-full justify-start pl-2 text-sm text-text hover:text-text hover:bg-surface2") do

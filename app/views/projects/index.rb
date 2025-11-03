@@ -22,7 +22,7 @@ class Views::Projects::Index < Views::App::Base
             @projects.each do |project|
               render Components::Projects::ListItem.new(
                 project: project,
-                current_user: view_context.current_user
+                current_user: current_user
               )
             end
           end

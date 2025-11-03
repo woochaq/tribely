@@ -20,7 +20,7 @@ class Components::LandingPage::Header < Components::Base
             if view_context.user_signed_in?
               div(class: "flex items-center gap-4") do
                 link_to projects_path do
-                  render Components::Shared::Avatar.new(user: view_context.current_user, url: nil, size: "w-10 h-10")
+                  render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
                 end
               end
             else
