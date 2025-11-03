@@ -10,7 +10,7 @@ class Components::Organizations::Form < Components::Base
   end
 
   def view_template
-    div(class: "max-w-2xl mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-lg") do
+    div(class: "mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-lg") do
       simple_form_for(@organization) do |f|
         div(class: "space-y-6") do
         div(class: "space-y-6") do

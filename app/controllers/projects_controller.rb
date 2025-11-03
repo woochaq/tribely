@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
   def update
     if @project.update(permitted_attributes(@project))
       flash[:success] = "Project #{@project.name} updated"
-      redirect_to projects_path, status: :see_other
+      redirect_to settings_project_path, status: :see_other
     else
       render Views::Projects::New.new(project: @project, organizations: [], current_project: @project), status: :unprocessable_content
     end
