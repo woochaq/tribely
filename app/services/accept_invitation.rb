@@ -16,7 +16,7 @@ class AcceptInvitation
       end
     end
     true
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid
     # You can add logging here if needed, e.g., Rails.logger.error(e.message)
     false
   end

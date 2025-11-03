@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_02_094532) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_03_174335) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -76,7 +76,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_02_094532) do
     t.integer "status", default: 0
     t.string "token"
     t.datetime "updated_at", null: false
-    t.index ["organization_id", "email"], name: "index_invitations_on_organization_id_and_email", unique: true
     t.index ["organization_id"], name: "index_invitations_on_organization_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["sender_id"], name: "index_invitations_on_sender_id"
