@@ -39,7 +39,7 @@ class OrganizationPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.owns_organization?(record)
-      [ :name ]
+      [ :name, :avatar ]
     else
       []
     end

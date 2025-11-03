@@ -1,6 +1,7 @@
 class Views::Organizations::Base < Views::App::Base
   include Pundit::Authorization
   include Phlex::Rails::Helpers::CurrentPage
+  include Phlex::Rails::Helpers::ImageTag
 
   def initialize(organization:, **)
     @organization = organization
@@ -12,9 +13,12 @@ class Views::Organizations::Base < Views::App::Base
       # Header
       div(class: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8") do
         div(class: "flex items-center gap-x-3") do
-          h1(class: "text-3xl font-bold text-text") do
+          h1(class: "text-3xl font-bold text-text flex items-center") do
             a(href: organizations_path, class: "text-primary") { "My Organizations" }
             span(class: "mx-2 text-subtext0") { "/" }
+            if @organization.avatar.attached?
+              image_tag @organization.avatar.variant(:thumb), class: "w-8 h-8 rounded-lg flex-shrink-0 mr-2"
+            end
             span { @organization.name }
           end
           if policy(@organization).edit?

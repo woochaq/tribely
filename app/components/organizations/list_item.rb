@@ -1,4 +1,5 @@
 class Components::Organizations::ListItem < Components::Base
+  include Phlex::Rails::Helpers::ImageTag
   include Phlex::Rails::Helpers::LinkTo
   include Pundit::Authorization
 
@@ -13,7 +14,9 @@ class Components::Organizations::ListItem < Components::Base
     li(class: "p-4 flex items-center justify-between  hover:bg-surface0") do
       link_to(organization_path(organization), class: "flex-grow flex items-center gap-x-4") do
         # Placeholder Icon
-        div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0")
+        div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0") do
+          image_tag @organization.avatar.variant(:thumb) if @organization.avatar.attached?
+        end
 
         div do
           span(class: "font-semibold text-text") { organization.name }

@@ -67,7 +67,7 @@ RSpec.describe OrganizationPolicy, type: :policy do
   describe "permitted_attributes" do
     it "returns the correct attributes for an owner" do
       policy = described_class.new(owner, shared_organization)
-      expect(policy.permitted_attributes).to contain_exactly(:name)
+      expect(policy.permitted_attributes).to contain_exactly(:name, :avatar)
     end
 
     it "returns an empty array for a member" do
