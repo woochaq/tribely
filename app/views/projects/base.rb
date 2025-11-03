@@ -6,7 +6,7 @@ class Views::Projects::Base < Views::App::Base
 
   def initialize(project:, **)
     @project = project
-    super(**)
+    super(current_project: project, **)
   end
 
   def view_template(&block)
