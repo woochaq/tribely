@@ -56,4 +56,58 @@ RSpec.describe Story, type: :model do
       end
     end
   end
+
+  describe 'broadcasts' do
+    let(:project) { create(:project) }
+    let(:board) { create(:board, project: project) }
+    let(:story) { build(:story, board: board) }
+
+    it 'broadcasts an update on create' do
+      expect(story).to receive(:broadcast_update_to).with(
+        project, # Cel (streamable)
+        target: "board_#{board.id}", # ID DOM celu
+        renderable: an_instance_of(Components::Boards::StoriesList) # Sprawdza, czy to poprawna klasa
+      )
+      story.save!
+    end
+
+    it 'broadcasts an update on update' do
+      story.save!
+      expect(story).to receive(:broadcast_update_to).with(
+        project, # Cel (streamable)
+        target: "board_#{board.id}", # ID DOM celu
+        renderable: an_instance_of(Components::Boards::StoriesList) # Sprawdza, czy to poprawna klasa
+      )
+      story.update!(title: 'New Title')
+    end
+
+    it 'broadcasts an update on destroy' do
+      story.save!
+      expect(story).to receive(:broadcast_update_to).with(
+        project, # Cel (streamable)
+        target: "board_#{board.id}", # ID DOM celu
+        renderable: an_instance_of(Components::Boards::StoriesList) # Sprawdza, czy to poprawna klasa
+      )
+      story.destroy!
+    end
+
+    it 'broadcasts an update to both old and new boards when board_id changes' do
+      story.save!
+      new_board = create(:board, project: project)
+
+      expect(story).to receive(:broadcast_update_to).with(
+        project,
+        target: "board_#{board.id}",
+        renderable: an_instance_of(Components::Boards::StoriesList)
+      ).ordered
+
+      expect(story).to receive(:broadcast_update_to).with(
+        project,
+        target: "board_#{new_board.id}",
+        renderable: an_instance_of(Components::Boards::StoriesList)
+      ).ordered
+
+      story.update!(board: new_board)
+    end
+  end
 end
