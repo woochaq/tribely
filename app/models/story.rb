@@ -10,6 +10,7 @@ class Story < ApplicationRecord
   before_validation :set_number, on: :create
   validates_presence_of :title, :story_type, :status, :number
   validates_length_of :title, maximum: 255
+  validate :owner_and_user_must_be_members
 
   enum :story_type, { feature: 0, bug: 1, chore: 2, spike: 3 }, default: 0
   enum :status, { todo: 0, in_progress: 1, in_review: 2, done: 3, archived: 4 }, default: 0
@@ -21,6 +22,15 @@ class Story < ApplicationRecord
   before_save :handle_board_change, if: -> { board_id_changed? }
 
   private
+
+  def owner_and_user_must_be_members
+    if owner.present? && !board.project.project_users.exists?(user: owner)
+      errors.add(:owner, "must be a member of project")
+    end
+    if user.present? && !board.project.project_users.exists?(user: user)
+      errors.add(:user, "must be a member of project")
+    end
+  end
 
   def set_number
     self.number = board.present? ? (board.project.stories.maximum(:number).to_i + 1) : 1

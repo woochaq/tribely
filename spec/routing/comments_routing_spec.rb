@@ -2,9 +2,15 @@ require "rails_helper"
 
 RSpec.describe CommentsController, type: :routing do
   describe "routing" do
-    let(:project) { create(:project) }
+    let(:organization) { create(:organization) }
+    let(:project) { create(:project, organization: organization) }
     let(:board) { create(:board, project: project) }
-    let(:story) { create(:story, board: board) }
+    let(:user) { create(:user) }
+    before do
+      create(:organization_user, organization: organization, user: user, role: :owner)
+      create(:project_user, project: project, user: user, role: :member)
+    end
+    let(:story) { create(:story, board: board, owner: user) }
 
     it "routes to #new" do
       expect(get: "/projects/#{project.id}/stories/#{story.id}/comments/new").to route_to("comments#new", project_id: project.id.to_s, story_id: story.id.to_s)

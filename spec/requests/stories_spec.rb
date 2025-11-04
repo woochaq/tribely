@@ -4,7 +4,6 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
   let(:organization) { create(:organization) }
   let(:project) { create(:project, organization: organization) }
   let(:board) { create(:board, project: project) }
-  let(:story) { create(:story, board: board) }
 
   let(:org_owner) { create(:user) }
   let(:project_owner) { create(:user) }
@@ -17,10 +16,13 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
     create(:organization_user, organization: organization, user: project_owner, role: :member)
     create(:organization_user, organization: organization, user: project_member, role: :member)
     create(:organization_user, organization: organization, user: project_guest, role: :guest)
+    create(:project_user, project: project, user: org_owner, role: :member)
     create(:project_user, project: project, user: project_owner, role: :owner)
     create(:project_user, project: project, user: project_member, role: :member)
     create(:project_user, project: project, user: project_guest, role: :guest)
   end
+
+  let!(:story) { create(:story, board: board, owner: project_owner) }
 
   let(:valid_attributes) { { board_id: board.id, title: "New Story" } }
   let(:invalid_attributes) { { title: "" } }
@@ -60,9 +62,8 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
     describe "DELETE /destroy" do
       it "destroys the requested story" do
-        story_to_delete = create(:story, board: board)
         expect {
-          delete project_story_url(project, story_to_delete)
+          delete project_story_url(project, story)
         }.to change(Story, :count).by(-1)
       end
     end
@@ -112,9 +113,8 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
     describe "DELETE /destroy" do
       it "destroys the requested story" do
-        story_to_delete = create(:story, board: board)
         expect {
-          delete project_story_url(project, story_to_delete)
+          delete project_story_url(project, story)
         }.to change(Story, :count).by(-1)
       end
     end
@@ -164,9 +164,8 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
     describe "DELETE /destroy" do
       it "destroys the requested story" do
-        story_to_delete = create(:story, board: board)
         expect {
-          delete project_story_url(project, story_to_delete)
+          delete project_story_url(project, story)
         }.to change(Story, :count).by(-1)
       end
     end

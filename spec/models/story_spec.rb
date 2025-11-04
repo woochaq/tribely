@@ -6,6 +6,50 @@ RSpec.describe Story, type: :model do
     it { should validate_presence_of(:status) }
     it { should validate_presence_of(:story_type) }
     it { should validate_length_of(:title).is_at_most(255) }
+
+    describe "owner_and_user_must_be_members" do
+      let(:project) { create(:project) }
+      let(:board) { create(:board, project: project) }
+      let(:project_member) { create(:user) }
+      let(:non_project_member) { create(:user) }
+
+      before do
+        create(:organization_user, organization: project.organization, user: project_member)
+        create(:project_user, project: project, user: project_member)
+      end
+
+      it "is valid when owner is a project member" do
+        story = build(:story, board: board, owner: project_member)
+        expect(story).to be_valid
+      end
+
+      it "is valid when user is a project member" do
+        story = build(:story, board: board, owner: project_member, user: project_member)
+        expect(story).to be_valid
+      end
+
+      it "is invalid when owner is not a project member" do
+        story = build(:story, board: board, owner: non_project_member)
+        expect(story).not_to be_valid
+        expect(story.errors[:owner]).to include("must be a member of project")
+      end
+
+      it "is invalid when user is not a project member" do
+        story = build(:story, board: board, owner: project_member, user: non_project_member)
+        expect(story).not_to be_valid
+        expect(story.errors[:user]).to include("must be a member of project")
+      end
+
+      it "is valid invalid when owner is nil" do
+        story = build(:story, board: board, owner: nil, user: project_member)
+        expect(story).not_to be_valid
+      end
+
+      it "is valid when user is nil" do
+        story = build(:story, board: board, owner: project_member, user: nil)
+        expect(story).to be_valid
+      end
+    end
   end
 
   describe 'associations' do
@@ -20,19 +64,27 @@ RSpec.describe Story, type: :model do
   end
 
   describe "@set_number" do
+    let(:organization) { create(:organization) }
     let(:project) { create(:project) }
     let(:board1) { create(:board, project: project) }
     let(:board2) { create(:board, project: project) }
 
     it "should set number for stories in project scope" do
-      story = create(:story, board: board1)
+      owner = create(:user)
+      user = create(:user)
+      create(:organization_user, organization: project.organization, user: owner, role: :owner)
+      create(:organization_user, organization: project.organization, user: user, role: :member)
+      create(:project_user, project: project, user: owner)
+      create(:project_user, project: project, user: user)
+
+      story = create(:story, board: board1, owner: owner, user: user)
       expect(story.number).to eq 1
-      story2 = create(:story, board: board2)
+      story2 = create(:story, board: board2, owner: owner, user: user)
       expect(story2.number).to eq 2
-      story3 = create(:story, board: board2)
+      story3 = create(:story, board: board2, owner: owner, user: user)
       expect(story3.number).to eq 3
       story2.destroy
-      story4 = create(:story, board: board2)
+      story4 = create(:story, board: board2, owner: owner, user: user)
       expect(story4.number).to eq 4
     end
   end
@@ -41,7 +93,15 @@ RSpec.describe Story, type: :model do
     let(:project) { create(:project) }
     let(:done_board) { create(:board, kind: :done, project: project) }
     let(:icebox_board) { create(:board, kind: :icebox, project: project) }
-    let!(:story) { create(:story, board: icebox_board) }
+    let(:owner) { create(:user) }
+    let(:user) { create(:user) }
+    before do
+      create(:organization_user, organization: project.organization, user: owner, role: :owner)
+      create(:organization_user, organization: project.organization, user: user, role: :member)
+      create(:project_user, project: project, user: owner)
+      create(:project_user, project: project, user: user)
+    end
+    let!(:story) { create(:story, board: icebox_board, owner: owner, user: user) }
 
     context "when moveing story between Done and Icebox" do
       it "should change status to done and set done_at" do
@@ -60,7 +120,15 @@ RSpec.describe Story, type: :model do
   describe 'broadcasts' do
     let(:project) { create(:project) }
     let(:board) { create(:board, project: project) }
-    let(:story) { build(:story, board: board) }
+    let(:owner) { create(:user) }
+    let(:user) { create(:user) }
+    before do
+      create(:organization_user, organization: project.organization, user: owner, role: :owner)
+      create(:organization_user, organization: project.organization, user: user, role: :member)
+      create(:project_user, project: project, user: owner)
+      create(:project_user, project: project, user: user)
+    end
+    let(:story) { build(:story, board: board, owner: owner, user: user) }
 
     it 'broadcasts an update on create' do
       expect(story).to receive(:broadcast_update_to).with(

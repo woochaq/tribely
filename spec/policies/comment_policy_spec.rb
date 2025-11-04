@@ -6,7 +6,6 @@ RSpec.describe CommentPolicy, type: :policy do
   let(:organization) { create(:organization) }
   let(:project) { create(:project, organization: organization) }
   let(:board) { create(:board, project: project) }
-  let(:story) { create(:story, board: board) }
 
   let(:org_owner) { create(:user) }
   let(:project_owner) { create(:user) }
@@ -29,6 +28,8 @@ RSpec.describe CommentPolicy, type: :policy do
     create(:project_user, project: project, user: project_member, role: :member)
     create(:project_user, project: project, user: project_guest, role: :guest)
   end
+
+  let(:story) { create(:story, board: board, owner: project_owner) }
 
   permissions :show? do
     it "grants access to everyone" do
@@ -105,13 +106,11 @@ RSpec.describe CommentPolicy, type: :policy do
   end
 
   describe "Scope" do
-    let(:user_with_comments) { create(:user) }
-    let(:story_with_comments) { create(:story, board: board) }
-    let!(:comment1) { create(:comment, story: story_with_comments, user: user_with_comments) }
-    let!(:comment2) { create(:comment, story: story_with_comments, user: other_user) }
+    let!(:comment1) { create(:comment, story: story, user: project_owner) }
+    let!(:comment2) { create(:comment, story: story, user: project_member) }
 
     it "resolves all comments" do
-      scope = described_class::Scope.new(user_with_comments, Comment.all).resolve
+      scope = described_class::Scope.new(project_owner, Comment.all).resolve
       expect(scope).to contain_exactly(comment1, comment2)
     end
   end

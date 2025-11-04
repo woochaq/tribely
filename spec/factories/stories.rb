@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :story do
     association :board
     owner { create(:user) }
-    association :user
+    user { nil }
     title { "My first story" }
     description { "Story description" }
     status { 0 }

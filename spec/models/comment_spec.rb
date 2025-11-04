@@ -6,9 +6,17 @@ RSpec.describe Comment, type: :model do
   end
 
   describe "broadcasts" do
-    let!(:comment) { create(:comment) }
-    let(:project) { comment.story.board.project }
-    let(:story) { comment.story }
+    let(:organization) { create(:organization) }
+    let(:project) { create(:project, organization: organization) }
+    let(:board) { create(:board, project: project) }
+    let(:user) { create(:user) }
+    before do
+      create(:organization_user, organization: organization, user: user, role: :owner)
+      create(:project_user, project: project, user: user, role: :member)
+    end
+    let(:story) { create(:story, board: board, owner: user) }
+    let!(:comment) { create(:comment, story: story) }
+
 
     it "enqueues a broadcast job on create" do
       new_comment = build(:comment, story: story)

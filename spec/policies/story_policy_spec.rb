@@ -6,7 +6,6 @@ RSpec.describe StoryPolicy, type: :policy do
   let(:organization) { create(:organization) }
   let(:project) { create(:project, organization: organization) }
   let(:board) { create(:board, project: project) }
-  let(:story) { create(:story, board: board) }
 
   let(:org_owner) { create(:user) }
   let(:project_owner) { create(:user) }
@@ -23,6 +22,8 @@ RSpec.describe StoryPolicy, type: :policy do
     create(:project_user, project: project, user: project_member, role: :member)
     create(:project_user, project: project, user: project_guest, role: :guest)
   end
+
+  let(:story) { create(:story, board: board, owner: project_owner) }
 
   permissions :show? do
     it "grants access to everyone" do

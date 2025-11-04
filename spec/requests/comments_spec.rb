@@ -4,19 +4,12 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
   let(:organization) { create(:organization) }
   let(:project) { create(:project, organization: organization) }
   let(:board) { create(:board, project: project) }
-  let(:story) { create(:story, board: board) }
 
   let(:org_owner) { create(:user) }
   let(:project_owner) { create(:user) }
   let(:project_member) { create(:user) }
   let(:project_guest) { create(:user) }
   let(:other_user) { create(:user) }
-
-  let!(:comment_by_org_owner) { create(:comment, story: story, user: org_owner) }
-  let!(:comment_by_project_member) { create(:comment, story: story, user: project_member) }
-
-  let(:valid_attributes) { { content: "This is a valid comment." } }
-  let(:invalid_attributes) { { content: "" } }
 
   before do
     create(:organization_user, organization: organization, user: org_owner, role: :owner)
@@ -27,6 +20,14 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     create(:project_user, project: project, user: project_member, role: :member)
     create(:project_user, project: project, user: project_guest, role: :guest)
   end
+
+  let!(:story) { create(:story, board: board, owner: project_owner) }
+
+  let!(:comment_by_org_owner) { create(:comment, story: story, user: org_owner) }
+  let!(:comment_by_project_member) { create(:comment, story: story, user: project_member) }
+
+  let(:valid_attributes) { { content: "This is a valid comment." } }
+  let(:invalid_attributes) { { content: "" } }
 
   describe "as organization owner" do
     before { sign_in org_owner }
