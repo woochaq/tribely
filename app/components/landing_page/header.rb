@@ -11,9 +11,9 @@ class Components::LandingPage::Header < Components::Base
           end
 
           div(class: "hidden md:flex items-center space-x-8") do
-            a(href: "#features", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
-            a(href: "#pricing", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
-            a(href: "#", class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Docs" }
+            a(href: root_url(anchor: "features"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
+            a(href: root_url(anchor: "pricing"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
+            a(href: root_url(anchor: "doc"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Docs" }
           end
 
            div(class: "flex items-center space-x-4") do

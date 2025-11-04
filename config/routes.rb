@@ -41,5 +41,8 @@ Rails.application.routes.draw do
     # root "app#index", as: :authenticated_root
   end
 
+  match "/404", to: "errors#not_found", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
+
   root "home#index"
 end

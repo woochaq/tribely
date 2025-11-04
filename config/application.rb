@@ -23,5 +23,9 @@ module Tribely
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    # For example, in the Puma web server.
+    config.middleware.use Rack::Deflater
+
+    config.exceptions_app = self.routes
   end
 end
