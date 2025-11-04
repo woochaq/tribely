@@ -4,10 +4,10 @@ class Projects::MembersController < ApplicationController
   before_action :set_project_user, only: [ :edit, :update, :destroy ]
 
   def create
-    @project_user = @project.project_users.build(project_user_params)
+    @project_user = @project.project_users.build(permitted_attributes(ProjectUser))
     @project_user.added_by = current_user
     @project_user.role = params.require(:project_user).fetch(:role, @project_user.role)
-    authorize @project, :add_member?
+    authorize @project_user
 
     if @project_user.save
       redirect_to settings_project_path(@project), notice: "#{@project_user.user.name} has been added to the project."
@@ -18,7 +18,7 @@ class Projects::MembersController < ApplicationController
   end
 
   def edit
-    authorize @project, :edit_member?
+    authorize @project_user
 
     if @project_user.user == current_user
       redirect_to settings_project_path(@project), alert: "You cannot edit your own role."
@@ -29,7 +29,7 @@ class Projects::MembersController < ApplicationController
   end
 
   def update
-    authorize @project, :update_member?
+    authorize @project_user
 
     if @project_user.user == current_user
       redirect_to settings_project_path(@project), alert: "You cannot update your own role."
@@ -45,7 +45,7 @@ class Projects::MembersController < ApplicationController
   end
 
   def destroy
-    authorize @project, :remove_member?
+    authorize @project_user
 
     if @project_user.user == current_user
       redirect_to settings_project_path(@project), alert: "You cannot remove yourself from the project."
@@ -70,9 +70,5 @@ class Projects::MembersController < ApplicationController
 
   def set_project_user
     @project_user = @project.project_users.find(params[:id])
-  end
-
-  def project_user_params
-    params.require(:project_user).permit(:user_id)
   end
 end

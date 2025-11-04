@@ -20,13 +20,13 @@ RSpec.describe "Projects::Members", type: :request do
     create(:organization_user, organization: organization, user: user_to_add, role: :member)
   end
 
-  describe 'POST /projects/:project_id/members' do
+  describe "POST /projects/:project_id/members" do
     let(:valid_attributes) { { project_user: { user_id: user_to_add.id, role: :member } } }
 
-    context 'when logged in as an organization owner' do
+    context "when logged in as an organization owner" do
       before { sign_in owner_org }
 
-      it 'adds a new member to the project' do
+      it "adds a new member to the project" do
         expect {
           post project_members_path(project), params: valid_attributes
         }.to change(project.project_users, :count).by(1)
@@ -37,7 +37,7 @@ RSpec.describe "Projects::Members", type: :request do
         expect(ProjectUser.last.added_by).to eq(owner_org)
       end
 
-      it 'does not add an existing member' do
+      it "does not add an existing member" do
         project.users << user_to_add
         expect {
           post project_members_path(project), params: valid_attributes
@@ -46,12 +46,19 @@ RSpec.describe "Projects::Members", type: :request do
         expect(response).to redirect_to(settings_project_path(project))
         expect(flash[:alert]).to be_present
       end
+
+      it "does not add a user who is not in the organization" do
+        user_to_add.organization_users.destroy_all
+        expect {
+          post project_members_path(project), params: valid_attributes
+        }.to raise_error(Pundit::NotAuthorizedError)
+      end
     end
 
-    context 'when logged in as a project owner' do
+    context "when logged in as a project owner" do
       before { sign_in owner_project }
 
-      it 'adds a new member to the project' do
+      it "adds a new member to the project" do
         expect {
           post project_members_path(project), params: valid_attributes
         }.to change(project.project_users, :count).by(1)
@@ -61,18 +68,18 @@ RSpec.describe "Projects::Members", type: :request do
       end
     end
 
-    context 'when logged in as a project member' do
+    context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it 'does not add a member and raises Pundit::NotAuthorizedError' do
+      it "does not add a member and raises Pundit::NotAuthorizedError" do
         expect {
           post project_members_path(project), params: valid_attributes
         }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when not logged in' do
-      it 'redirects to the login page' do
+    context "when not logged in" do
+      it "redirects to the login page" do
         post project_members_path(project), params: valid_attributes
         expect(response).to redirect_to(new_user_session_path)
       end
@@ -127,10 +134,10 @@ RSpec.describe "Projects::Members", type: :request do
     end
   end
 
-  describe 'PATCH /projects/:project_id/members/:id' do
+  describe "PATCH /projects/:project_id/members/:id" do
     let(:new_role) { :guest }
 
-    context 'when logged in as an organization owner' do
+    context "when logged in as an organization owner" do
       before { sign_in owner_org }
 
       it "updates the member's role" do
@@ -139,52 +146,52 @@ RSpec.describe "Projects::Members", type: :request do
         expect(member_project_user.reload.role).to eq(new_role.to_s)
       end
 
-      it 'returns unprocessable_content with invalid parameters' do
+      it "returns unprocessable_content with invalid parameters" do
         patch project_member_path(project, member_project_user), params: { project_user: { role: nil } }
         expect(response).to have_http_status(:unprocessable_content)
         expect(member_project_user.reload.role).not_to be_nil
       end
     end
 
-    context 'when logged in as a project owner' do
+    context "when logged in as a project owner" do
       before { sign_in owner_project }
 
-      it 'updates the member role' do
+      it "updates the member role" do
         patch project_member_path(project, member_project_user), params: { project_user: { role: new_role } }
         expect(response).to have_http_status(:ok)
         expect(member_project_user.reload.role).to eq(new_role.to_s)
       end
 
-      it 'does not allow an owner to update their own role' do
+      it "does not allow an owner to update their own role" do
         patch project_member_path(project, owner_project_user), params: { project_user: { role: new_role } }
         expect(response).to redirect_to(settings_project_path(project))
         expect(flash[:alert]).to eq("You cannot update your own role.")
       end
     end
 
-    context 'when logged in as a project member' do
+    context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it 'does not update the member role and raises Pundit::NotAuthorizedError' do
+      it "does not update the member role and raises Pundit::NotAuthorizedError" do
         expect {
           patch project_member_path(project, owner_project_user), params: { project_user: { role: new_role } }
         }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when not logged in' do
-      it 'redirects to the login page' do
+    context "when not logged in" do
+      it "redirects to the login page" do
         patch project_member_path(project, member_project_user), params: { project_user: { role: new_role } }
         expect(response).to redirect_to(new_user_session_path)
       end
     end
   end
 
-  describe 'DELETE /projects/:project_id/members/:id' do
-    context 'when logged in as an organization owner' do
+  describe "DELETE /projects/:project_id/members/:id" do
+    context "when logged in as an organization owner" do
       before { sign_in owner_org }
 
-      it 'removes a member from the project' do
+      it "removes a member from the project" do
         expect {
           delete project_member_path(project, member_project_user)
         }.to change(project.project_users, :count).by(-1)
@@ -193,7 +200,7 @@ RSpec.describe "Projects::Members", type: :request do
         expect(flash[:notice]).to eq("#{member_project_user.user.name} has been removed from the project.")
       end
 
-      it 'does not allow an owner to remove themselves' do
+      it "does not allow an owner to remove themselves" do
         sign_in owner_project_user.user
         delete project_member_path(project, owner_project_user)
         expect(response).to redirect_to(settings_project_path(project))
@@ -201,10 +208,10 @@ RSpec.describe "Projects::Members", type: :request do
       end
     end
 
-    context 'when logged in as a project owner' do
+    context "when logged in as a project owner" do
       before { sign_in owner_project }
 
-      it 'removes a member from the project' do
+      it "removes a member from the project" do
         expect {
           delete project_member_path(project, member_project_user)
         }.to change(project.project_users, :count).by(-1)
@@ -213,7 +220,7 @@ RSpec.describe "Projects::Members", type: :request do
         expect(flash[:notice]).to eq("#{member_project_user.user.name} has been removed from the project.")
       end
 
-      it 'does not allow an owner to remove themselves' do
+      it "does not allow an owner to remove themselves" do
         delete project_member_path(project, owner_project_user)
         expect(response).to redirect_to(settings_project_path(project))
         expect(flash[:alert]).to eq("You cannot remove yourself from the project.")
@@ -223,7 +230,7 @@ RSpec.describe "Projects::Members", type: :request do
     context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it 'does not remove a member and raises Pundit::NotAuthorizedError' do
+      it "does not remove a member and raises Pundit::NotAuthorizedError" do
         expect {
           delete project_member_path(project, owner_project_user)
         }.to raise_error(Pundit::NotAuthorizedError)
@@ -231,7 +238,7 @@ RSpec.describe "Projects::Members", type: :request do
     end
 
     context "when not logged in" do
-      it 'redirects to the login page' do
+      it "redirects to the login page" do
         delete project_member_path(project, member_project_user)
         expect(response).to redirect_to(new_user_session_path)
       end
