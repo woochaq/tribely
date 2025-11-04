@@ -18,7 +18,7 @@ class Components::App::Sidebar < Components::Base
           nav_item(text: "Boards", icon: :boards, href: project_path(@current_project), active: current_page?(project_path(@current_project)))
           # nav_item(text: "All Stories", icon: :all_stories, href: "#")
           # nav_item(text: "Reports", icon: :reports, href: "#")
-          nav_item(text: "Project Settings", icon: :settings, href: settings_project_path(@current_project), active: current_page?(settings_project_path))
+          nav_item(text: "Project Details", icon: :settings, href: settings_project_path(@current_project), active: current_page?(settings_project_path))
         end
       end
 
