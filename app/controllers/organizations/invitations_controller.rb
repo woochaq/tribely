@@ -10,9 +10,9 @@ class Organizations::InvitationsController < ApplicationController
 
     if @invitation.save
       InvitationMailer.invitation_email(@invitation).deliver_later
-      redirect_to members_organization_path(@organization), notice: "Invitation sent successfully."
+      redirect_to organization_members_path(@organization), notice: "Invitation sent successfully."
     else
-      redirect_to members_organization_path(@organization), alert: @invitation.errors.full_messages.to_sentence
+      redirect_to organization_members_path(@organization), alert: @invitation.errors.full_messages.to_sentence
     end
   end
 
@@ -20,9 +20,9 @@ class Organizations::InvitationsController < ApplicationController
     authorize @invitation
     if @invitation.pending?
       @invitation.destroy
-      redirect_to members_organization_path(@organization), notice: "Invitation cancelled successfully."
+      redirect_to organization_members_path(@organization), notice: "Invitation cancelled successfully."
     else
-      redirect_to members_organization_path(@organization), alert: "Only pending invitations can be cancelled."
+      redirect_to organization_members_path(@organization), alert: "Only pending invitations can be cancelled."
     end
   end
 
@@ -30,9 +30,9 @@ class Organizations::InvitationsController < ApplicationController
     authorize @invitation
     if @invitation.pending?
       InvitationMailer.invitation_email(@invitation).deliver_later
-      redirect_to members_organization_path(@organization), notice: "Invitation re-sent successfully."
+      redirect_to organization_members_path(@organization), notice: "Invitation re-sent successfully."
     else
-      redirect_to members_organization_path(@organization), alert: "Only pending invitations can be re-sent."
+      redirect_to organization_members_path(@organization), alert: "Only pending invitations can be re-sent."
     end
   end
 

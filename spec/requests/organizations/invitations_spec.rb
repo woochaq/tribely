@@ -23,7 +23,7 @@ RSpec.describe "Organizations::Invitations", type: :request do
         }.to change(Invitation, :count).by(1)
         .and have_enqueued_mail(InvitationMailer, :invitation_email)
 
-        expect(response).to redirect_to(members_organization_path(organization))
+        expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:notice]).to eq('Invitation sent successfully.')
       end
 
@@ -32,7 +32,7 @@ RSpec.describe "Organizations::Invitations", type: :request do
           post organization_invitations_path(organization), params: { invitation: { email: '' } }
         }.not_to change(Invitation, :count)
 
-        expect(response).to redirect_to(members_organization_path(organization))
+        expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:alert]).to be_present
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe "Organizations::Invitations", type: :request do
         expect {
           delete organization_invitation_path(organization, invitation)
         }.to change(Invitation, :count).by(-1)
-        expect(response).to redirect_to(members_organization_path(organization))
+        expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:notice]).to eq('Invitation cancelled successfully.')
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe "Organizations::Invitations", type: :request do
           post resend_organization_invitation_path(organization, invitation)
         }.to have_enqueued_mail(InvitationMailer, :invitation_email)
 
-        expect(response).to redirect_to(members_organization_path(organization))
+        expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:notice]).to eq('Invitation re-sent successfully.')
       end
     end

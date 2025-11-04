@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_organization, only: [ :show, :edit, :update, :members ]
+  before_action :set_organization, only: [ :show, :edit, :update ]
 
   def index
     authorize Organization
@@ -10,10 +10,6 @@ class OrganizationsController < ApplicationController
 
   def show
     render Views::Organizations::Show.new(organization: @organization)
-  end
-
-  def members
-    render Views::Organizations::Members::Index.new(organization: @organization)
   end
 
   def edit

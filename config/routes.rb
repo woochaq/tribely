@@ -2,11 +2,10 @@ Rails.application.routes.draw do
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
   resources :organizations, only: [ :index, :edit, :update, :show ] do
-    get :members, on: :member
     resources :invitations, only: [ :create, :destroy ], controller: "organizations/invitations" do
       post :resend, on: :member
     end
-    resources :members, only: [ :destroy, :edit, :update ], controller: "organizations/members"
+    resources :members, only: [ :index, :destroy, :edit, :update ], controller: "organizations/members"
   end
 
   get "invitations/:token/accept", to: "invitation_acceptances#new", as: :accept_invitation

@@ -3,6 +3,11 @@ class Organizations::MembersController < ApplicationController
   before_action :set_organization
   before_action :set_organization_user, only: [ :edit, :update, :destroy ]
 
+  def index
+    authorize @organization, :show_members?
+    render Views::Organizations::Members::Index.new(organization: @organization)
+  end
+
   def edit
     authorize @organization_user
 
@@ -26,7 +31,7 @@ class Organizations::MembersController < ApplicationController
     @organization_user.destroy
 
     respond_to do |format|
-      format.html { redirect_to members_organization_path(@organization), notice: "#{@organization_user.user.name} has been removed from the organization." }
+      format.html { redirect_to organization_members_path(@organization), notice: "#{@organization_user.user.name} has been removed from the organization." }
       format.turbo_stream { render turbo_stream: turbo_stream.remove(@organization_user) }
     end
   end

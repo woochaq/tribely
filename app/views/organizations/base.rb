@@ -53,8 +53,8 @@ class Views::Organizations::Base < Views::App::Base
                 class: "#{base_mobile_classes} rounded-l-lg #{current_page?(organization_path(@organization)) ? active_mobile_classes : inactive_mobile_classes}"
               ) { "Projects" }
               a(
-                href: members_organization_path(@organization),
-                class: "#{base_mobile_classes} rounded-r-lg #{current_page?(members_organization_path(@organization)) ? active_mobile_classes : inactive_mobile_classes}"
+                href: organization_members_path(@organization),
+                class: "#{base_mobile_classes} rounded-r-lg #{current_page?(organization_members_path(@organization)) ? active_mobile_classes : inactive_mobile_classes}"
               ) { "Members" }
             end
             # Mobile Action Button
@@ -63,7 +63,7 @@ class Views::Organizations::Base < Views::App::Base
                 a(href: new_project_path(organization_id: @organization.id), class: "btn-primary") { "New Project" }
               end
               # Placeholder for future "Add Member" button
-              # if current_page?(members_organization_path(@organization)) && policy(...).create?
+              # if current_page?(organization_members_path(@organization)) && policy(...).create?
               #   a(href: new_member_path, class: "btn-primary w-full text-center") { "Add Member" }
               # end
             end
@@ -81,8 +81,8 @@ class Views::Organizations::Base < Views::App::Base
                 class: "#{base_classes} #{current_page?(organization_path(@organization)) ? active_classes : inactive_classes}"
               ) { "Projects" }
               a(
-                href: members_organization_path(@organization),
-                class: "#{base_classes} #{current_page?(members_organization_path(@organization)) ? active_classes : inactive_classes}"
+                href: organization_members_path(@organization),
+                class: "#{base_classes} #{current_page?(organization_members_path(@organization)) ? active_classes : inactive_classes}"
               ) { "Members" }
             end
 
@@ -92,7 +92,7 @@ class Views::Organizations::Base < Views::App::Base
                 a(href: new_project_path(project: { organization_id: @organization.id }), class: "btn-primary") { "New Project" }
               end
               # Placeholder for future "Add Member" button
-              # if current_page?(members_organization_path(@organization)) && policy(...).create?
+              # if current_page?(organization_members_path(@organization)) && policy(...).create?
               #   a(href: new_member_path, class: "btn-primary") { "Add Member" }
               # end
             end

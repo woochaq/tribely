@@ -11,6 +11,26 @@ RSpec.describe "Organizations::Members", type: :request do
   let!(:member_org_user) { create(:organization_user, organization: organization, user: member_to_remove, role: :member) }
   let!(:another_member_org_user) { create(:organization_user, organization: organization, user: another_member, role: :member) }
 
+  describe "GET /organizations/:organization_id/members" do
+    context "when logged in as a member" do
+      before { sign_in another_member }
+
+      it "returns http success" do
+        get organization_members_path(organization)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "when logged in as a non-member" do
+      before { sign_in non_member }
+
+      it "returns http not found" do
+        get organization_members_path(organization)
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe "DELETE /organizations/:organization_id/members/:id" do
     context "when logged in as an owner" do
       before { sign_in owner }
@@ -20,7 +40,7 @@ RSpec.describe "Organizations::Members", type: :request do
           delete organization_member_path(organization, member_org_user)
         }.to change(organization.organization_users, :count).by(-1)
 
-        expect(response).to redirect_to(members_organization_path(organization))
+        expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:notice]).to eq("#{member_to_remove.name} has been removed from the organization.")
       end
 
