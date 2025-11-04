@@ -12,7 +12,6 @@ class Projects::MembersController < ApplicationController
     if @project_user.save
       redirect_to settings_project_path(@project), notice: "#{@project_user.user.name} has been added to the project."
     else
-      # This will require a full re-render of the settings page to show errors
       redirect_to settings_project_path(@project), alert: @project_user.errors.full_messages.to_sentence
     end
   end

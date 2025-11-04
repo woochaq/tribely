@@ -5,6 +5,7 @@ RSpec.describe ProjectUser, type: :model do
     let(:organization) { create(:organization) }
     let(:user) { create(:user) }
     let(:project) { create(:project, organization: organization) }
+    let!(:organization_user) {  create(:organization_user, organization: organization, user: user, role: :owner) }
     subject { create(:project_user, user: user, project: project) }
 
     it { should validate_presence_of(:role) }
@@ -25,7 +26,9 @@ RSpec.describe ProjectUser, type: :model do
     let(:organization) { create(:organization) }
     let(:project) { create(:project, organization: organization) }
     let(:user) { create(:user) }
+    let!(:organization_user) {  create(:organization_user, organization: organization, user: user, role: :owner) }
     let(:adder) { create(:user) }
+    let!(:organization_user) {  create(:organization_user, organization: organization, user: user, role: :owner) }
 
     context '@send_added_to_project_email' do
       it 'sends an email when added_by is present' do
@@ -36,6 +39,38 @@ RSpec.describe ProjectUser, type: :model do
       it 'does not send an email when added_by is nil' do
         project_user = build(:project_user, project: project, user: user, added_by: nil)
         expect { project_user.save! }.not_to have_enqueued_mail(ProjectMemberMailer, :added_to_project_email)
+      end
+    end
+  end
+
+  describe '#check_if_user_belongs_to_organization' do
+    let(:organization) { create(:organization) }
+    let(:project) { create(:project, organization: organization) }
+    let(:user_in_org) { create(:user) }
+    let!(:organization_user) {  create(:organization_user, organization: organization, user: user_in_org, role: :owner) }
+    let(:user_not_in_org) { create(:user) }
+
+    context 'when user is nil' do
+      it 'does not add an error' do
+        project_user = build(:project_user, project: project, user: nil)
+        project_user.validate
+        expect(project_user.errors[:user]).to include("must exist")
+      end
+    end
+
+    context 'when user belongs to the organization' do
+      it 'does not add an error' do
+        project_user = build(:project_user, project: project, user: user_in_org)
+        project_user.validate
+        expect(project_user.errors[:user]).to be_empty
+      end
+    end
+
+    context 'when user does not belong to the organization' do
+      it 'adds an error to user' do
+        project_user = build(:project_user, project: project, user: user_not_in_org)
+        project_user.valid?
+        expect(project_user.errors[:user]).to include("must belongs to organization")
       end
     end
   end

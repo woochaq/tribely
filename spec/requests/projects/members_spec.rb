@@ -9,16 +9,15 @@ RSpec.describe "Projects::Members", type: :request do
   let(:non_member_org) { create(:user) }
   let(:user_to_add) { create(:user) }
 
-  let!(:owner_org_user) { create(:organization_user, organization: organization, user: owner_org, role: :owner) }
-  let!(:owner_project_user) { create(:project_user, project: project, user: owner_project, role: :owner) }
-  let!(:member_project_user) { create(:project_user, project: project, user: member_project, role: :member) }
-
   before do
-    # Ensure owner_org is also a member of the project's organization
     create(:organization_user, organization: organization, user: owner_project, role: :member)
     create(:organization_user, organization: organization, user: member_project, role: :member)
     create(:organization_user, organization: organization, user: user_to_add, role: :member)
   end
+  let!(:owner_org_user) { create(:organization_user, organization: organization, user: owner_org, role: :owner) }
+  let!(:owner_project_user) { create(:project_user, project: project, user: owner_project, role: :owner) }
+  let!(:member_project_user) { create(:project_user, project: project, user: member_project, role: :member) }
+
 
   describe "POST /projects/:project_id/members" do
     let(:valid_attributes) { { project_user: { user_id: user_to_add.id, role: :member } } }
@@ -48,10 +47,10 @@ RSpec.describe "Projects::Members", type: :request do
       end
 
       it "does not add a user who is not in the organization" do
-        user_to_add.organization_users.destroy_all
-        expect {
-          post project_members_path(project), params: valid_attributes
-        }.to raise_error(Pundit::NotAuthorizedError)
+        user_to_add.organizations = []
+        post project_members_path(project), params: valid_attributes
+        expect(response).to redirect_to(settings_project_path(project))
+        expect(flash[:alert]).to eq("User must belongs to organization")
       end
     end
 

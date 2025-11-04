@@ -117,6 +117,8 @@ RSpec.describe User, type: :model do
     let(:member) { create(:user) }
 
     before do
+      create(:organization_user, organization: project.organization, user: owner, role: :owner)
+      create(:organization_user, organization: project.organization, user: member, role: :member)
       create(:project_user, project: project, user: owner, role: :owner)
       create(:project_user, project: project, user: member, role: :member)
     end

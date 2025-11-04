@@ -3,11 +3,16 @@ require "rails_helper"
 RSpec.describe ProjectMemberMailer, type: :mailer do
   describe 'added_to_project_email' do
     let(:organization) { create(:organization) }
-    let(:project) { create(:project, organization: organization) }
     let(:user) { create(:user, full_name: 'Jane Doe') }
     let(:added_by_user) { create(:user, full_name: 'John Smith') }
+    let(:project) { create(:project, organization: organization) }
     let(:project_user) { create(:project_user, project: project, user: user, added_by: added_by_user) }
     let(:mail) { ProjectMemberMailer.added_to_project_email(project_user) }
+
+    before do
+      create(:organization_user, organization: organization, user: user, role: :owner)
+      create(:organization_user, organization: organization, user: added_by_user, role: :owner)
+    end
 
     it 'renders the headers' do
       expect(mail.subject).to eq("You have been added to the project: #{project.name}")

@@ -15,6 +15,9 @@ RSpec.describe BoardPolicy, type: :policy do
 
   before do
     create(:organization_user, organization: organization, user: org_owner, role: :owner)
+    create(:organization_user, organization: organization, user: project_owner, role: :member)
+    create(:organization_user, organization: organization, user: project_member, role: :member)
+    create(:organization_user, organization: organization, user: project_guest, role: :member)
     create(:project_user, project: project, user: project_owner, role: :owner)
     create(:project_user, project: project, user: project_member, role: :member)
     create(:project_user, project: project, user: project_guest, role: :guest)

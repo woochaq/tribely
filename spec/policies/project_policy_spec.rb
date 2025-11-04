@@ -3,19 +3,18 @@ require 'rails_helper'
 RSpec.describe ProjectPolicy, type: :policy do
   subject { described_class }
 
-  let(:organization) { create(:organization) }
   let(:owner) { create(:user) }
   let(:member) { create(:user) }
+  let(:organization) { create(:organization, organization_users: [
+    build(:organization_user, user: owner, role: :owner),
+    build(:organization_user, user: member, role: :member)
+  ]) }
   let(:other_user) { create(:user) }
   let!(:project) do
     create(:project, organization: organization, project_users: [
       build(:project_user, user: owner, role: :owner),
       build(:project_user, user: member, role: :member)
     ])
-  end
-
-  before do
-    create(:organization_user, user: owner, organization: organization, role: :owner)
   end
 
   permissions :index?, :new? do
@@ -86,6 +85,7 @@ RSpec.describe ProjectPolicy, type: :policy do
 
     it "resolves all projects for a user when scoped to all" do
       other_project = create(:project)
+      create(:organization_user, organization: other_project.organization, user: other_user, role: :member)
       create(:project_user, user: other_user, project: other_project, role: :owner)
 
       owner_scope = described_class::Scope.new(owner, Project.all).resolve
@@ -103,7 +103,9 @@ RSpec.describe ProjectPolicy, type: :policy do
       user = create(:user)
       project_in_scope = create(:project, organization: org)
       project_outside_scope = create(:project, organization: org)
+      create(:organization_user, organization: org, user: user, role: :member)
       other_org_project = create(:project)
+      create(:organization_user, organization: other_org_project.organization, user: user, role: :member)
 
       create(:project_user, user: user, project: project_in_scope, role: :member)
       create(:project_user, user: user, project: other_org_project, role: :member)

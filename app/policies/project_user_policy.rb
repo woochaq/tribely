@@ -1,12 +1,7 @@
 class ProjectUserPolicy < ApplicationPolicy
   def create?
-    return false unless record.project.organization.organization_users.exists?(user: record.user)
     return true if user.owns_organization?(record.project.organization)
     user.owns_project?(record.project)
-  end
-
-  def edit?
-    create?
   end
 
   def edit?

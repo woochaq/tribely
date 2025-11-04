@@ -23,21 +23,11 @@ RSpec.describe ProjectUserPolicy, type: :policy do
       it "grants access if the user to be added is in the organization" do
         expect(subject).to permit(organization_owner, project_user)
       end
-
-      it "denies access if the user to be added is not in the organization" do
-        project_user.user = other_user
-        expect(subject).not_to permit(organization_owner, project_user)
-      end
     end
 
     context "when user is project owner" do
       it "grants access if the user to be added is in the organization" do
         expect(subject).to permit(project_owner, project_user)
-      end
-
-      it "denies access if the user to be added is not in the organization" do
-        project_user.user = other_user
-        expect(subject).not_to permit(project_owner, project_user)
       end
     end
 
