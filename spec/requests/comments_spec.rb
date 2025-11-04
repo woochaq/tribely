@@ -44,9 +44,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot edit other's comments" do
-      expect {
-        patch project_story_comment_url(project, story, comment_by_project_member), params: { comment: { content: "Updated" } }
-      }.to raise_error(Pundit::NotAuthorizedError)
+      patch project_story_comment_url(project, story, comment_by_project_member), params: { comment: { content: "Updated" } }
+      expect(response).to redirect_to(projects_path)
     end
 
     it "can delete their own comments" do
@@ -56,9 +55,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot delete other's comments" do
-      expect {
-        delete project_story_comment_url(project, story, comment_by_project_member)
-      }.to raise_error(Pundit::NotAuthorizedError)
+      delete project_story_comment_url(project, story, comment_by_project_member)
+      expect(response).to redirect_to(projects_path)
     end
   end
 
@@ -79,9 +77,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot edit other's comments" do
-      expect {
-        patch project_story_comment_url(project, story, comment_by_project_member), params: { comment: { content: "Updated" } }
-      }.to raise_error(Pundit::NotAuthorizedError)
+      patch project_story_comment_url(project, story, comment_by_project_member), params: { comment: { content: "Updated" } }
+      expect(response).to redirect_to(projects_path)
     end
 
     it "can delete their own comments" do
@@ -92,9 +89,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot delete other's comments" do
-      expect {
-        delete project_story_comment_url(project, story, comment_by_project_member)
-      }.to raise_error(Pundit::NotAuthorizedError)
+      delete project_story_comment_url(project, story, comment_by_project_member)
+      expect(response).to redirect_to(projects_path)
     end
   end
 
@@ -114,9 +110,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot edit other's comments" do
-      expect {
-        patch project_story_comment_url(project, story, comment_by_org_owner), params: { comment: { content: "Updated" } }
-      }.to raise_error(Pundit::NotAuthorizedError)
+      patch project_story_comment_url(project, story, comment_by_org_owner), params: { comment: { content: "Updated" } }
+      expect(response).to redirect_to(projects_path)
     end
 
     it "can delete their own comments" do
@@ -126,9 +121,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot delete other's comments" do
-      expect {
-        delete project_story_comment_url(project, story, comment_by_org_owner)
-      }.to raise_error(Pundit::NotAuthorizedError)
+      delete project_story_comment_url(project, story, comment_by_org_owner)
+      expect(response).to redirect_to(projects_path)
     end
   end
 
@@ -149,9 +143,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot edit other's comments" do
-      expect {
-        patch project_story_comment_url(project, story, comment_by_project_member), params: { comment: { content: "Updated" } }
-      }.to raise_error(Pundit::NotAuthorizedError)
+      patch project_story_comment_url(project, story, comment_by_project_member), params: { comment: { content: "Updated" } }
+      expect(response).to redirect_to(projects_path)
     end
 
     it "can delete their own comments" do
@@ -162,9 +155,8 @@ RSpec.describe "/projects/:project_id/stories/:story_id/comments", type: :reques
     end
 
     it "cannot delete other's comments" do
-      expect {
-        delete project_story_comment_url(project, story, comment_by_project_member)
-      }.to raise_error(Pundit::NotAuthorizedError)
+      delete project_story_comment_url(project, story, comment_by_project_member)
+      expect(response).to redirect_to(projects_path)
     end
   end
 

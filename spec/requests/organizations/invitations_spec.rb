@@ -40,10 +40,9 @@ RSpec.describe "Organizations::Invitations", type: :request do
     context 'when logged in as a member' do
       before { sign_in member }
 
-      it 'does not create an invitation and raises Pundit::NotAuthorizedError' do
-        expect {
-          post organization_invitations_path(organization), params: valid_attributes
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it 'does not create an invitation and redirects to projects path' do
+        post organization_invitations_path(organization), params: valid_attributes
+        expect(response).to redirect_to(projects_path)
       end
     end
 
@@ -73,10 +72,9 @@ RSpec.describe "Organizations::Invitations", type: :request do
     context 'when logged in as a member' do
       before { sign_in member }
 
-      it 'does not delete the invitation and raises Pundit::NotAuthorizedError' do
-        expect {
-          delete organization_invitation_path(organization, invitation)
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it 'does not delete the invitation and raises and redirects to projects_path' do
+        delete organization_invitation_path(organization, invitation)
+        expect(response).to redirect_to(projects_path)
       end
     end
   end
@@ -100,10 +98,9 @@ RSpec.describe "Organizations::Invitations", type: :request do
     context 'when logged in as a member' do
       before { sign_in member }
 
-      it 'does not resend the invitation and raises Pundit::NotAuthorizedError' do
-        expect {
-          post resend_organization_invitation_path(organization, invitation)
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it 'does not resend the invitation and raises redirects to projects_path' do
+        post resend_organization_invitation_path(organization, invitation)
+        expect(response).to redirect_to(projects_path)
       end
     end
   end

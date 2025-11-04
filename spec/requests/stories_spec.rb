@@ -193,40 +193,37 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
     describe "GET /new" do
       it "is forbidden" do
-        expect { get new_project_story_url(project, board_id: board.id) }.to raise_error(Pundit::NotAuthorizedError)
+        get new_project_story_url(project, board_id: board.id)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
     describe "POST /create" do
       it "is forbidden" do
-        expect {
-          post project_stories_url(project), params: { story: valid_attributes }
-        }.to raise_error(Pundit::NotAuthorizedError)
+        post project_stories_url(project), params: { story: valid_attributes }
+        expect(response).to redirect_to(projects_path)
       end
     end
 
     describe "PATCH /update" do
       it "is forbidden" do
-        expect {
-          patch project_story_url(project, story), params: { story: { title: "New Name" } }
-        }.to raise_error(Pundit::NotAuthorizedError)
+        patch project_story_url(project, story), params: { story: { title: "New Name" } }
+        expect(response).to redirect_to(projects_path)
       end
     end
 
     describe "DELETE /destroy" do
       it "is forbidden" do
-        expect {
-          delete project_story_url(project, story)
-        }.to raise_error(Pundit::NotAuthorizedError)
+        delete project_story_url(project, story)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
     describe "PATCH /move" do
       it "is forbidden" do
         other_board = create(:board, project: project)
-        expect {
-          patch move_project_story_url(project, story), params: { story: { board_id: other_board.id, position: 1 } }
-        }.to raise_error(Pundit::NotAuthorizedError)
+        patch move_project_story_url(project, story), params: { story: { board_id: other_board.id, position: 1 } }
+        expect(response).to redirect_to(projects_path)
       end
     end
   end

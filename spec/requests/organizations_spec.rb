@@ -69,8 +69,9 @@ RSpec.describe "/organizations", type: :request do
 
     context "when authenticated as a member" do
       before { sign_in member }
-      it "is forbidden and raises NotAuthorizedError" do
-        expect { get edit_organization_url(shared_organization) }.to raise_error(Pundit::NotAuthorizedError)
+      it "is forbidden and raises redirects to projects_path" do
+        get edit_organization_url(shared_organization)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
@@ -96,8 +97,9 @@ RSpec.describe "/organizations", type: :request do
 
     context "when authenticated as a member" do
       before { sign_in member }
-      it "is forbidden and raises NotAuthorizedError" do
-        expect { patch organization_url(shared_organization), params: { organization: valid_attributes } }.to raise_error(Pundit::NotAuthorizedError)
+      it "is forbidden and raises redirects to projects_path" do
+        patch organization_url(shared_organization), params: { organization: valid_attributes }
+        expect(response).to redirect_to(projects_path)
       end
     end
   end

@@ -27,7 +27,7 @@ class Components::Projects::ListItem < Components::Base
         render_role_badge
 
         if policy(project).show?
-          link_to "Settings", settings_project_path(project), class: "btn-secondary"
+          link_to "Details", settings_project_path(project), class: "btn-secondary"
         end
 
         if policy(project).destroy?

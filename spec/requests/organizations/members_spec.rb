@@ -45,19 +45,17 @@ RSpec.describe "Organizations::Members", type: :request do
       end
 
       it "does not allow an owner to remove themselves" do
-        expect {
-          delete organization_member_path(organization, owner_org_user)
-        }.to raise_error(Pundit::NotAuthorizedError)
+        delete organization_member_path(organization, owner_org_user)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
     context "when logged in as a regular member" do
       before { sign_in another_member }
 
-      it "does not remove a member and raises Pundit::NotAuthorizedError" do
-        expect {
-          delete organization_member_path(organization, member_org_user)
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not remove a member and returns forbidden" do
+        delete organization_member_path(organization, member_org_user)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
@@ -88,19 +86,17 @@ RSpec.describe "Organizations::Members", type: :request do
       end
 
       it "does not render the edit form for themselves" do
-        expect {
-          get edit_organization_member_path(organization, owner_org_user)
-        }.to raise_error(Pundit::NotAuthorizedError)
+        get edit_organization_member_path(organization, owner_org_user)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
     context "when logged in as a regular member" do
       before { sign_in another_member }
 
-      it "does not render the edit form and raises Pundit::NotAuthorizedError" do
-        expect {
-          get edit_organization_member_path(organization, member_org_user)
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not render the edit form and redirects to projects-path" do
+        get edit_organization_member_path(organization, member_org_user)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
@@ -125,9 +121,8 @@ RSpec.describe "Organizations::Members", type: :request do
       end
 
       it "does not allow an owner to update their own role" do
-        expect {
-          patch organization_member_path(organization, owner_org_user), params: { organization_user: { role: new_role } }
-        }.to raise_error(Pundit::NotAuthorizedError)
+        patch organization_member_path(organization, owner_org_user), params: { organization_user: { role: new_role } }
+        expect(response).to redirect_to(projects_path)
       end
 
       it "returns unprocessable_content with invalid parameters" do
@@ -140,10 +135,9 @@ RSpec.describe "Organizations::Members", type: :request do
     context "when logged in as a regular member" do
       before { sign_in another_member }
 
-      it "does not update the member's role and raises Pundit::NotAuthorizedError" do
-        expect {
-          patch organization_member_path(organization, member_org_user), params: { organization_user: { role: new_role } }
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not update the member's role and redirects to projects_path" do
+        patch organization_member_path(organization, member_org_user), params: { organization_user: { role: new_role } }
+        expect(response).to redirect_to(projects_path)
       end
     end
 

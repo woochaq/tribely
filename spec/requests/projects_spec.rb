@@ -118,7 +118,8 @@ RSpec.describe "/projects", type: :request do
           before { sign_in member }
 
           it "is forbidden and raises NotAuthorizedError" do
-            expect { post projects_url, params: { project: valid_attributes } }.to raise_error(Pundit::NotAuthorizedError)
+            post projects_url, params: { project: valid_attributes }
+            expect(response).to redirect_to(projects_path)
           end
         end
       end
@@ -154,8 +155,9 @@ RSpec.describe "/projects", type: :request do
 
     context "when authenticated as a project member" do
       before { sign_in member }
-      it "is forbidden and raises NotAuthorizedError" do
-        expect { get edit_project_url(project) }.to raise_error(Pundit::NotAuthorizedError)
+      it "is forbidden and raises redirects to projects_path" do
+        get edit_project_url(project)
+        expect(response).to redirect_to(projects_path)
       end
     end
   end
@@ -175,7 +177,8 @@ RSpec.describe "/projects", type: :request do
     context "when authenticated as a project member" do
       before { sign_in member }
       it "is forbidden and raises NotAuthorizedError" do
-        expect { patch project_url(project), params: { project: { name: "New Name" } } }.to raise_error(Pundit::NotAuthorizedError)
+        patch project_url(project), params: { project: { name: "New Name" } }
+        expect(response).to redirect_to(projects_path)
       end
     end
   end
@@ -192,7 +195,8 @@ RSpec.describe "/projects", type: :request do
     context "when authenticated as a project member" do
       before { sign_in member }
       it "is forbidden and raises NotAuthorizedError" do
-        expect { delete project_url(project) }.to raise_error(Pundit::NotAuthorizedError)
+        delete project_url(project)
+        expect(response).to redirect_to(projects_path)
       end
     end
   end

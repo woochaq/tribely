@@ -70,10 +70,9 @@ RSpec.describe "Projects::Members", type: :request do
     context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it "does not add a member and raises Pundit::NotAuthorizedError" do
-        expect {
-          post project_members_path(project), params: valid_attributes
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not add a member and redirect to projects_path" do
+        post project_members_path(project), params: valid_attributes
+        expect(response).to redirect_to(projects_path)
       end
     end
 
@@ -118,10 +117,9 @@ RSpec.describe "Projects::Members", type: :request do
     context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it "does not render the edit form and raises Pundit::NotAuthorizedError" do
-        expect {
-          get edit_project_member_path(project, owner_project_user)
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not render the edit form and redirect to projects_path" do
+        get edit_project_member_path(project, owner_project_user)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
@@ -171,10 +169,10 @@ RSpec.describe "Projects::Members", type: :request do
     context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it "does not update the member role and raises Pundit::NotAuthorizedError" do
-        expect {
-          patch project_member_path(project, owner_project_user), params: { project_user: { role: new_role } }
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not update the member role and redirect to root path" do
+        patch project_member_path(project, owner_project_user), params: { project_user: { role: new_role } }
+        expect(response).to redirect_to(projects_path)
+        expect(flash[:alert]).to eq("You are not authorized to perform this action.")
       end
     end
 
@@ -229,10 +227,9 @@ RSpec.describe "Projects::Members", type: :request do
     context "when logged in as a project member" do
       before { sign_in member_project }
 
-      it "does not remove a member and raises Pundit::NotAuthorizedError" do
-        expect {
-          delete project_member_path(project, owner_project_user)
-        }.to raise_error(Pundit::NotAuthorizedError)
+      it "does not remove a member and redirect to projects_path" do
+        delete project_member_path(project, owner_project_user)
+        expect(response).to redirect_to(projects_path)
       end
     end
 
