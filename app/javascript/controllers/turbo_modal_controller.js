@@ -25,7 +25,7 @@ export default class extends Controller {
   disconnect() {
     // When the controller is disconnected (e.g., modal is closed),
     // clean up by removing the event listener to prevent memory leaks.
-    if(this.fnnerHTML === '') {
+    if(this.innerHTML === '') {
       this.hideModal()
     }
     if (this.frame) {
