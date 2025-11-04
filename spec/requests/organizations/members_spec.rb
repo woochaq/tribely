@@ -27,10 +27,7 @@ RSpec.describe "Organizations::Members", type: :request do
       it "does not allow an owner to remove themselves" do
         expect {
           delete organization_member_path(organization, owner_org_user)
-        }.not_to change(organization.organization_users, :count)
-
-        expect(response).to redirect_to(members_organization_path(organization))
-        expect(flash[:alert]).to eq("You cannot remove yourself from the organization.")
+        }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
@@ -71,9 +68,9 @@ RSpec.describe "Organizations::Members", type: :request do
       end
 
       it "does not render the edit form for themselves" do
-        get edit_organization_member_path(organization, owner_org_user)
-        expect(response).to redirect_to(members_organization_path(organization))
-        expect(flash[:alert]).to eq("You cannot edit your own role.")
+        expect {
+          get edit_organization_member_path(organization, owner_org_user)
+        }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
@@ -108,9 +105,9 @@ RSpec.describe "Organizations::Members", type: :request do
       end
 
       it "does not allow an owner to update their own role" do
-        patch organization_member_path(organization, owner_org_user), params: { organization_user: { role: new_role } }
-        expect(response).to redirect_to(members_organization_path(organization))
-        expect(flash[:alert]).to eq("You cannot update your own role.")
+        expect {
+          patch organization_member_path(organization, owner_org_user), params: { organization_user: { role: new_role } }
+        }.to raise_error(Pundit::NotAuthorizedError)
       end
 
       it "returns unprocessable_content with invalid parameters" do

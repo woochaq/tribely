@@ -25,18 +25,6 @@ class OrganizationPolicy < ApplicationPolicy
     edit?
   end
 
-  def destroy_member?
-    edit?
-  end
-
-  def edit_member?
-    edit?
-  end
-
-  def update_member?
-    edit?
-  end
-
   def permitted_attributes
     if user.owns_organization?(record)
       [ :name, :avatar ]

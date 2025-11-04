@@ -34,7 +34,7 @@ RSpec.describe OrganizationPolicy, type: :policy do
     end
   end
 
-  permissions :edit?, :update?, :destroy_member? do
+  permissions :edit?, :update? do
     it "grants access to the organization owner" do
       expect(subject).to permit(owner, shared_organization)
     end

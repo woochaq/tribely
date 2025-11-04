@@ -4,23 +4,13 @@ class Organizations::MembersController < ApplicationController
   before_action :set_organization_user, only: [ :edit, :update, :destroy ]
 
   def edit
-    authorize @organization, :edit_member?
-
-    if @organization_user.user == current_user
-      redirect_to members_organization_path(@organization), alert: "You cannot edit your own role."
-      return
-    end
+    authorize @organization_user
 
     render Components::Organizations::Members::Edit.new(organization_user: @organization_user)
   end
 
   def update
-    authorize @organization, :update_member?
-
-    if @organization_user.user == current_user
-      redirect_to members_organization_path(@organization), alert: "You cannot update your own role."
-      return
-    end
+    authorize @organization_user
 
     @organization_user.role = params.require(:organization_user).fetch(:role, @organization_user.role)
     if @organization_user.save
@@ -31,12 +21,7 @@ class Organizations::MembersController < ApplicationController
   end
 
   def destroy
-    authorize @organization, :destroy_member?
-
-    if @organization_user.user == current_user
-      redirect_to members_organization_path(@organization), alert: "You cannot remove yourself from the organization."
-      return
-    end
+    authorize @organization_user
 
     @organization_user.destroy
 
