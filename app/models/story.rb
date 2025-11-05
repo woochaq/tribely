@@ -24,10 +24,10 @@ class Story < ApplicationRecord
   private
 
   def owner_and_user_must_be_members
-    if owner.present? && !board.project.project_users.exists?(user: owner)
+    if owner.present? && !board.project.has_member?(owner)
       errors.add(:owner, "must be a member of project")
     end
-    if user.present? && !board.project.project_users.exists?(user: user)
+    if user.present? && !board.project.has_member?(user)
       errors.add(:user, "must be a member of project")
     end
   end

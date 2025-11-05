@@ -42,7 +42,7 @@ class Comment < ApplicationRecord
     organization = project.organization
 
     is_org_owner = user.owns_organization?(organization)
-    is_project_member = project.users.exists?(id: user.id)
+    is_project_member = project.has_member?(user)
 
     unless is_org_owner || is_project_member
       errors.add(:user, "must be an organization owner or a project member to comment")

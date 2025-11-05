@@ -29,4 +29,8 @@ class Project < ApplicationRecord
       self.boards.find_or_create_by(kind: board_kind)
     end
   end
+
+  def has_member?(user)
+    project_users.exists?(user: user)
+  end
 end
