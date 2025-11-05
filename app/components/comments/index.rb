@@ -16,7 +16,7 @@ class Components::Comments::Index < Components::Base
       div(class: "my-6 border-t border-surface0")
 
       div(id: dom_id(@story, "comments")) do
-        @story.comments.order(created_at: :desc).each do |comment|
+        @story.comments.includes([ :rich_text_content, user: [ :avatar_attachment ] ]).order(created_at: :desc).each do |comment|
           render Components::Comments::Comment.new(comment: comment, current_user: current_user)
         end
       end
