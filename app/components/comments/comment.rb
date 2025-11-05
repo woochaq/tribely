@@ -23,11 +23,11 @@ class Components::Comments::Comment < Components::Base
             # Placeholder for edit/delete actions
             div(class: "flex items-center gap-2") do
               if @current_user && @current_user == @comment.user
-                link_to view_context.edit_project_story_comment_path(@comment.story.board.project, @comment.story, @comment),
+                link_to view_context.edit_project_story_comment_path(@comment.story.project, @comment.story, @comment),
                   class: "text-subtext0 hover:text-text" do
                   render Components::Icons::Edit.new(class: "w-4 h-4")
                 end
-                link_to view_context.project_story_comment_path(@comment.story.board.project, @comment.story, @comment),
+                link_to view_context.project_story_comment_path(@comment.story.project, @comment.story, @comment),
                   data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
                   class: "text-subtext0 hover:text-danger" do
                   render Components::Icons::Delete.new(class: "w-4 h-4")

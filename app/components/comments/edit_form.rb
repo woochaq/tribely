@@ -14,10 +14,10 @@ class Components::Comments::EditForm < Components::Base
   def view_template
     turbo_frame_tag dom_id(@comment) do
       div(class: "py-4") do
-        simple_form_for([ @story.board.project, @story, @comment ]) do |f|
+        simple_form_for([ @story.project, @story, @comment ]) do |f|
           f.input :content, as: :rich_text_area, label: false, input_html: { class: "lexxy-content wysiwyg-editor prose max-w-none" }
           div(class: "flex justify-end items-center gap-4 mt-2") do
-            link_to "Cancel", project_story_comment_path(@story.board.project, @story, @comment), class: "text-sm"
+            link_to "Cancel", project_story_comment_path(@story.project, @story, @comment), class: "text-sm"
             f.button :submit, "Save changes", class: "btn-primary"
           end
         end

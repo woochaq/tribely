@@ -1,14 +1,20 @@
 class Story < ApplicationRecord
+  extend FriendlyId
+
   acts_as_list scope: :board
   has_rich_text :description
 
   belongs_to :board
+  belongs_to :project
   belongs_to :user, optional: true
   belongs_to :owner, class_name: User.to_s
   has_many :comments, dependent: :destroy
 
+  friendly_id :custom_slug, use: :scoped, scope: :project
+
   before_validation :set_number, on: :create
-  validates_presence_of :title, :story_type, :status, :number
+  before_validation :set_project
+  validates_presence_of :title, :story_type, :status, :number, :project
   validates_length_of :title, maximum: 255
   validate :owner_and_user_must_be_members
 
@@ -66,5 +72,13 @@ class Story < ApplicationRecord
         self.status = :todo
       end
     end
+  end
+
+  def set_project
+    self.project = board.project if board.present?
+  end
+
+  def custom_slug
+    "#{project&.prefix}-#{number}"
   end
 end

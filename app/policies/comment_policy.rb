@@ -14,7 +14,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def create?
-    project = record.story.board.project
+    project = record.story.project
     return true if user.owns_organization?(project.organization)
 
     project_user = user.project_users.find_by(project: project)

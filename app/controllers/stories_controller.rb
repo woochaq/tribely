@@ -77,11 +77,11 @@ class StoriesController < ApplicationController
   end
 
   def set_story
-    @story = policy_scope(@current_project.stories).find(params[:id])
+    @story = policy_scope(@current_project.stories).friendly.find(params[:id])
   end
 
   def set_story_for_move
-    @story = policy_scope(@current_project.stories).find(params[:id])
+    @story = policy_scope(@current_project.stories).friendly.find(params[:id])
   end
 
   def move_params

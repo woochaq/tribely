@@ -17,7 +17,7 @@ class Comment < ApplicationRecord
 
   def broadcast_create
     broadcast_prepend_later_to(
-      story.board.project,
+      story.project,
       target: dom_id(story, "comments"),
       partial: "comments/comment", locals: { comment: self }
     )
@@ -25,20 +25,20 @@ class Comment < ApplicationRecord
 
   def broadcast_update
     broadcast_replace_later_to(
-      story.board.project,
+      story.project,
       target: self,
       partial: "comments/comment", locals: { comment: self }
     )
   end
 
   def broadcast_destroy
-    broadcast_remove_to story.board.project, target: self
+    broadcast_remove_to story.project, target: self
   end
 
   def user_must_be_organization_owner_or_project_member
     return if user.blank? || story.blank?
 
-    project = story.board.project
+    project = story.project
     organization = project.organization
 
     is_org_owner = user.owns_organization?(organization)

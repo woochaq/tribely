@@ -13,7 +13,7 @@ class Components::Stories::Story < Components::Base
       class: "block bg-surface0 border border-crust rounded-lg p-3 shadow-sm hover:bg-surface1 cursor-grab"
     ) do
       link_to(
-        project_story_path(@story.board.project, @story),
+        project_story_path(@story.project, @story),
         data: { turbo_frame: "modal", turbo_progress_bar: true },
         class: "block w-full"
       ) do
@@ -23,7 +23,7 @@ class Components::Stories::Story < Components::Base
         div(class: "flex items-center justify-between mt-4") do
           div(class: "flex items-center gap-2") do
             story_type_icon
-            span(class: "text-xs text-subtext0") { "#{@story.board.project.prefix}-#{@story.number}" }
+            span(class: "text-xs text-subtext0") { "#{@story.project.prefix}-#{@story.number}" }
           end
           div(class: "flex items-center gap-2") do
             render Components::Shared::StatusBadge.new(status: @story.status)

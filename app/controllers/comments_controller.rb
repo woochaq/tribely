@@ -4,7 +4,6 @@ class CommentsController < ApplicationController
   before_action :set_story
   before_action :set_comment, only: [ :update, :destroy, :edit, :show ]
 
-
   def show
     authorize @comment
     render Components::Comments::Comment.new(comment: @comment, current_user: current_user)
@@ -81,7 +80,7 @@ class CommentsController < ApplicationController
   end
 
   def set_story
-    @story = @current_project.stories.find(params[:story_id])
+    @story = @current_project.stories.friendly.find(params[:story_id])
   end
 
   def set_comment

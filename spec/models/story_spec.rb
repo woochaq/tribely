@@ -55,6 +55,7 @@ RSpec.describe Story, type: :model do
   describe 'associations' do
     it { should belong_to(:board) }
     it { should belong_to(:owner) }
+    it { should belong_to(:project) }
     it { should belong_to(:user).optional(true) }
   end
 
@@ -176,6 +177,57 @@ RSpec.describe Story, type: :model do
       ).ordered
 
       story.update!(board: new_board)
+    end
+  end
+
+  describe 'FriendlyId and Custom Slug' do
+    let(:organization) { create(:organization) }
+    let(:project1) { create(:project, organization: organization, prefix: 'PROJ1') }
+    let(:project2) { create(:project, organization: organization, prefix: 'PROJ1') }
+    let(:board1) { create(:board, project: project1) }
+    let(:board2) { create(:board, project: project2) }
+    let(:member) { create(:user) }
+
+    before do
+      create(:organization_user, organization: organization, user: member)
+      create(:project_user, project: project1, user: member)
+      create(:project_user, project: project2, user: member)
+    end
+
+    context 'slug generation' do
+      it 'generates a slug based on the project prefix and story number' do
+        story = create(:story, board: board1, owner: member)
+        expect(story.slug).to eq("proj1-#{story.number}")
+        story = create(:story, board: board2, owner: member)
+        expect(story.slug).to eq("proj1-#{story.number}")
+      end
+
+      it 'do not updates the slug if the story number changes' do
+        story = create(:story, board: board1, owner: member)
+        number = story.number
+        story.update(number: 124)
+        expect(story.slug).to eq("proj1-#{number}")
+      end
+    end
+
+    context 'finding records' do
+      it 'can be found by its friendly id' do
+        story = create(:story, board: board1, owner: member)
+        found_story = Story.friendly.find("PROJ1-#{story.number}")
+        expect(found_story).to eq(story)
+      end
+    end
+
+    context 'scoped uniqueness' do
+      it 'allows two stories with the same number in different projects' do
+        story1 = create(:story, board: board1, owner: member)
+        story2 = create(:story, board: board2, owner: member)
+
+        expect(story1).to be_valid
+        expect(story2).to be_valid
+        expect(story1.slug).to eq("proj1-#{story1.number}")
+        expect(story2.slug).to eq("proj1-#{story2.number}")
+      end
     end
   end
 end
