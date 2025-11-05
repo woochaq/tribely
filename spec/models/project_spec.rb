@@ -29,7 +29,7 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  describe "@has_member" do
+  describe "@has_member?" do
     let(:project) { create(:project) }
     let(:org_user) { create(:user) }
     let(:member_user) { create(:user) }
@@ -56,7 +56,6 @@ RSpec.describe Project, type: :model do
       expect(project.has_member?(other_user)).to be_falsy
     end
   end
-
 
   describe "@create_default_board" do
     let(:project) { create(:project, name: "Tribely", prefix: "TR") }

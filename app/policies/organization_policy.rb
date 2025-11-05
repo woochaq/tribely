@@ -10,7 +10,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def show?
-    user.organizations.exists?(id: record.id)
+    record.has_member?(user)
   end
 
   def show_members?

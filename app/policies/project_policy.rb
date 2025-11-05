@@ -10,7 +10,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    user.projects.exists?(id: record.id)
+    record.has_member?(user)
   end
 
   def new?
