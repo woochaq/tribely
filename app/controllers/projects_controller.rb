@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
 
   def index
     authorize Project
-    render Views::Projects::Index.new(projects: policy_scope(Project))
+    render Views::Projects::Index.new(projects: policy_scope(Project).includes(:organization))
   end
 
   def show

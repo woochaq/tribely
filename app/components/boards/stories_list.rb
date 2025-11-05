@@ -4,7 +4,7 @@ class Components::Boards::StoriesList < Components::Base
   end
 
   def view_template
-    @board.stories.includes(:user).order(position: :asc).each do |story|
+    @board.stories.includes(:project, :user).order(position: :asc).each do |story|
       render Components::Stories::Story.new(story: story)
     end
   end

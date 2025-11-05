@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
 
   def index
     authorize Organization
-    @organizations = policy_scope(Organization)
+    @organizations = policy_scope(Organization).includes(:avatar_attachment)
     render Views::Organizations::Index.new(organizations: @organizations)
   end
 

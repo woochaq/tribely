@@ -22,7 +22,7 @@ class Components::Projects::UserList < Components::Base
         div(class: "bg-mantle rounded-lg border border-crust shadow-lg") do
           ul(class: "divide-y divide-crust") do
             if project.project_users.any?
-              project.project_users.includes(:user).each do |project_user|
+              project.project_users.includes(:added_by, user: [ :avatar_attachment ]).each do |project_user|
                 render Components::Projects::UserListItem.new(project_user: project_user)
               end
             else
