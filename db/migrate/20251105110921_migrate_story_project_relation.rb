@@ -3,7 +3,7 @@ class MigrateStoryProjectRelation < ActiveRecord::Migration[8.1]
     Story.find_each do |story|
       project = story.board&.project
       if project.present?
-        story.update_attribute(:project_id, project.id)
+        story.update_column(:project_id, project.id)
       end
     end
     change_column_null :stories, :project_id, false
