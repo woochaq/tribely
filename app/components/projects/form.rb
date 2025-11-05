@@ -23,7 +23,7 @@ class Components::Projects::Form < Components::AppLayout
                             prompt: "Choose an organization"
             end
             f.input :name, autofocus: true, input_html: { autocomplete: "off" }
-            f.input :prefix, input_html: { autocomplete: "off", maxlength: 10 }, hint: "Used to identify tasks and actions within this project (e.g., TRB-123)"
+            f.input :prefix, input_html: { autocomplete: "off", maxlength: 10, disabled: @project.persisted? }, hint: "Used to identify tasks and actions within this project (e.g., TRB-123)"
 
             div(class: "flex items-center justify-end gap-4 pt-4") do
               a(href: projects_path, class: "btn-secondary", data: { turbo_frame: "_top" }) { "Cancel" }
