@@ -13,12 +13,6 @@ RSpec.describe CommentPolicy, type: :policy do
   let(:project_guest) { create(:user) }
   let(:other_user) { create(:user) }
 
-  let(:comment_by_org_owner) { create(:comment, story: story, user: org_owner) }
-  let(:comment_by_project_owner) { create(:comment, story: story, user: project_owner) }
-  let(:comment_by_project_member) { create(:comment, story: story, user: project_member) }
-  let(:comment_by_project_guest) { create(:comment, story: story, user: project_guest) }
-  let(:comment_by_other_user) { create(:comment, story: story, user: other_user) }
-
   before do
     create(:organization_user, organization: organization, user: org_owner, role: :owner)
     create(:organization_user, organization: organization, user: project_owner, role: :member)
@@ -29,6 +23,11 @@ RSpec.describe CommentPolicy, type: :policy do
     create(:project_user, project: project, user: project_guest, role: :guest)
   end
 
+  let(:comment_by_org_owner) { create(:comment, story: story, user: org_owner) }
+  let(:comment_by_project_owner) { create(:comment, story: story, user: project_owner) }
+  let(:comment_by_project_member) { create(:comment, story: story, user: project_member) }
+  let(:comment_by_project_guest) { create(:comment, story: story, user: project_guest) }
+
   let(:story) { create(:story, board: board, owner: project_owner) }
 
   permissions :show? do
@@ -37,7 +36,6 @@ RSpec.describe CommentPolicy, type: :policy do
       expect(subject).to permit(project_owner, comment_by_project_owner)
       expect(subject).to permit(project_member, comment_by_project_member)
       expect(subject).to permit(project_guest, comment_by_project_guest)
-      expect(subject).to permit(other_user, comment_by_other_user)
     end
   end
 
@@ -117,7 +115,7 @@ RSpec.describe CommentPolicy, type: :policy do
 
   describe "permitted_attributes" do
     it "returns the content attribute for any user" do
-      policy = described_class.new(other_user, comment_by_other_user)
+      policy = described_class.new(other_user, comment_by_project_guest)
       expect(policy.permitted_attributes).to contain_exactly(:content)
     end
   end

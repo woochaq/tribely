@@ -7,6 +7,7 @@ class Comment < ApplicationRecord
   belongs_to :story
 
   validates_presence_of :content
+  validate :user_must_be_organization_owner_or_project_member
 
   after_create_commit :broadcast_create
   after_update_commit :broadcast_update
@@ -32,5 +33,19 @@ class Comment < ApplicationRecord
 
   def broadcast_destroy
     broadcast_remove_to story.board.project, target: self
+  end
+
+  def user_must_be_organization_owner_or_project_member
+    return if user.blank? || story.blank?
+
+    project = story.board.project
+    organization = project.organization
+
+    is_org_owner = user.owns_organization?(organization)
+    is_project_member = project.users.exists?(id: user.id)
+
+    unless is_org_owner || is_project_member
+      errors.add(:user, "must be an organization owner or a project member to comment")
+    end
   end
 end
