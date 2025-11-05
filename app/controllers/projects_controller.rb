@@ -63,6 +63,6 @@ class ProjectsController < ApplicationController
   end
 
   def set_organizations
-    @organizations = current_user.organizations.includes(:organization_users).where(organization_users: { role: :owner })
+    @organizations = current_user.organizations.where(organization_users: { role: :owner })
   end
 end

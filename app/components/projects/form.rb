@@ -2,6 +2,7 @@ class Components::Projects::Form < Components::AppLayout
   include Phlex::Rails::Helpers::FormFor
   include SimpleForm::ActionViewExtensions::FormHelper
   include Phlex::Rails::Helpers::DOMClass
+  include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::TurboFrameTag
 
   def initialize(project:, organizations: [])
@@ -26,10 +27,11 @@ class Components::Projects::Form < Components::AppLayout
             f.input :prefix, input_html: { autocomplete: "off", maxlength: 10, disabled: @project.persisted? }, hint: "Used to identify tasks and actions within this project (e.g., TRB-123)"
 
             div(class: "flex items-center justify-end gap-4 pt-4") do
-              a(href: projects_path, class: "btn-secondary", data: { turbo_frame: "_top" }) { "Cancel" }
               if @project.persisted?
+                link_to "Cancel", settings_project_path(@project), class: "btn-secondary", data: { turbo_frame: "_top" }
                 f.button :submit, "Update Project", class: "btn-primary"
               else
+                a(href: projects_path, class: "btn-secondary", data: { turbo_frame: "_top" }) { "Cancel" }
                 f.button :submit, "Create Project", class: "btn-primary"
               end
             end
