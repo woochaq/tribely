@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Devise::RegistrationsController", type: :request do
+describe "Users::RegistrationsController", type: :request do
   describe "GET /user/sign_up" do
     it "renders the sign up form" do
       get new_user_registration_path
@@ -80,7 +80,10 @@ describe "Devise::RegistrationsController", type: :request do
         sign_in(user)
         patch user_registration_path, params: { user: { email: "new_email@example.com", current_password: "password" } }
         expect(response).to have_http_status(:see_other)
+        expect(response).to redirect_to(edit_user_registration_path)
         expect(user.reload.unconfirmed_email).to eq("new_email@example.com")
+        follow_redirect!
+        expect(response).to have_http_status(:ok)
       end
     end
 

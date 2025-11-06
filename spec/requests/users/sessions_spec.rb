@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Devise::SessionsController", type: :request do
+describe "Users::SessionsController", type: :request do
   describe "POST /users/sign_in" do
     let(:user) { create(:user, password: "password") }
     let(:valid_credentials) { { email: user.email, password: "password" } }

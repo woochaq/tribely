@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Devise::ConfirmationsController", type: :request do
+describe "Users::ConfirmationsController", type: :request do
   describe "GET /user/confirmation/new" do
     it "renders the confirmation form" do
       get new_user_confirmation_path

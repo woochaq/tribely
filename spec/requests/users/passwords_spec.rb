@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Devise::PasswordsController", type: :request do
+describe "Users::PasswordsController", type: :request do
   describe "GET /user/passwords/new" do
     it "renders the password reset form" do
       get new_user_password_path
