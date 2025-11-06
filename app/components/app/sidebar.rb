@@ -31,8 +31,8 @@ class Components::App::Sidebar < Components::Base
             link_to edit_user_registration_path do
               render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
             end
-            div(class: "flex flex-col") do
-              link_to current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text"
+            div(class: "flex flex-col truncate") do
+              link_to current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text truncate "
               link_to "Logout", destroy_user_session_path, class: "text-xs text-subtext0 hover:text-text", data: { turbo_method: :delete }
             end
           end
