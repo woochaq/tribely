@@ -21,7 +21,7 @@ class Components::Projects::Form < Components::AppLayout
                             collection: @organizations,
                             label_method: :name,
                             value_method: :id,
-                            prompt: "Choose an organization"
+                            include_blank: @organizations.count > 1  ? "Choose an organization" : false
             end
             f.input :name, autofocus: true, input_html: { autocomplete: "off" }
             f.input :prefix, input_html: { autocomplete: "off", maxlength: 10, disabled: @project.persisted? }, hint: "Used to identify tasks and actions within this project (e.g., TRB-123)"

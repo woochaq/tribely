@@ -17,6 +17,7 @@ class ProjectUser < ApplicationRecord
 
   def check_if_user_belongs_to_organization
     return true if user.nil?
+    return true if project.organization.nil?
     unless project.organization.has_member?(user)
       errors.add(:user, "must belongs to organization")
     end

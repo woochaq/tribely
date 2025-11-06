@@ -73,5 +73,14 @@ RSpec.describe ProjectUser, type: :model do
         expect(project_user.errors[:user]).to include("must belongs to organization")
       end
     end
+
+    context 'when organization on project is nil' do
+      it 'should not throw errors' do
+        project = build(:project, organization: nil)
+        project_user = project.project_users.build(user: user_in_org)
+        expect(project_user).to be_valid
+        expect(project).not_to be_valid
+      end
+    end
   end
 end
