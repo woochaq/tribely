@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :members, only: [ :create, :edit, :update, :destroy ], controller: "projects/members"
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       patch :move, on: :member
+      patch :autosave, on: :member
 
       resources :comments, only: [ :update, :create, :new, :destroy, :edit, :show ]
     end
