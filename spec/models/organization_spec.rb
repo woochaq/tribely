@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Organization, type: :model do
   describe "validations" do
     it { should validate_presence_of(:name) }
+    it { should validate_content_type_of(:avatar).allowing(User::ACCEPTED_CONTENT_TYPES) }
   end
 
   describe 'associations' do

@@ -10,12 +10,12 @@ class Components::Stories::Story < Components::Base
     div(
       id: dom_id(@story),
       data: { "story-id": @story.id },
-      class: "block bg-surface0 border border-crust rounded-lg p-3 shadow-sm hover:bg-surface1 cursor-grab"
+      class: "block bg-surface0 border border-crust rounded-lg shadow-sm hover:bg-surface1 cursor-grab"
     ) do
       link_to(
         project_story_path(@story.project, @story),
         data: { turbo_frame: "modal", turbo_progress_bar: true },
-        class: "block w-full"
+        class: "block w-full p-3"
       ) do
         div(class: "flex items-start gap-2") do
           p(class: "font-semibold text-text") { @story.title }
