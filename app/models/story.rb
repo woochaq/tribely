@@ -31,7 +31,8 @@ class Story < ApplicationRecord
   private
 
   def owner_and_user_must_be_members
-    if owner.present? && !board.project.has_member?(owner)
+    return if project.nil?
+    if owner.present? && !project.has_member?(owner)
       errors.add(:owner, "must be a member of project")
     end
     if user.present? && !board.project.has_member?(user)
@@ -40,6 +41,7 @@ class Story < ApplicationRecord
   end
 
   def set_number
+    return if project.nil?
     self.number = board.present? ? (project.stories.maximum(:number).to_i + 1) : 1
   end
 

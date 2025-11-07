@@ -49,6 +49,12 @@ RSpec.describe Story, type: :model do
         story = build(:story, board: board, owner: project_member, user: nil)
         expect(story).to be_valid
       end
+
+      it "is invalid when board.project is nil" do
+        board = build(:board, project: nil)
+        story = build(:story, board: board, owner: project_member, user: project_member)
+        expect(story).not_to be_valid
+      end
     end
   end
 
