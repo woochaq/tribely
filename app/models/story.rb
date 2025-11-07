@@ -12,11 +12,12 @@ class Story < ApplicationRecord
 
   friendly_id :custom_slug, use: :scoped, scope: :project
 
-  before_validation :set_number, on: :create
   before_validation :set_project
+  before_validation :set_number, on: :create
   validates_presence_of :title, :story_type, :status, :number, :project
   validates_length_of :title, maximum: 255
   validate :owner_and_user_must_be_members
+  validate :board_must_belong_to_project
 
   enum :story_type, { feature: 0, bug: 1, chore: 2, spike: 3 }, default: 0
   enum :status, { todo: 0, in_progress: 1, in_review: 2, done: 3, archived: 4 }, default: 0
@@ -39,7 +40,7 @@ class Story < ApplicationRecord
   end
 
   def set_number
-    self.number = board.present? ? (board.project.stories.maximum(:number).to_i + 1) : 1
+    self.number = board.present? ? (project.stories.maximum(:number).to_i + 1) : 1
   end
 
   def broadcast_on_update
@@ -80,5 +81,10 @@ class Story < ApplicationRecord
 
   def custom_slug
     "#{project&.prefix}-#{number}"
+  end
+
+  def board_must_belong_to_project
+    return unless board_id_changed? && board.present? && project_id_was.present?
+    errors.add(:board, "must belong to the story's project") if board.project_id != self.project_id_was
   end
 end

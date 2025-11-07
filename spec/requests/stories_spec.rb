@@ -50,6 +50,15 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
           post project_stories_url(project), params: { story: valid_attributes }
         }.to change(Story, :count).by(1)
       end
+
+      it "prevent adding story to the board from different project" do
+        project2 = create(:project, organization: organization)
+        create(:project_user, project: project2, user: project_owner, role: :owner)
+        expect do
+          post project_stories_url(project), params: { story: valid_attributes.merge(board_id: project2.boards.first.id) }
+        end.to_not change(Story, :count)
+        expect(response).to have_http_status(:unprocessable_content)
+      end
     end
 
     describe "PATCH /update" do
@@ -57,6 +66,16 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
         patch project_story_url(project, story), params: { story: { title: "Updated Title" } }
         story.reload
         expect(story.title).to eq("Updated Title")
+      end
+
+      it "prevent updating story to the board from different project" do
+        project2 = create(:project, organization: organization)
+        create(:project_user, project: project2, user: project_owner, role: :owner)
+        patch project_story_url(project, story), params: { story: { board_id: project2.boards.first.id } }
+        story.reload
+        expect(story.project).to eq(project)
+        expect(story.board).to eq(board)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -74,6 +93,16 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
         patch move_project_story_url(project, story), params: { story: { board_id: other_board.id, position: 1 } }
         story.reload
         expect(story.board).to eq(other_board)
+      end
+
+      it "prevent moving story to differenet project" do
+        project2 = create(:project, organization: organization)
+        create(:project_user, project: project2, user: project_owner, role: :owner)
+        patch move_project_story_url(project, story), params: { story: { board_id: project2.boards.first.id, position: 1 } }
+        expect(response).to have_http_status(:unprocessable_content)
+        story.reload
+        expect(story.project).to eq(project)
+        expect(story.board).to eq(board)
       end
     end
   end

@@ -7,20 +7,20 @@ class StoriesController < ApplicationController
   def show
     authorize @story
     if turbo_frame_request?
-      render Components::Stories::Form.new(story: @story, current_project: @current_project)
+      render Components::Stories::Form.new(story: @story, current_project: @project)
     else
-      render Views::Projects::Show.new(project: @current_project, current_project: @current_project, story_to_show: @story)
+      render Views::Projects::Show.new(project: @project, current_project: @project, story_to_show: @story)
     end
   end
 
   def new
     @story = Story.new(owner: current_user, board: Board.find(params[:board_id]))
     authorize @story
-    render Components::Stories::Form.new(story: @story, current_project: @current_project)
+    render Components::Stories::Form.new(story: @story, current_project: @project)
   end
 
   def create
-    @story = Story.new(permitted_attributes(Story))
+    @story = @project.stories.new(permitted_attributes(Story))
     @story.owner = current_user
     authorize @story
 
@@ -56,7 +56,7 @@ class StoriesController < ApplicationController
   end
 
   def autosave
-    @story = @current_project.stories.friendly.find(params[:id])
+    @story = @project.stories.friendly.find(params[:id])
     authorize @story, :update?
 
     if @story.update(story_params)
@@ -81,23 +81,23 @@ class StoriesController < ApplicationController
   end
 
   def render_form_with_errors
-    render Components::Stories::Form.new(story: @story, current_project: @current_project), status: :unprocessable_content
+    render Components::Stories::Form.new(story: @story, current_project: @project), status: :unprocessable_content
   end
 
   def set_project
-    @current_project = policy_scope(Project).find(params[:project_id])
+    @project = policy_scope(Project).find(params[:project_id])
   end
 
   def set_board
-    @board = @current_project.boards.find(params[:board_id])
+    @board = @project.boards.find(params[:board_id])
   end
 
   def set_story
-    @story = policy_scope(@current_project.stories).friendly.find(params[:id])
+    @story = policy_scope(@project.stories).friendly.find(params[:id])
   end
 
   def set_story_for_move
-    @story = policy_scope(@current_project.stories).friendly.find(params[:id])
+    @story = policy_scope(@project.stories).friendly.find(params[:id])
   end
 
   def move_params
