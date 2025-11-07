@@ -14,7 +14,7 @@ RSpec.describe InvitationMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq('You have been invited to join Test Corp')
       expect(mail.to).to eq([ 'new_member@example.com' ])
-      expect(mail.from).to eq([ 'contact@tribely.work' ])
+      expect(mail.from).to eq([ 'no-reply@tribely.work' ])
     end
 
     it 'renders the body' do

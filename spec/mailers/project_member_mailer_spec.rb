@@ -17,7 +17,7 @@ RSpec.describe ProjectMemberMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq("You have been added to the project: #{project.name}")
       expect(mail.to).to eq([ user.email ])
-      expect(mail.from).to eq([ 'contact@tribely.work' ])
+      expect(mail.from).to eq([ 'no-reply@tribely.work' ])
     end
 
     it 'renders the body' do
