@@ -26,6 +26,7 @@ class Story < ApplicationRecord
   after_update_commit  :broadcast_on_update
   after_destroy_commit -> { broadcast_project_update(board) }
 
+  before_save :move_to_top_if_started
   before_save :handle_board_change, if: -> { board_id_changed? }
 
   private
@@ -88,5 +89,11 @@ class Story < ApplicationRecord
   def board_must_belong_to_project
     return unless board_id_changed? && board.present? && project_id_was.present?
     errors.add(:board, "must belong to the story's project") if board.project_id != self.project_id_was
+  end
+
+  def move_to_top_if_started
+    if status_changed? && status_was == "todo" && in_progress?
+      self.position = 1
+    end
   end
 end

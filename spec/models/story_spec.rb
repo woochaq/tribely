@@ -236,4 +236,63 @@ RSpec.describe Story, type: :model do
       end
     end
   end
+
+  describe "#move_to_top_if_started" do
+    let(:project) { create(:project) }
+    let(:board) { create(:board, project: project) }
+    let(:owner) { create(:user) }
+
+    before do
+      create(:organization_user, organization: project.organization, user: owner)
+      create(:project_user, project: project, user: owner)
+    end
+
+    it "moves the story to the top of the list when status changes from todo to in_progress" do
+      story1 = create(:story, board: board, owner: owner, status: :todo)
+      story2 = create(:story, board: board, owner: owner, status: :todo)
+      story3 = create(:story, board: board, owner: owner, status: :todo)
+
+      expect(story1.position).to eq(1)
+      expect(story2.position).to eq(2)
+      expect(story3.position).to eq(3)
+
+      story3.update(status: :in_progress)
+
+      expect(story3.reload.position).to eq(1)
+      expect(story2.reload.position).to eq(3)
+      expect(story1.reload.position).to eq(2)
+    end
+
+    it "does not move the story if the status changes to something else" do
+      story1 = create(:story, board: board, owner: owner, status: :todo)
+      story2 = create(:story, board: board, owner: owner, status: :todo)
+      story3 = create(:story, board: board, owner: owner, status: :todo)
+
+      expect(story1.position).to eq(1)
+      expect(story2.position).to eq(2)
+      expect(story3.position).to eq(3)
+
+      story3.update(status: :done)
+
+      expect(story3.reload.position).to eq(3)
+      expect(story2.reload.position).to eq(2)
+      expect(story1.reload.position).to eq(1)
+    end
+
+    it "does not move the story if the status was not todo" do
+      story1 = create(:story, board: board, owner: owner, status: :in_review)
+      story2 = create(:story, board: board, owner: owner, status: :in_review)
+      story3 = create(:story, board: board, owner: owner, status: :in_review)
+
+      expect(story1.position).to eq(1)
+      expect(story2.position).to eq(2)
+      expect(story3.position).to eq(3)
+
+      story3.update(status: :in_progress)
+
+      expect(story3.reload.position).to eq(3)
+      expect(story2.reload.position).to eq(2)
+      expect(story1.reload.position).to eq(1)
+    end
+  end
 end
