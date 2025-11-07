@@ -59,7 +59,7 @@ class StoriesController < ApplicationController
     @story = @project.stories.friendly.find(params[:id])
     authorize @story, :update?
 
-    if @story.update(story_params)
+    if @story.update(permitted_attributes(@story))
       head :ok
     else
       render json: @story.errors, status: :unprocessable_entity
@@ -67,11 +67,6 @@ class StoriesController < ApplicationController
   end
 
   private
-
-  def story_params
-    params.require(:story).permit(:title, :description, :story_type, :owner_id, :user_id, :status, :board_id)
-  end
-
 
   def respond_with_streams(message:)
     render turbo_stream: [
