@@ -125,6 +125,10 @@
     @apply px-4 py-2 font-semibold bg-mantle text-text border-2 border-crust rounded-lg hover:bg-crust transition-colors cursor-pointer;
   }
 
+  .btn-success {
+    @apply px-4 py-2 font-semibold text-text border-2 border-success rounded-lg hover:bg-success hover:text-crust transition-colors cursor-pointer;
+  }
+
   .btn-warn {
     @apply px-4 py-2 font-semibold text-danger border-2 border-danger rounded-lg bg-crust hover:bg-danger hover:text-crust transition-colors cursor-pointer;
   }

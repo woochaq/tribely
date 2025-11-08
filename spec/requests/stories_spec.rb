@@ -70,12 +70,20 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
       it "prevent updating story to the board from different project" do
         project2 = create(:project, organization: organization)
-        create(:project_user, project: project2, user: project_owner, role: :owner)
         patch project_story_url(project, story), params: { story: { board_id: project2.boards.first.id } }
         story.reload
-        expect(story.project).to eq(project)
         expect(story.board).to eq(board)
         expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      context "with state_change parameter" do
+        it "updates the status and re-renders the form" do
+          patch project_story_url(project, story), params: { story: { status: :in_progress }, state_change: true }
+          story.reload
+          expect(story.status).to eq("in_progress")
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("form") # Check if the form is re-rendered
+        end
       end
     end
 

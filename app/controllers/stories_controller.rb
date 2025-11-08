@@ -34,7 +34,11 @@ class StoriesController < ApplicationController
   def update
     authorize @story
     if @story.update(permitted_attributes(@story))
-      respond_with_streams(message: "Story was successfully updated.")
+      if params[:state_change]
+        render Components::Stories::Form.new(story: @story, current_project: @project), status: :ok
+      else
+        respond_with_streams(message: "Story was successfully updated.")
+      end
     else
       render_form_with_errors
     end

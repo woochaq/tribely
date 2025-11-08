@@ -49,6 +49,8 @@ class Components::Stories::Form < Components::Base
                   end
                 end
 
+                render Components::Stories::StateChangeButtons.new(story: @story, current_project: @current_project, current_board: current_board)
+
                 div(data: { autosave_target: "status" }, class: "text-sm text-subtext0")
               end
             end
@@ -85,5 +87,9 @@ class Components::Stories::Form < Components::Base
 
   def autosave_data_attributes(event_type)
     @story.persisted? ? { action: "#{event_type}->autosave#save #{event_type}->autosave#clearStatus" } : {}
+  end
+
+  def current_board
+    @current_board ||= @current_project.boards.find_by(kind: :current)
   end
 end
