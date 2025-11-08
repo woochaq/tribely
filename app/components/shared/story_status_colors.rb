@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Components::Shared::StoryStatusColors
   def badge_color_classes(status)
     case status

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Components::Stories::StateChangeButtons < Components::Base
   include Pundit::Authorization
   include Phlex::Rails::Helpers::LinkTo
@@ -24,6 +26,9 @@ class Components::Stories::StateChangeButtons < Components::Base
         link_to "Reject", project_story_path(@current_project, @story, story: { status: :in_progress }, state_change: true), class: "btn btn-warn text-sm", data: { turbo_method: :patch }
       when "done"
         link_to "Archive", project_story_path(@current_project, @story, story: { status: :archived }, state_change: true), class: "btn #{button_color_classes(@story.status)} text-sm", data: { turbo_method: :patch }
+        link_to "Restart", project_story_path(@current_project, @story, story: { status: :todo, board_id: @current_board.id }, state_change: true), class: "btn btn-warn text-sm", data: { turbo_method: :patch }
+      when "archived"
+        link_to "Restart", project_story_path(@current_project, @story, story: { status: :todo, board_id: @current_board.id }, state_change: true), class: "btn btn-warn text-sm", data: { turbo_method: :patch }
       end
     end
   end
