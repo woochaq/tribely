@@ -1,0 +1,7 @@
+<p>Hi <%= @recipient.name || @recipient.email %>,</p>
+
+<p><%= @author.name || @author.email %> has just commented on story #<%= @project.prefix %>-<%= @story.number %>: "<%= @story.title %>".</p>
+
+<p>You can view the comment here: <%= link_to "View Comment", project_story_url(@project, @story, anchor: dom_id(@comment)) %></p>
+
+<p>Thanks!</p>

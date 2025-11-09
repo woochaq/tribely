@@ -12,8 +12,18 @@ class Comment < ApplicationRecord
   after_create_commit :broadcast_create
   after_update_commit :broadcast_update
   after_destroy_commit :broadcast_destroy
+  after_create_commit :send_notifications
 
   private
+
+  def send_notifications
+    recipients = [ story.owner, story.user ].compact.uniq
+    recipients.delete(user)
+
+    recipients.each do |recipient|
+      CommentMailer.new_comment_notification(recipient: recipient, author: user, comment: self).deliver_later
+    end
+  end
 
   def broadcast_create
     broadcast_prepend_later_to(
