@@ -13,7 +13,7 @@ class Components::Projects::ListItem < Components::Base
   def view_template
     li(class: "p-4 flex items-center justify-between hover:bg-surface0") do
       link_to(project_path(project), class: "flex-grow flex items-center gap-x-4 min-w-0") do
-        div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0 flex items-center justify-center font-bold text-sm") do
+        div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0 flex items-center justify-center font-bold text-sm truncate") do
           project.prefix
         end
 

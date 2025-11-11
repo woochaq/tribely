@@ -13,8 +13,8 @@ class Views::Organizations::Base < Views::App::Base
       # Header
       div(class: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8") do
         div(class: "flex items-center gap-x-3 min-w-0") do
-          h1(class: "text-3xl font-bold text-text flex items-center  min-w-0 truncate") do
-            a(href: organizations_path, class: "text-primary") { "My Organizations" }
+          h1(class: "text-1xl  md:text-3xl font-bold text-text flex items-center  min-w-0 truncate") do
+            a(href: organizations_path, class: "text-primary") { "Organizations" }
             span(class: "mx-2 text-subtext0") { "/" }
             if current_page?(edit_organization_path(@organization))
               if @organization.avatar.attached?

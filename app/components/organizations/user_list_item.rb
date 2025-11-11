@@ -15,16 +15,18 @@ class Components::Organizations::UserListItem < Components::Base
   def view_template
     turbo_frame_tag organization_user do
       li(class: "p-4 flex items-center justify-between") do
-        div(class: "flex items-center gap-x-4") do
-          render Components::Shared::Avatar.new(user: organization_user.user, url: nil, size: "w-10 h-10")
+        div(class: "flex items-center gap-x-2 min-w-0") do
+          div(class: "flex-shrink-0") do
+            render Components::Shared::Avatar.new(user: organization_user.user, url: nil, size: "w-10 h-10")
+          end
 
           div do
-            p(class: "font-semibold text-text") { organization_user.user.name }
+            p(class: "font-semibold text-text break-all") { organization_user.user.name }
             p(class: "text-sm text-subtext0") { "Joined #{organization_user.created_at}" }
           end
         end
 
-        div(class: "flex items-center gap-x-4") do
+        div(class: "flex items-center gap-x-2") do
           render_role_badge
           render_edit_button
           render_delete_button

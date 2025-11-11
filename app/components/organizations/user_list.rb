@@ -43,7 +43,7 @@ class Components::Organizations::UserList < Components::Base
     div(class: "bg-mantle rounded-lg border border-crust shadow-lg p-6") do
       h2(class: "text-2xl font-bold tracking-tight text-text mb-4") { "Invite a new member" }
       simple_form_for([ @organization, Invitation.new ], url: organization_invitations_path(@organization), html: { class: "flex flex-col sm:flex-row items-start sm:items-end gap-4" }, data: { turbo_progress_bar: true }) do |f|
-        f.input :email, wrapper_html: { class: "flex-grow" }, autocomplete: "off", label: false, placeholder: "Enter email address"
+        f.input :email, wrapper_html: { class: "flex-grow w-full" }, autocomplete: "off", label: false, placeholder: "Enter email address"
         f.input :role, as: :select, collection: Invitation.roles.keys.map { |role| [ role.humanize, role ] }, include_blank: false, label: false, wrapper_html: { class: "w-full sm:w-48" }
         f.button :submit, "Send Invitation", class: "btn-primary w-full sm:w-auto"
       end

@@ -36,18 +36,23 @@ class Components::Projects::UserList < Components::Base
 
   private
 
+  def render_invitation_form
+    div(class: "bg-mantle rounded-lg border border-crust shadow-lg p-6") do
+      h2(class: "text-2xl font-bold tracking-tight text-text mb-4") { "Invite a new member" }
+      simple_form_for([ @organization, Invitation.new ], url: organization_invitations_path(@organization), html: { class: "flex flex-col sm:flex-row items-start sm:items-end gap-4" }, data: { turbo_progress_bar: true }) do |f|
+        f.input :email, wrapper_html: { class: "flex-grow w-full" }, autocomplete: "off", label: false, placeholder: "Enter email address"
+        f.input :role, as: :select, collection: Invitation.roles.keys.map { |role| [ role.humanize, role ] }, include_blank: false, label: false, wrapper_html: { class: "w-full sm:w-48" }
+        f.button :submit, "Send Invitation", class: "btn-primary w-full sm:w-auto"
+      end
+    end
+  end
+
   def render_add_member_form
     div(class: "bg-mantle rounded-lg border border-crust shadow-lg p-6") do
-      h2(class: "text-2xl font-bold tracking-tight text-text mb-4") { "Add a new member" }
+      h2(class: "text-2xl font-bold tracking-tight text-text mb-4") { "Invite a new member" }
       simple_form_for([ project, ProjectUser.new ], url: project_members_path(project), html: { class: "flex flex-col sm:flex-row items-start sm:items-end gap-4" }, data: { turbo_progress_bar: true }) do |f|
-        div(class: "flex-grow flex flex-col sm:flex-row gap-4") do
-          div(class: "flex-grow") do
-            f.input :user_id, as: :select, collection: available_users_for_project.map { |u| [ u.name, u.id ] }, include_blank: true, label: false, input_html: { class: "select" }
-          end
-          div(class: "w-full sm:w-48") do
-            f.input :role, as: :select, collection: ProjectUser.roles.keys.map { |role| [ role.humanize, role ] }, include_blank: false, label: false, input_html: { class: "select" }
-          end
-        end
+        f.input :user_id, as: :select, collection: available_users_for_project.map { |u| [ u.name, u.id ] }, include_blank: true, label: false, wrapper_html: { class: "flex-grow w-full sm:w-48" }
+        f.input :role, as: :select, collection: ProjectUser.roles.keys.map { |role| [ role.humanize, role ] }, include_blank: false, label: false, wrapper_html: { class: "w-full sm:w-48" }
         f.button :submit, "Add Member", class: "btn-primary w-full sm:w-auto"
       end
     end

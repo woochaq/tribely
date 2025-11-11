@@ -5,7 +5,7 @@ class Views::Organizations::Index < Views::App::Base
 
   def view_template
     div(class: "container mx-auto px-4 sm:px-6 lg:px-8 py-8") do
-      h1(class: "text-3xl font-bold mb-6") { "My Organizations" }
+      h1(class: "text-1xl md:text-3xl font-bold mb-6") { "Organizations" }
 
       div(class: "bg-mantle rounded-lg border border-crust shadow-lg") do
         ul(class: "divide-y divide-crust") do

@@ -13,7 +13,7 @@ class Components::Organizations::ListItem < Components::Base
   def view_template
     li(class: "p-4 flex items-center justify-between  hover:bg-surface0") do
       link_to(organization_path(organization), class: "flex-grow flex items-center gap-x-4 min-w-0") do
-        div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0") do
+        div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0 flex itemx-center justify-center") do
           image_tag @organization.avatar.variant(:thumb) if @organization.avatar.attached?
         end
 
@@ -25,7 +25,9 @@ class Components::Organizations::ListItem < Components::Base
       div(class: "flex items-center gap-x-4 flex-shrink-0") do
         render_role_badge
         if policy(organization).edit?
-          link_to "Edit", edit_organization_path(organization), class: "btn-secondary"
+          link_to edit_organization_path(organization) do
+            render Components::Icons::Edit.new(class: "w-5 h-5")
+          end
         end
       end
     end
