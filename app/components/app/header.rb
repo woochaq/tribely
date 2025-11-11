@@ -13,7 +13,7 @@ class Components::App::Header < Components::Base
   def view_template
     header(class: "bg-surface0 border-b border-crust flex-shrink-0") do
       div(class: "flex items-center p-4") do
-        div(class: "flex items-center gap-x-4") do
+        div(class: "flex flex-shrink-0 items-center gap-x-4") do
           # Hamburger menu button for mobile
           button(
             type: "button",
@@ -26,8 +26,8 @@ class Components::App::Header < Components::Base
           div(class: "h-6 w-px bg-crust lg:hidden", "aria-hidden": "true")
 
           a(href: projects_path, class: "flex items-center gap-x-2") do
-            img(src: view_context.image_path("logo.webp"), alt: "Tribely Logo", class: "h-10 w-auto", width: "70px", height: "70px")
-            span(class: "text-xl font-bold text-text") { "Tribely" }
+            img(src: view_context.image_path("logo.webp"), alt: "Tribely Logo", class: "h-10 w-auto flex-shrink-0", width: "70px", height: "70px")
+            span(class: "hidden sm:block text-xl font-bold text-text") { "Tribely" }
           end
           span(class: "h-6 w-px bg-crust", "aria-hidden": "true")
         end
