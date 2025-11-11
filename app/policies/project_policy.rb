@@ -10,6 +10,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
+    return true if user.owns_organization?(record.organization)
     record.has_member?(user)
   end
 
