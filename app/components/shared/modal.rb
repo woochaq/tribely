@@ -22,7 +22,7 @@ class Components::Shared::Modal < Components::Base
         ) do
           # Modal content
           div(
-            class: "relative bg-mantle rounded-2xl shadow-lg border border-crust p-6 w-full max-w-lg lg:max-w-7xl max-h-[95vh] overflow-y-auto",
+            class: "relative bg-mantle rounded-2xl shadow-lg border border-crust p-6 w-full max-w-3xl lg:max-w-7xl max-h-[95vh] overflow-y-auto",
           ) do
             button(class: "absolute top-4 right-4 cursor-pointer", data: { action: "click->turbo-modal#hideModal" }) { render Components::Icons::XMark }
             yield

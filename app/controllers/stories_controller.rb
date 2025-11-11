@@ -1,7 +1,7 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_story, only: %i[show update destroy]
+  before_action :set_story, only: %i[show update destroy autosave]
   before_action :set_story_for_move, only: [ :move ]
 
   def show
@@ -60,7 +60,6 @@ class StoriesController < ApplicationController
   end
 
   def autosave
-    @story = @project.stories.friendly.find(params[:id])
     authorize @story, :update?
 
     if @story.update(permitted_attributes(@story))

@@ -17,7 +17,7 @@ class Components::App::Header < Components::Base
           # Hamburger menu button for mobile
           button(
             type: "button",
-            class: "p-2 text-subtext0 hover:text-text lg:hidden",
+            class: "p-2 text-subtext0 hover:text-text lg:hidden cursor-pointer",
             data: { action: "click->mobile-navigation#toggle" }
           ) do
             span(class: "sr-only") { "Open sidebar" }

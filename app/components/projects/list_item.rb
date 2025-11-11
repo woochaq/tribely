@@ -12,12 +12,12 @@ class Components::Projects::ListItem < Components::Base
 
   def view_template
     li(class: "p-4 flex items-center justify-between hover:bg-surface0") do
-      link_to(project_path(project), class: "flex-grow flex items-center gap-x-4") do
+      link_to(project_path(project), class: "flex-grow flex items-center gap-x-4 min-w-0") do
         div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0 flex items-center justify-center font-bold text-sm") do
           project.prefix
         end
 
-        div do
+        div(class: "truncate") do
           span(class: "font-semibold text-text") { project.name }
         end
       end
@@ -27,7 +27,9 @@ class Components::Projects::ListItem < Components::Base
         render_role_badge
 
         if policy(project).show?
-          link_to "Details", settings_project_path(project), class: "btn-secondary"
+          link_to  settings_project_path(project)  do
+            render Components::Icons::Edit.new(class: "w-5 h-5")
+          end
         end
 
         if policy(project).destroy?
@@ -37,7 +39,7 @@ class Components::Projects::ListItem < Components::Base
             form: { data: { turbo_confirm: "Are you sure you want to delete this project? This action cannot be undone." } },
             class: "p-2 text-subtext0 hover:text-danger transition-colors"
           ) do
-            render Components::Icons::Delete.new(class: "w-5 h-5 cursor-pointer")
+            render Components::Icons::Delete.new(class: "w-5 h-5")
           end
         end
       end

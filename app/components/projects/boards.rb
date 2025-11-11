@@ -10,7 +10,7 @@ class Components::Projects::Boards < Components::Base
     div(class: "h-full flex flex-col") do
       # Board header
       div(class: "flex-shrink-0 mb-6 px-3") do
-        h1(class: "text-2xl font-bold text-text") { @project.name }
+        h1(class: "text-2xl font-bold text-text truncate") { @project.name }
       end
 
       # Container for boards that grows and scrolls horizontally

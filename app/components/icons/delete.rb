@@ -7,9 +7,11 @@ class Components::Icons::Delete < Components::Base
     fill: "currentColor",
     "aria-hidden": "true"
   }.freeze
+  NOT_MODIFABLE_CLASSES = "hover:text-danger cursor-pointer"
 
   def initialize(attributes = {})
     @attributes = attributes
+    @attributes[:class] = [ @attributes[:class], NOT_MODIFABLE_CLASSES ].compact.join(" ")
   end
 
   def view_template

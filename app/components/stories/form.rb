@@ -57,7 +57,7 @@ class Components::Stories::Form < Components::Base
 
             f.input :description, as: :rich_text_area, label: false, input_html: { class: "prose max-w-none lexxy-content wysiwyg-editor min-h-[35vh] max-h-[45vh]", disabled: !policy(@story).update?, data: autosave_data_attributes("lexxy:change") }
           end
-          div(class: "space-y-4") do
+          div(class: "space-y-4 py-4 lg:py-0") do
             f.input :story_type, as: :select, collection: translated_story_types, include_blank: false, input_html: { disabled: !policy(@story).update?, data: autosave_data_attributes("change") }
             f.association :owner, collection: @current_project.users, prompt: "Choose user", input_html: { disabled: !policy(@story).update?, data: autosave_data_attributes("change") }
             f.association :user, collection: @current_project.users, prompt: "Choose user", input_html: { disabled: !policy(@story).update?, data: autosave_data_attributes("change") }
@@ -86,7 +86,7 @@ class Components::Stories::Form < Components::Base
   end
 
   def autosave_data_attributes(event_type)
-    @story.persisted? ? { action: "#{event_type}->autosave#save #{event_type}->autosave#clearStatus" } : {}
+    @story.persisted? && policy(@story).update? ? { action: "#{event_type}->autosave#save #{event_type}->autosave#clearStatus" } : {}
   end
 
   def current_board

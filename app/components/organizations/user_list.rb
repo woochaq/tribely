@@ -67,7 +67,7 @@ class Components::Organizations::UserList < Components::Base
                 end
                 simple_form_for([ @organization, invitation ], method: :delete, data: { turbo_confirm: "Are you sure you want to cancel this invitation?" }) do |f|
                   button(type: "submit", class: "text-subtext0 hover:text-danger cursor-pointer") do
-                    render Components::Icons::Delete.new(class: "w-4 h-4 text-red")
+                    render Components::Icons::Delete.new(class: "w-4 h-4")
                   end
                 end
               end

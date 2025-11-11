@@ -13,8 +13,8 @@ class Views::Projects::Base < Views::App::Base
     div(class: "container mx-auto px-4 sm:px-6 lg:px-8 py-8") do
       # Header
       div(class: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8") do
-        div(class: "flex items-center gap-x-3") do
-          h1(class: "text-3xl font-bold text-text") do
+        div(class: "flex items-center gap-x-3 min-w-0") do
+          h1(class: "text-3xl font-bold text-text min-w-0 truncate") do
             a(href: projects_path, class: "text-primary hover:underline") { "My Projects" }
             span(class: "mx-2 text-subtext0") { "/" }
             if @project.persisted?

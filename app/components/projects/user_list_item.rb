@@ -60,7 +60,7 @@ class Components::Projects::UserListItem < Components::Base
     return if project_user.user == current_user
 
     link_to edit_project_member_path(project_user.project, project_user), class: "p-1 rounded-full hover:bg-crust transition-colors duration-200 cursor-pointer" do
-      render Components::Icons::Edit.new(class: "w-4 h-4 text-text")
+      render Components::Icons::Edit.new(class: "w-4 h-4")
     end
   end
 
@@ -70,7 +70,7 @@ class Components::Projects::UserListItem < Components::Base
 
     simple_form_for(project_user, url: project_member_path(project_user.project, project_user), method: :delete, data: { turbo_confirm: "Are you sure you want to remove #{project_user.user.name} from the project?" }) do |f|
       button(type: "submit", class: "p-1 rounded-full hover:text-danger transition-colors duration-200 cursor-pointer") do
-        render Components::Icons::Delete.new(class: "w-4 h-4 text-red")
+        render Components::Icons::Delete.new(class: "w-4 h-4")
       end
     end
   end

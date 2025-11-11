@@ -12,13 +12,12 @@ class Components::Organizations::ListItem < Components::Base
 
   def view_template
     li(class: "p-4 flex items-center justify-between  hover:bg-surface0") do
-      link_to(organization_path(organization), class: "flex-grow flex items-center gap-x-4") do
-        # Placeholder Icon
+      link_to(organization_path(organization), class: "flex-grow flex items-center gap-x-4 min-w-0") do
         div(class: "w-10 h-10 bg-surface1 rounded-lg flex-shrink-0") do
           image_tag @organization.avatar.variant(:thumb) if @organization.avatar.attached?
         end
 
-        div do
+        div(class: "truncate") do
           span(class: "font-semibold text-text") { organization.name }
         end
       end

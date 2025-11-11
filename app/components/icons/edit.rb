@@ -2,14 +2,16 @@
 
 class Components::Icons::Edit < Components::Base
   DEFAULT_ATTRIBUTES = {
-    class: "w-5 h-5",
+    class: "w-5 h-5 ",
     viewBox: "0 0 20 20",
     fill: "currentColor",
     "aria-hidden": "true"
   }.freeze
+  NOT_MODIFABLE_CLASSES = "hover:text-primary cursor-pointer"
 
   def initialize(attributes = {})
     @attributes = attributes
+    @attributes[:class] = [ attributes[:class], NOT_MODIFABLE_CLASSES ].compact.join(" ")
   end
 
   def view_template

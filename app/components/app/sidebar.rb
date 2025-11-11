@@ -18,7 +18,7 @@ class Components::App::Sidebar < Components::Base
           nav_item(text: "Boards", icon: :boards, href: project_path(@current_project), active: current_page?(project_path(@current_project)))
           # nav_item(text: "All Stories", icon: :all_stories, href: "#")
           # nav_item(text: "Reports", icon: :reports, href: "#")
-          nav_item(text: "Project Details", icon: :settings, href: settings_project_path(@current_project), active: current_page?(settings_project_path))
+          nav_item(text: "Project Settings", icon: :settings, href: settings_project_path(@current_project), active: current_page?(settings_project_path))
         end
       end
 
@@ -32,7 +32,7 @@ class Components::App::Sidebar < Components::Base
               render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
             end
             div(class: "flex flex-col truncate") do
-              link_to current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text truncate "
+              link_to current_user.name, edit_user_registration_path, class: "text-sm font-semibold text-text truncate"
               link_to "Logout", destroy_user_session_path, class: "text-xs text-subtext0 hover:text-text", data: { turbo_method: :delete }
             end
           end
