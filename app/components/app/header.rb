@@ -1,5 +1,6 @@
 class Components::App::Header < Components::Base
   include Phlex::Rails::Helpers::ClassNames
+  include Phlex::Rails::Helpers::TurboFrameTag
   attr_reader :current_project
 
   def initialize(current_project: nil)
@@ -32,13 +33,19 @@ class Components::App::Header < Components::Base
           span(class: "h-6 w-px bg-crust", "aria-hidden": "true")
         end
 
-        div(class: "w-full max-w-md ml-8") do
-          label(for: "search", class: "sr-only") { "Search" }
-          div(class: "relative") do
-            div(class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3") do
-              render Components::Icons::Search.new(class: "h-5 w-5 text-subtext0")
+        if @current_project.present?
+          div(class: "w-full max-w-md ml-8 md:relative", data: { controller: "search-stories" }) do
+            form(action: search_project_stories_path(current_project), method: "get", data: { turbo_frame: "search_results", "search-stories-target": "form" }) do
+              label(for: "search", class: "sr-only") { "Search" }
+              div(class: "relative") do
+                div(class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3") do
+                  render Components::Icons::Search.new(class: "h-5 w-5 text-subtext0")
+                end
+                input(id: "search", name: "query", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search ...", data: { action: "input->search-stories#performSearch keydown->search-stories#navigate", "search-stories-target": "input" })
+              end
             end
-            input(id: "search", name: "search", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search ...")
+            turbo_frame_tag "search_results" do
+            end
           end
         end
       end

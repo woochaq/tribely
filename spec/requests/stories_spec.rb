@@ -289,4 +289,58 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
       expect(response).to redirect_to(new_user_session_url)
     end
   end
+
+  describe "GET /search" do
+    let!(:story1) { create(:story, board: board, title: "Searchable Story", owner: project_owner) }
+    let!(:story2) { create(:story, board: board, title: "Another One", owner: project_owner) }
+    let!(:story3) { create(:story, board: board, title: "Archived Searchable", status: :archived, owner: project_owner) }
+
+    before do
+      sign_in project_owner
+    end
+
+    context "with a valid query" do
+      before do
+        get search_project_stories_path(project), params: { query: "Searchable" }
+      end
+
+      it "returns a successful response" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns the matching story" do
+        expect(response.body).to include("Searchable Story")
+      end
+
+      it "does not return non-matching stories" do
+        expect(response.body).not_to include("Another One")
+      end
+
+      it "does not return archived stories" do
+        expect(response.body).not_to include("Archived Searchable")
+      end
+    end
+
+    context "with an empty query" do
+      before do
+        get search_project_stories_path(project), params: { query: "" }
+      end
+
+      it "returns a successful response" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns no stories" do
+        expect(response.body).to include("No stories found.")
+      end
+    end
+
+    context "when not authenticated" do
+      it "redirects to the sign-in page" do
+        sign_out project_member
+        get search_project_stories_path(project), params: { query: "test" }
+        expect(response).to redirect_to(new_user_session_path)
+      end
+    end
+  end
 end

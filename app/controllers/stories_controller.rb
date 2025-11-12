@@ -69,6 +69,12 @@ class StoriesController < ApplicationController
     end
   end
 
+  def search
+    authorize Story
+    @stories = params[:query].present? ? @project.stories.search(params[:query]).limit(10) : []
+    render Components::Stories::SearchResults.new(stories: @stories, current_project: @project)
+  end
+
   private
 
   def respond_with_streams(message:)

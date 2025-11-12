@@ -35,6 +35,10 @@ class StoryPolicy < ApplicationPolicy
     create?
   end
 
+  def search?
+    true
+  end
+
   def permitted_attributes
     [ :board_id, :user_id, :owner_id, :title, :description, :status, :story_type ]
   end

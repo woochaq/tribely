@@ -24,6 +24,10 @@ class Story < ApplicationRecord
   enum :story_type, { feature: 0, bug: 1, chore: 2, spike: 3 }, default: 0
   enum :status, { todo: 0, in_progress: 1, in_review: 2, done: 3, archived: 4 }, default: 0
 
+  scope :search, ->(query) {
+    not_archived.where("LOWER(title) LIKE LOWER(?) OR LOWER(prefix_with_number) LIKE LOWER(?)", "%#{query}%", "%#{query}%")
+  }
+
   after_create_commit  -> { broadcast_project_update(board) }
   after_update_commit  :broadcast_on_update
   after_destroy_commit -> { broadcast_project_update(board) }
@@ -38,7 +42,7 @@ class Story < ApplicationRecord
     if owner.present? && !project.has_member?(owner)
       errors.add(:owner, "must be a member of project")
     end
-    if user.present? && !board.project.has_member?(user)
+    if user.present? && !project.has_member?(user)
       errors.add(:user, "must be a member of project")
     end
   end

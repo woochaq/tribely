@@ -311,4 +311,51 @@ RSpec.describe Story, type: :model do
       expect(story1.reload.position).to eq(1)
     end
   end
+
+  describe ".search" do
+    let(:project) { create(:project, prefix: "TEST") }
+    let!(:user) { create(:user) }
+    before do
+      create(:organization_user, organization: project.organization, user: user)
+      create(:project_user, project: project, user: user)
+    end
+    let!(:story1) { create(:story, board: project.boards.first, title: "Find the bug", owner: user) }
+    let!(:story2) { create(:story, board: project.boards.first, title: "Fix the feature", owner: user) }
+    let!(:story3) { create(:story, board: project.boards.first, title: "Archived bug", status: :archived, owner: user) }
+    let!(:story4) { create(:story, board: project.boards.first, title: "Another story", owner: user) }
+
+    it "returns stories matching the title query" do
+      results = described_class.search("bug")
+      expect(results).to include(story1)
+      expect(results).not_to include(story2, story3, story4)
+    end
+
+    it "returns stories matching the title query case-insensitively" do
+      results = described_class.search("BUG")
+      expect(results).to include(story1)
+      expect(results).not_to include(story2, story3, story4)
+    end
+
+    it "returns stories matching the prefix_with_number query" do
+      results = described_class.search("TEST-2")
+      expect(results).to include(story2)
+      expect(results).not_to include(story1, story3, story4)
+    end
+
+    it "returns stories matching the prefix_with_number query case-insensitively" do
+      results = described_class.search("test-2")
+      expect(results).to include(story2)
+      expect(results).not_to include(story1, story3, story4)
+    end
+
+    it "does not return archived stories" do
+      results = described_class.search("Archived")
+      expect(results).to be_empty
+    end
+
+    it "returns an empty relation if no stories match" do
+      results = described_class.search("nonexistent")
+      expect(results).to be_empty
+    end
+  end
 end

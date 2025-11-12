@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get :settings, on: :member
     resources :members, only: [ :create, :edit, :update, :destroy ], controller: "projects/members"
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
+      get :search, on: :collection
       patch :move, on: :member
       patch :autosave, on: :member
 
