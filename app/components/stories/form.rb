@@ -35,9 +35,7 @@ class Components::Stories::Form < Components::Base
                   end
                 end
 
-                div(class: "text-sm font-mono bg-surface0 px-3 py-1.5 rounded-lg text-subtext0") do
-                  "#{@current_project.prefix}-#{@story.number}"
-                end
+                div(class: "text-sm font-mono bg-surface0 px-3 py-1.5 rounded-lg text-subtext0") { @story.prefix_with_number }
 
                 if policy(@story).update?
                   link_to(

@@ -23,7 +23,7 @@ class Components::Stories::Story < Components::Base
         div(class: "flex items-center justify-between mt-4") do
           div(class: "flex items-center gap-2") do
             story_type_icon
-            span(class: "text-xs text-subtext0") { "#{@story.project.prefix}-#{@story.number}" }
+            span(class: "text-xs text-subtext0") { @story.prefix_with_number }
           end
           div(class: "flex items-center gap-2") do
             render Components::Shared::StatusBadge.new(status: @story.status)

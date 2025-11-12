@@ -10,49 +10,49 @@ RSpec.describe Story, type: :model do
     describe "owner_and_user_must_be_members" do
       let(:project) { create(:project) }
       let(:board) { create(:board, project: project) }
-      let(:project_member) { create(:user) }
-      let(:non_project_member) { create(:user) }
+      let(:user) { create(:user) }
+      let(:non_user) { create(:user) }
 
       before do
-        create(:organization_user, organization: project.organization, user: project_member)
-        create(:project_user, project: project, user: project_member)
+        create(:organization_user, organization: project.organization, user: user)
+        create(:project_user, project: project, user: user)
       end
 
       it "is valid when owner is a project member" do
-        story = build(:story, board: board, owner: project_member)
+        story = build(:story, board: board, owner: user)
         expect(story).to be_valid
       end
 
       it "is valid when user is a project member" do
-        story = build(:story, board: board, owner: project_member, user: project_member)
+        story = build(:story, board: board, owner: user, user: user)
         expect(story).to be_valid
       end
 
       it "is invalid when owner is not a project member" do
-        story = build(:story, board: board, owner: non_project_member)
+        story = build(:story, board: board, owner: non_user)
         expect(story).not_to be_valid
         expect(story.errors[:owner]).to include("must be a member of project")
       end
 
       it "is invalid when user is not a project member" do
-        story = build(:story, board: board, owner: project_member, user: non_project_member)
+        story = build(:story, board: board, owner: user, user: non_user)
         expect(story).not_to be_valid
         expect(story.errors[:user]).to include("must be a member of project")
       end
 
       it "is valid invalid when owner is nil" do
-        story = build(:story, board: board, owner: nil, user: project_member)
+        story = build(:story, board: board, owner: nil, user: user)
         expect(story).not_to be_valid
       end
 
       it "is valid when user is nil" do
-        story = build(:story, board: board, owner: project_member, user: nil)
+        story = build(:story, board: board, owner: user, user: nil)
         expect(story).to be_valid
       end
 
       it "is invalid when board.project is nil" do
         board = build(:board, project: nil)
-        story = build(:story, board: board, owner: project_member, user: project_member)
+        story = build(:story, board: board, owner: user, user: user)
         expect(story).not_to be_valid
       end
     end
@@ -93,6 +93,22 @@ RSpec.describe Story, type: :model do
       story2.destroy
       story4 = create(:story, board: board2, owner: owner, user: user)
       expect(story4.number).to eq 4
+    end
+  end
+
+  describe "@set_prefix_with_number" do
+    it "expect to set prefix_with_number on create" do
+      project = create(:project, prefix: "TR")
+      board = create(:board, project: project)
+      user = create(:user)
+      create(:organization_user, organization: project.organization, user: user)
+      create(:project_user, project: project, user: user)
+      story1 = create(:story, board: board, owner: user)
+      story2 = create(:story, board: board, owner: user)
+      story3 = create(:story, board: board, owner: user)
+      expect(story1.prefix_with_number).to eq "TR-1"
+      expect(story2.prefix_with_number).to eq "TR-2"
+      expect(story3.prefix_with_number).to eq "TR-3"
     end
   end
 

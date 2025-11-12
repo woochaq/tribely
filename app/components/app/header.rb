@@ -38,7 +38,7 @@ class Components::App::Header < Components::Base
             div(class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3") do
               render Components::Icons::Search.new(class: "h-5 w-5 text-subtext0")
             end
-            input(id: "search", name: "search", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search tasks...")
+            input(id: "search", name: "search", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search ...")
           end
         end
       end

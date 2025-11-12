@@ -14,6 +14,8 @@ class Story < ApplicationRecord
 
   before_validation :set_project
   before_validation :set_number, on: :create
+  before_validation :set_prefix_with_number, on: :create
+
   validates_presence_of :title, :story_type, :status, :number, :project
   validates_length_of :title, maximum: 255
   validate :owner_and_user_must_be_members
@@ -44,6 +46,11 @@ class Story < ApplicationRecord
   def set_number
     return if project.nil?
     self.number = board.present? ? (project.stories.maximum(:number).to_i + 1) : 1
+  end
+
+  def set_prefix_with_number
+    return if project.nil? || number.nil?
+    self.prefix_with_number = "#{project.prefix}-#{number}"
   end
 
   def broadcast_on_update
