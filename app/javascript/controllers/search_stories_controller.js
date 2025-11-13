@@ -2,12 +2,17 @@ import { Controller } from "@hotwired/stimulus"
 import { useDebounce } from "stimulus-use"
 
 export default class extends Controller {
-  static targets = ["form", "input", "results"]
+  static targets = ["form", "input", "spinner"]
   static debounces = ["performSearch"]
 
   connect() {
     useDebounce(this)
     this.activeIndex = -1
+    this.formTarget.addEventListener("turbo:submit-end", this.hideSpinner)
+  }
+
+  disconnect() {
+    this.formTarget.removeEventListener("turbo:submit-end", this.hideSpinner)
   }
 
   // Triggered on input. Submits the form after a delay.
@@ -16,6 +21,7 @@ export default class extends Controller {
       this.clearResults()
       return
     }
+    this.showSpinner()
     this.formTarget.requestSubmit()
   }
 
@@ -84,7 +90,20 @@ export default class extends Controller {
         turboFrame.innerHTML = ""
       }
       this.activeIndex = -1
+      this.hideSpinner()
     }, 50)
+  }
+
+  showSpinner() {
+    if (this.hasSpinnerTarget) {
+      this.spinnerTarget.classList.remove("hidden")
+    }
+  }
+
+  hideSpinner = () => {
+    if (this.hasSpinnerTarget) {
+      this.spinnerTarget.classList.add("hidden")
+    }
   }
 
   // Attach/detach global event listeners.

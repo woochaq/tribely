@@ -42,6 +42,9 @@ class Components::App::Header < Components::Base
                   render Components::Icons::Search.new(class: "h-5 w-5 text-subtext0")
                 end
                 input(id: "search", name: "query", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search ...", data: { action: "input->search-stories#performSearch keydown->search-stories#navigate", "search-stories-target": "input" })
+            div(class: "absolute inset-y-0 right-0 flex items-center pr-3 hidden", data: { "search-stories-target": "spinner" }) do
+              render Components::Icons::Spinner.new
+            end
               end
             end
             turbo_frame_tag "search_results" do
