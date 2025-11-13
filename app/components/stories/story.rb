@@ -18,7 +18,7 @@ class Components::Stories::Story < Components::Base
         class: "block w-full p-3"
       ) do
         div(class: "flex items-start gap-2") do
-          p(class: "font-semibold text-text") { @story.title }
+          p(class: "font-semibold text-text break-all") { @story.title }
         end
         div(class: "flex items-center justify-between mt-4") do
           div(class: "flex items-center gap-2") do
