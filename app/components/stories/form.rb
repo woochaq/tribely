@@ -43,7 +43,7 @@ class Components::Stories::Form < Components::Base
                     class: "text-subtext0 hover:text-danger",
                     data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this story?" }
                   ) do
-                    render Icons::Delete.new
+                    render Icons::Delete.new(class: "w-5 h-5")
                   end
                 end
 
