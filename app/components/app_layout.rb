@@ -36,7 +36,7 @@ class Components::AppLayout < Components::Base
         script(defer: true, src: "https://cloud.umami.is/script.js", data_website_id: "5c565357-721e-4784-a47d-3aeeba73e86a")
       end
 
-      body(class: "h-full font-sans text-text", data: { controller: "lexxy" }) do
+      body(class: "h-full font-sans text-text", data: { "current-user-id": current_user&.id }) do
         render Components::Shared::FlashMessages.new
 
         div(class: "flex flex-col h-full", data: { controller: "mobile-navigation" }) do
