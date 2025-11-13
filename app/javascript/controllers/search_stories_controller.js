@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { useDebounce } from "stimulus-use"
 
 export default class extends Controller {
-  static targets = ["form", "input", "spinner"]
+  static targets = ["form", "input", "spinner", "results"]
   static debounces = ["performSearch"]
 
   connect() {
@@ -106,7 +106,7 @@ export default class extends Controller {
     }
   }
 
-  // Attach/detach global event listeners.
+  // Attach/detach global event listeners only when results are visible.
   resultsTargetConnected() {
     document.addEventListener("click", this.hideResultsOnClickOutside)
     document.addEventListener("keydown", this.hideResultsOnEscape)
