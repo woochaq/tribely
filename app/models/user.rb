@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include ActionText::Attachable
+
   ACCEPTED_CONTENT_TYPES = [ "image/png", "image/jpeg", "image/webp", "image/avif", "image/svg+xml" ].freeze
 
   # Include default devise modules. Others available are:
@@ -23,6 +25,10 @@ class User < ApplicationRecord
   validates :avatar, content_type: { in: ACCEPTED_CONTENT_TYPES }, size: { less_than: 1.megabytes }
 
   after_create_commit :create_default_organization
+
+  def content_type
+    "application/vnd.actiontext.mention"
+  end
 
   def initials
     initial_name = full_name.present? ? full_name : email

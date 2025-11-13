@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "invitations/:token/accept", to: "invitation_acceptances#new", as: :accept_invitation
 
   resources :projects do
+    get "users/mentions", to: "users#mentions"
     get :settings, on: :member
     resources :members, only: [ :create, :edit, :update, :destroy ], controller: "projects/members"
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do

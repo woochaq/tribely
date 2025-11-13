@@ -6,6 +6,8 @@ class Components::Stories::Form < Components::Base
   include Phlex::Rails::Helpers::DOMClass
   include Phlex::Rails::Helpers::T
 
+  register_element def lexxy_prompt(**attributes, &content) = nil
+
   def initialize(story:, current_project: nil)
     @story = story
     @current_project = current_project
@@ -53,7 +55,17 @@ class Components::Stories::Form < Components::Base
               end
             end
 
-            f.input :description, as: :rich_text_area, label: false, input_html: { class: "prose max-w-none lexxy-content wysiwyg-editor min-h-[35vh] max-h-[45vh]", disabled: !policy(@story).update?, data: autosave_data_attributes("lexxy:change") }
+            f.rich_text_area :description,  label: false, class: "prose max-w-none lexxy-content wysiwyg-editor min-h-[35vh] max-h-[45vh]", disabled: !policy(@story).update?, data: autosave_data_attributes("lexxy:change") do
+              if @story.project.present?
+                lexxy_prompt(
+                  trigger: "@",
+                  src: view_context.project_users_mentions_path(@story.project),
+                  name: "mention",
+                  "remote-filtering": true,
+                  "supports-space-in-searches": true
+                )
+              end
+            end
           end
           div(class: "space-y-4 py-4 lg:py-0") do
             f.input :story_type, as: :select, collection: translated_story_types, include_blank: false, input_html: { disabled: !policy(@story).update?, data: autosave_data_attributes("change") }
