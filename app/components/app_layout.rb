@@ -4,6 +4,7 @@ class Components::AppLayout < Components::Base
   include Phlex::Rails::Helpers::JavaScriptImportmapTags
   include Phlex::Rails::Helpers::StylesheetLinkTag
   include Phlex::Rails::Helpers::ContentFor
+  include Phlex::Rails::Helpers::TurboRefreshesWith
 
   def initialize(title: "Tribely App", current_project: nil)
     @title = title
@@ -20,6 +21,7 @@ class Components::AppLayout < Components::Base
         meta name: "apple-mobile-web-app-capable", content: "yes"
         meta name: "mobile-web-app-capable", content: "yes"
         meta name: "description", content: "Tribely: Streamline your workflow with our intuitive project management tool. Manage projects, track stories, and collaborate with your team effortlessly."
+        turbo_refreshes_with method: :morph, scroll: :preserve
         csrf_meta_tags
         csp_meta_tag
         content_for :head

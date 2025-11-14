@@ -14,7 +14,7 @@ class Components::Stories::Form < Components::Base
   end
 
   def view_template
-    render Components::Shared::Modal.new(base_url: project_path(@current_project), should_update_url: @story.persisted?) do
+    render Components::Shared::Modal.new(base_url: project_url(@current_project), should_update_url: @story.persisted?) do
       simple_form_for(
         [ @current_project, @story ],
         html: {

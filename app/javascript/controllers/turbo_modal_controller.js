@@ -36,7 +36,7 @@ export default class extends Controller {
   updateUrl() {
     const frameSrc = this.frame.getAttribute("src")
     if (this.shouldUpdateUrlValue && frameSrc) {
-      window.history.pushState({}, "", frameSrc)
+      Turbo.navigator.history.push(new URL(frameSrc))
     }
   }
 
@@ -48,7 +48,7 @@ export default class extends Controller {
 
     // When the modal is closed, revert the URL back to the base page.
     if (this.hasBaseUrlValue) {
-      window.history.pushState({}, "", this.baseUrlValue)
+      Turbo.navigator.history.push(new URL(this.baseUrlValue))
     }
   }
 }
