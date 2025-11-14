@@ -1,5 +1,6 @@
 class Comment < ApplicationRecord
   include ActionView::RecordIdentifier
+  include Mentionable
 
   has_rich_text :content
 

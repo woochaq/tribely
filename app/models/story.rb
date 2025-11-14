@@ -1,5 +1,6 @@
 class Story < ApplicationRecord
   include ActionText::Attachable
+  include Mentionable
   extend FriendlyId
 
   acts_as_list scope: :board

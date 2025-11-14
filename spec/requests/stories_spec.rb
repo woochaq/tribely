@@ -24,7 +24,7 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
   let!(:story) { create(:story, board: board, owner: project_owner) }
 
-  let(:valid_attributes) { { board_id: board.id, title: "New Story" } }
+  let(:valid_attributes) { { board_id: board.id, title: "New Story", description: nil } }
   let(:invalid_attributes) { { title: "" } }
 
   describe "as organization owner" do

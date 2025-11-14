@@ -14,7 +14,7 @@ class StoriesController < ApplicationController
   end
 
   def new
-    @story = Story.new(owner: current_user, board: Board.find(params[:board_id]))
+    @story = @project.stories.new(owner: current_user, board: Board.find(params[:board_id]))
     authorize @story
     render Components::Stories::Form.new(story: @story, current_project: @project)
   end

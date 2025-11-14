@@ -1,0 +1,16 @@
+Hi <%= @mentioned_user.name %>,
+
+<% if @mentioner.present? %>
+  <%= @mentioner.name %> mentioned you in a <%= @mentionable.model_name.human.downcase %>:
+<% else %>
+  Somebody mentioned you in a <%= @mentionable.model_name.human.downcase %>:
+<% end %>
+
+<% if @mentionable.is_a?(Story) %>
+  <%= @mentionable.title %>: <%= project_story_url(@mentionable.project, @mentionable) %>
+<% elsif @mentionable.is_a?(Comment) %>
+  Comment on story <%= @mentionable.story.prefix_with_number %>: <%= project_story_url(@mentionable.story.project, @mentionable.story) %>
+<% end %>
+
+Thanks,
+The Tribely Team
