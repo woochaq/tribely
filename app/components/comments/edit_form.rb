@@ -25,6 +25,13 @@ class Components::Comments::EditForm < Components::Base
               "remote-filtering": true,
               "supports-space-in-searches": true
             )
+            lexxy_prompt(
+              trigger: "#",
+              src: mentions_project_stories_path(@story.project),
+              name: "mention",
+              "remote-filtering": true,
+              "supports-space-in-searches": true
+            )
           end
           div(class: "flex justify-end items-center gap-4 mt-2") do
             link_to "Cancel", project_story_comment_path(@story.project, @story, @comment), class: "text-sm"

@@ -75,6 +75,12 @@ class StoriesController < ApplicationController
     render Components::Stories::SearchResults.new(stories: @stories, current_project: @project)
   end
 
+  def mentions
+    authorize @project, :show?
+    @stories = params[:filter].present? ? @project.stories.search(params[:filter]).limit(10) : []
+    render Components::Stories::PromptItems.new(stories: @stories)
+  end
+
   private
 
   def respond_with_streams(message:)

@@ -25,6 +25,13 @@ class Components::Comments::Form < Components::Base
                 "remote-filtering": true,
                 "supports-space-in-searches": true
               )
+              lexxy_prompt(
+                trigger: "#",
+                src: mentions_project_stories_path(@story.project),
+                name: "mention",
+                "remote-filtering": true,
+                "supports-space-in-searches": true
+              )
             end
             if f.object.errors[:content].present?
               p(class: "mt-2 text-sm text-danger flex items-center gap-1") { f.object.errors[:content].join(", ") }

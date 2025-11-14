@@ -6,6 +6,6 @@ class Components::Users::Mention < Components::Base
   end
 
   def view_template
-    em(class: "font-semibold") { "@" + user.name }
+    em(class: "text-primary font-semibold") { "@" + user.name }
   end
 end

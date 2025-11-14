@@ -358,4 +358,10 @@ RSpec.describe Story, type: :model do
       expect(results).to be_empty
     end
   end
+
+  describe "@content_type" do
+    it "returns actiontext.story_mention for lexxy editor" do
+      expect(described_class.new.content_type).to eq ("application/vnd.actiontext.story_mention")
+    end
+  end
 end

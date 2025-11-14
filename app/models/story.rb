@@ -1,4 +1,5 @@
 class Story < ApplicationRecord
+  include ActionText::Attachable
   extend FriendlyId
 
   acts_as_list scope: :board
@@ -34,6 +35,10 @@ class Story < ApplicationRecord
 
   before_save :move_to_top_if_started
   before_save :handle_board_change, if: -> { board_id_changed? }
+
+  def content_type
+    "application/vnd.actiontext.story_mention"
+  end
 
   private
 

@@ -131,4 +131,11 @@ RSpec.describe User, type: :model do
       expect(member.owns_project?(project)).to be false
     end
   end
+
+
+  describe "@content_type" do
+    it "returns actiontext.mention for lexxy editor" do
+      expect(described_class.new.content_type).to eq ("application/vnd.actiontext.mention")
+    end
+  end
 end

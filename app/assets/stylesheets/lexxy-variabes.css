@@ -6,7 +6,7 @@
   --lexxy-color-ink-lightest: var(--color-surface0-val);
   --lexxy-color-ink-inverted: var(--color-base-val);
 
-  --lexxy-color-accent-dark: var(--color-primary-val);
+  --lexxy-color-accent-dark: var(--color-surface1-val);
   --lexxy-color-accent-medium: var(--color-info-val);
   --lexxy-color-accent-light: var(--color-surface1-val);
   --lexxy-color-accent-lightest: var(--color-surface0-val);

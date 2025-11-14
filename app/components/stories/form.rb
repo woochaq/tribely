@@ -59,7 +59,14 @@ class Components::Stories::Form < Components::Base
               if @story.project.present?
                 lexxy_prompt(
                   trigger: "@",
-                  src: view_context.project_users_mentions_path(@story.project),
+                  src: project_users_mentions_path(@story.project),
+                  name: "mention",
+                  "remote-filtering": true,
+                  "supports-space-in-searches": true
+                )
+                lexxy_prompt(
+                  trigger: "#",
+                  src: mentions_project_stories_path(@story.project),
                   name: "mention",
                   "remote-filtering": true,
                   "supports-space-in-searches": true

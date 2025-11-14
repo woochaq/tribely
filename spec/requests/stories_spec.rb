@@ -343,4 +343,50 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
       end
     end
   end
+
+  describe "GET /mentions" do
+    let(:user) { create(:user) }
+    let(:organization) { user.organizations.first }
+    let(:project) { create(:project, organization: organization, prefix: "PROJ") }
+    let(:board) { project.boards.first }
+    let(:other_project) { create(:project, organization: organization, prefix: "OTHER") }
+
+    before do
+      project.users << user
+      other_project.users << user
+      sign_in user
+    end
+
+    let!(:story1) { create(:story, board: board, title: "Mentionable Story", owner: user) }
+    let!(:story2) { create(:story, board: board, title: "Another One", owner: user) }
+    let!(:story3) { create(:story, board: board, title: "Archived Mentionable", status: :archived, owner: user) }
+    let!(:other_project_story) { create(:story, board: other_project.boards.first, title: "Other Project Story", owner: user) }
+
+    context "with a valid filter" do
+      before do
+        get mentions_project_stories_path(project), params: { filter: "Mentionable" }
+      end
+
+      it "returns a successful response" do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "returns the matching story" do
+        expect(response.body).to include("Mentionable Story")
+      end
+
+      it "does not return non-matching stories" do
+        expect(response.body).not_to include("Another One")
+      end
+
+      it "does not return archived stories" do
+        expect(response.body).not_to include("Archived Mentionable")
+      end
+
+      it "does not return stories from other projects" do
+        get mentions_project_stories_path(project), params: { filter: "Other" }
+        expect(response.body).not_to include("Other Project Story")
+      end
+    end
+  end
 end
