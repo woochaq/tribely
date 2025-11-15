@@ -7,7 +7,7 @@
 <% end %>
 <p>
   <% if @mentionable.is_a?(Story) %>
-    <%= link_to @mentionable.title, project_story_url(@mentionable.project, @mentionable) %>
+    <%= link_to "[#{@mentionable.prefix_with_number}] #{@mentionable.title }", project_story_url(@mentionable.project, @mentionable) %>
   <% elsif @mentionable.is_a?(Comment) %>
     <%= link_to "Comment on story #{@mentionable.story.prefix_with_number}", project_story_url(@mentionable.story.project, @mentionable.story, anchor: "comment_#{@mentionable.id}") %>
   <% end %>

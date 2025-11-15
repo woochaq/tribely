@@ -4,11 +4,38 @@ class NotificationMailer < ApplicationMailer
     @mentioner = mentioner
     @mentionable = mentionable
 
-    if @mentioner.nil?
-      subject = "Somebody mentioned you in a #{@mentionable.model_name.human.downcase}"
-    else
-      subject = "#{@mentioner.name} mentioned you in a #{@mentionable.model_name.human.downcase}"
-    end
+    @project, mention_description, type_name = mentionable_details
+    subject = build_subject(mention_description, type_name)
     mail to: @mentioned_user.email, subject: subject
+  end
+
+  private
+  def build_subject(description, type_name)
+    prefix = "(#{@project.name})"
+
+    if @mentioner
+      "#{prefix} #{@mentioner.name} mentioned you in #{description}"
+    else
+      "#{prefix} Somebody mentioned you in a #{type_name}"
+    end
+  end
+
+  def mentionable_details
+    case @mentionable
+    when Story
+      [
+        @mentionable.project,
+        "a story: #{@mentionable.prefix_with_number}",
+        "story"
+      ]
+    when Comment
+      [
+        @mentionable.story.project,
+        "a comment of story: #{@mentionable.story.prefix_with_number}",
+        "comment"
+      ]
+    else
+      raise "Unsupported mentionable type: #{@mentionable.class.name}"
+    end
   end
 end

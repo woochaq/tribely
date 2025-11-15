@@ -5,7 +5,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     let(:mentioned_user) { create(:user, email: "mentioned@example.com", full_name: "Jane Doe") }
     let(:organization) { mentioned_user.organizations.first }
     let(:mentioner) { create(:user, full_name: "John Smith") }
-    let(:project) { create(:project, organization: organization) }
+    let(:project) { create(:project, name: "Tribely", prefix: "TRB", organization: organization) }
     before do
       organization.users << mentioner
       project.users << mentioned_user
@@ -18,7 +18,7 @@ RSpec.describe NotificationMailer, type: :mailer do
       let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, comment) }
 
       it "renders the headers" do
-        expect(mail.subject).to eq("John Smith mentioned you in a comment")
+        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in a comment of story: #{story.prefix_with_number}")
         expect(mail.to).to eq([ "mentioned@example.com" ])
         expect(mail.from).to eq([ "no-reply@tribely.work" ])
       end
@@ -35,7 +35,7 @@ RSpec.describe NotificationMailer, type: :mailer do
       let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, story) }
 
       it "renders the headers" do
-        expect(mail.subject).to eq("John Smith mentioned you in a story")
+        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in a story: #{story.prefix_with_number}")
         expect(mail.to).to eq([ "mentioned@example.com" ])
       end
 
