@@ -364,4 +364,56 @@ RSpec.describe Story, type: :model do
       expect(described_class.new.content_type).to eq ("application/vnd.actiontext.story_mention")
     end
   end
+
+  describe "callbacks" do
+    describe "#send_assignment_notification" do
+      let(:project) { create(:project) }
+      let(:board) { create(:board, project: project) }
+      let(:owner) { create(:user) }
+      let(:assigner) { create(:user) }
+      let(:new_assignee) { create(:user) }
+
+      before do
+        create(:organization_user, organization: project.organization, user: owner)
+        create(:organization_user, organization: project.organization, user: assigner)
+        create(:organization_user, organization: project.organization, user: new_assignee)
+        create(:project_user, project: project, user: owner)
+        create(:project_user, project: project, user: assigner)
+        create(:project_user, project: project, user: new_assignee)
+      end
+      let!(:story) { create(:story, board: board, owner: owner, user: nil) }
+
+      it "sends an email when a user is assigned to a story" do
+        expect {
+          story.update(user: new_assignee, last_updated_by: assigner)
+        }.to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+      end
+
+      it "does not send an email if the assignee does not change" do
+        story.update(user: new_assignee, last_updated_by: assigner)
+        expect {
+          story.update(title: "A new title", last_updated_by: assigner)
+        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+      end
+
+      it "does not send an email if the story is unassigned" do
+        story.update(user: new_assignee, last_updated_by: assigner)
+        expect {
+          story.update(user: nil, last_updated_by: assigner)
+        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+      end
+
+      it "does not send an email if the user assigns the story to themselves" do
+        expect {
+          story.update(user: assigner, last_updated_by: assigner)
+        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+      end
+
+      it "does not send an email if last_updated_by is not present" do
+        expect {
+          story.update(user: new_assignee, last_updated_by: nil)
+        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+      end
+    end
+  end
 end

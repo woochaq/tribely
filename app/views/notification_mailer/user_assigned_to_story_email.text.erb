@@ -1,0 +1,10 @@
+Hi <%= @assigned_user.name %>,
+
+<%= @assigner.name %> assigned you to the story:
+[<%= @story.prefix_with_number %>] <%= @story.title %>
+in the <%= @project.name %> project.
+
+You can view the story here: <%= project_story_url(@project, @story) %>
+
+Thanks,
+The Tribely Team

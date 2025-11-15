@@ -10,6 +10,7 @@ class Story < ApplicationRecord
   belongs_to :project
   belongs_to :user, optional: true
   belongs_to :owner, class_name: User.to_s
+  belongs_to :last_updated_by, class_name: "User", optional: true
   has_many :comments, dependent: :destroy
 
   friendly_id :custom_slug, use: :scoped, scope: :project
@@ -34,11 +35,21 @@ class Story < ApplicationRecord
   after_update_commit  :broadcast_on_update
   after_destroy_commit -> { broadcast_project_update(board) }
 
+  after_commit :send_assignment_notification, on: [ :create, :update ]
+
   before_save :move_to_top_if_started
   before_save :handle_board_change, if: -> { board_id_changed? }
 
   def content_type
     "application/vnd.actiontext.story_mention"
+  end
+
+  private
+
+  def send_assignment_notification
+    if user_id_previously_changed? && user.present? && last_updated_by.present? && user != last_updated_by
+      NotificationMailer.user_assigned_to_story_email(user, last_updated_by, self).deliver_later
+    end
   end
 
   private

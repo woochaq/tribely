@@ -22,6 +22,7 @@ class StoriesController < ApplicationController
   def create
     @story = @project.stories.new(permitted_attributes(Story))
     @story.owner = current_user
+    @story.last_updated_by = current_user
     authorize @story
 
     if @story.save
@@ -33,6 +34,7 @@ class StoriesController < ApplicationController
 
   def update
     authorize @story
+    @story.last_updated_by = current_user
     if @story.update(permitted_attributes(@story))
       if params[:state_change]
         render Components::Stories::Form.new(story: @story, current_project: @project), status: :ok
@@ -62,6 +64,7 @@ class StoriesController < ApplicationController
   def autosave
     authorize @story, :update?
 
+    @story.last_updated_by = current_user
     if @story.update(permitted_attributes(@story))
       head :ok
     else

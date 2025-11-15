@@ -1,0 +1,10 @@
+<p>Hi <%= @assigned_user.name %>,</p>
+
+<p>
+  <%= @assigner.name %> assigned you to the story:
+  <%= link_to "[#{@story.prefix_with_number}] #{@story.title}", project_story_url(@project, @story) %>
+  in the <strong><%= @project.name %></strong> project.
+</p>
+
+<p>Thanks,</p>
+<p>The Tribely Team</p>

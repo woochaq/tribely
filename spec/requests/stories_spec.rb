@@ -49,6 +49,7 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
         expect {
           post project_stories_url(project), params: { story: valid_attributes }
         }.to change(Story, :count).by(1)
+        expect(Story.last.last_updated_by).to eq(org_owner)
       end
 
       it "prevent adding story to the board from different project" do
@@ -63,15 +64,19 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
 
     describe "PATCH /update" do
       it "updates the requested story" do
+        expect(story.last_updated_by).to be_nil
         patch project_story_url(project, story), params: { story: { title: "Updated Title" } }
         story.reload
         expect(story.title).to eq("Updated Title")
+        expect(story.last_updated_by).to eq(org_owner)
       end
 
       it "prevent updating story to the board from different project" do
         project2 = create(:project, organization: organization)
+        expect(story.last_updated_by).to be_nil
         patch project_story_url(project, story), params: { story: { board_id: project2.boards.first.id } }
         story.reload
+        expect(story.last_updated_by).to be_nil
         expect(story.board).to eq(board)
         expect(response).to have_http_status(:unprocessable_content)
       end
@@ -84,6 +89,26 @@ RSpec.describe "/projects/:project_id/stories", type: :request do
           expect(response).to have_http_status(:ok)
           expect(response.body).to include("form") # Check if the form is re-rendered
         end
+      end
+    end
+
+    describe "PATCH /autosave" do
+      it "updates the requested story" do
+        expect(story.last_updated_by).to be_nil
+        patch autosave_project_story_url(project, story), params: { story: { title: "Updated Title" } }
+        story.reload
+        expect(story.title).to eq("Updated Title")
+        expect(story.last_updated_by).to eq(org_owner)
+      end
+
+      it "prevent updating story to the board from different project" do
+        project2 = create(:project, organization: organization)
+        expect(story.last_updated_by).to be_nil
+        patch autosave_project_story_url(project, story), params: { story: { board_id: project2.boards.first.id } }
+        story.reload
+        expect(story.last_updated_by).to be_nil
+        expect(story.board).to eq(board)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_12_164722) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_15_174525) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -125,6 +125,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_12_164722) do
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "done_at"
+    t.bigint "last_updated_by_id"
     t.integer "number", null: false
     t.bigint "owner_id", null: false
     t.integer "position", null: false
@@ -137,6 +138,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_12_164722) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["board_id"], name: "index_stories_on_board_id"
+    t.index ["last_updated_by_id"], name: "index_stories_on_last_updated_by_id"
     t.index ["owner_id"], name: "index_stories_on_owner_id"
     t.index ["prefix_with_number"], name: "index_stories_on_prefix_with_number"
     t.index ["project_id", "slug"], name: "index_stories_on_project_id_and_slug", unique: true
@@ -183,5 +185,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_12_164722) do
   add_foreign_key "stories", "boards"
   add_foreign_key "stories", "projects"
   add_foreign_key "stories", "users"
+  add_foreign_key "stories", "users", column: "last_updated_by_id"
   add_foreign_key "stories", "users", column: "owner_id"
 end
