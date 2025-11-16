@@ -1,4 +1,5 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+import "lexxy"
 import "@hotwired/turbo-rails"
 import "controllers"
 import "turbo_progress_bar"
