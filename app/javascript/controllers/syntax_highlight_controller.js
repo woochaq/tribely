@@ -4,8 +4,6 @@ import { highlightAll } from "lexxy"
 // Connects to data-controller="syntax-highlight"
 export default class extends Controller {
   connect() {
-    setTimeout(() => {
-      highlightAll()
-    }, 50);
+    highlightAll()
   }
 }
