@@ -39,13 +39,13 @@ class Components::Stories::Story < Components::Base
   def story_type_icon
     case @story.story_type
     when "feature"
-      render Components::Icons::FeatureStory.new
+      render PhlexIcons::Bootstrap::StarFill.new(class: "size-5 text-yellow-300")
     when "bug"
-      render Components::Icons::BugStory.new
+      render PhlexIcons::Bootstrap::BugFill.new(class: "size-5 text-red-400")
     when "chore"
-      render Components::Icons::ChoreStory.new
+      render PhlexIcons::Bootstrap::WrenchAdjustable.new(class: "size-5 text-gray-400")
     when "spike"
-      render Components::Icons::SpikeStory.new
+      render PhlexIcons::Bootstrap::Search.new(class: "size-5 text-yellow-300")
     end
   end
 end

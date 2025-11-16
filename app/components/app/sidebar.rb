@@ -59,21 +59,15 @@ class Components::App::Sidebar < Components::Base
   def render_icon(name)
     case name
     when :boards
-      render Components::Icons::Folder.new(class: "h-5 w-5")
+      render PhlexIcons::Bootstrap::Kanban.new(class: "size-5")
     when :documents
-      render Components::Icons::Document.new(class: "h-5 w-5")
-    when :all_stories
-      render Components::Icons::Bars3.new(class: "h-5 w-5")
-    when :reports
-      render Components::Icons::ChartBar.new(class: "h-5 w-5")
+      render PhlexIcons::Bootstrap::FileEarmarkText.new(class: "size-5")
     when :settings
-      render Components::Icons::Settings.new(class: "h-5 w-5")
+      render PhlexIcons::Bootstrap::Gear.new(class: "size-5")
     when :my_projects
       render Components::Icons::Folder.new(class: "h-5 w-5")
     when :organizations
-      render Components::Icons::Organization.new(class: "h-5 w-5")
-    when :my_stories
-      render Components::Icons::User.new(class: "h-5 w-5")
+      render PhlexIcons::Bootstrap::Building.new(class: "size-5")
     end
   end
 end

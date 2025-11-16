@@ -30,12 +30,12 @@ module Views
 
           div(class: "mt-8 text-sm text-subtext0") do
             p(class: "flex") do
-              render Components::Icons::Calendar.new(class: "mr-1.5 h-5 w-5")
+              render PhlexIcons::Bootstrap::CalendarDay.new(class: "mr-1.5 size-4")
               span { "Created by #{(@document.created_by&.name|| "N/A")} on #{@document.created_at.to_formatted_s(:long)}" }
             end
             if @document.last_updated_by.present?
               p(class: "flex") do
-                render Components::Icons::Calendar.new(class: "mr-1.5 h-5 w-5")
+                render PhlexIcons::Bootstrap::CalendarDay.new(class: "mr-1.5 size-4")
                 span { "Last updated by #{@document.last_updated_by.name} on #{@document.updated_at.to_formatted_s(:long)}" }
               end
             end

@@ -18,7 +18,7 @@ class Components::Documents::ListItem < Components::Base
         div(class: "mt-2 sm:flex sm:justify-between") do
           div(class: "sm:flex") do
             p(class: "flex items-center text-sm text-subtext0") do
-              render Components::Icons::Calendar.new(class: "mr-1.5 h-5 w-5")
+              render PhlexIcons::Bootstrap::CalendarDay.new(class: "mr-1.5 size-4")
               span { "Created by #{(@document.created_by&.name|| "N/A")} on #{@document.created_at.to_formatted_s(:long)}" }
             end
           end

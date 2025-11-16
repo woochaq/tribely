@@ -22,7 +22,7 @@ class Components::App::Header < Components::Base
             data: { action: "click->mobile-navigation#toggle" }
           ) do
             span(class: "sr-only") { "Open sidebar" }
-            render Icons::Bars3.new(class: "h-6 w-6")
+            render PhlexIcons::Bootstrap::CalendarDay.new(class: "size-6")
           end
           div(class: "h-6 w-px bg-crust lg:hidden", "aria-hidden": "true")
 
@@ -39,7 +39,7 @@ class Components::App::Header < Components::Base
               label(for: "search", class: "sr-only") { "Search" }
               div(class: "relative") do
                 div(class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3") do
-                  render Components::Icons::Search.new(class: "h-5 w-5 text-subtext0")
+                  render PhlexIcons::Bootstrap::Search.new(class: "size-5 text-subtext0")
                 end
                 input(id: "search", name: "query", class: "block w-full rounded-md border-0 bg-surface1 py-2 pl-10 pr-3 text-text placeholder:text-subtext0 focus:ring-2 focus:ring-inset focus:ring-primary", placeholder: "Search ...", data: { action: "input->search-stories#performSearch keydown->search-stories#navigate", "search-stories-target": "input" })
             div(class: "absolute inset-y-0 right-0 flex items-center pr-3 hidden", data: { "search-stories-target": "spinner" }) do

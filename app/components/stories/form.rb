@@ -33,7 +33,7 @@ class Components::Stories::Form < Components::Base
                 RubyUI::Clipboard() do
                   RubyUI::ClipboardSource(class: "hidden") { span { project_story_url(@current_project, @story) } }
                   render(RubyUI::ClipboardTrigger.new(class: "text-subtext0 hover:text-text")) do
-                    render Icons::Copy.new(class: "cursor-pointer w-6 h-6")
+                    render PhlexIcons::Bootstrap::Copy.new(class: "cursor-pointer size-6")
                   end
                 end
 
