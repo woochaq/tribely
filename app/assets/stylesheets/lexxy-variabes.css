@@ -28,7 +28,7 @@
   --lexxy-color-canvas: var(--lexxy-color-ink-inverted);
   --lexxy-color-text: var(--lexxy-color-ink);
   --lexxy-color-text-subtle: var(--lexxy-color-ink-medium);
-  --lexxy-color-link: var(--lexxy-color-accent-dark);
+  --lexxy-color-link: var(--color-primary-val);
   --lexxy-color-selected: var(--lexxy-color-accent-lightest);
   --lexxy-color-selected-hover: var(--lexxy-color-accent-light);
   --lexxy-color-selected-dark: var(--lexxy-color-blue);
