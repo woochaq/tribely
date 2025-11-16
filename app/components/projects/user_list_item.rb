@@ -15,7 +15,7 @@ class Components::Projects::UserListItem < Components::Base
 
   def view_template
     turbo_frame_tag project_user do
-      li(class: "p-4 flex items-center justify-between") do
+      li(class: "p-4 flex items-center justify-between hover:bg-surface0") do
         div(class: "flex items-center gap-x-2 min-w-0") do
           div(class: "flex-shrink-0") do
             render Components::Shared::Avatar.new(user: project_user.user, url: nil, size: "w-10 h-10")
@@ -61,7 +61,7 @@ class Components::Projects::UserListItem < Components::Base
     return unless policy(project_user.project).edit_member?
     return if project_user.user == current_user
 
-    link_to edit_project_member_path(project_user.project, project_user), class: "p-1 rounded-full hover:bg-crust transition-colors duration-200 cursor-pointer" do
+    link_to edit_project_member_path(project_user.project, project_user), class: "p-1 rounded-full transition-colors duration-200 cursor-pointer" do
       render Components::Icons::Edit.new(class: "w-4 h-4")
     end
   end

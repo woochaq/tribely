@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_15_174525) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_15_192445) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -64,6 +64,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_15_174525) do
     t.bigint "user_id", null: false
     t.index ["story_id"], name: "index_comments_on_story_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "documents", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "last_updated_by_id"
+    t.bigint "project_id", null: false
+    t.string "slug"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_documents_on_created_by_id"
+    t.index ["last_updated_by_id"], name: "index_documents_on_last_updated_by_id"
+    t.index ["project_id"], name: "index_documents_on_project_id"
   end
 
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -173,6 +186,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_15_174525) do
   add_foreign_key "boards", "projects"
   add_foreign_key "comments", "stories"
   add_foreign_key "comments", "users"
+  add_foreign_key "documents", "projects"
+  add_foreign_key "documents", "users", column: "created_by_id"
+  add_foreign_key "documents", "users", column: "last_updated_by_id"
   add_foreign_key "invitations", "organizations"
   add_foreign_key "invitations", "users", column: "recipient_id"
   add_foreign_key "invitations", "users", column: "sender_id"

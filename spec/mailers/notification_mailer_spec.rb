@@ -12,13 +12,14 @@ RSpec.describe NotificationMailer, type: :mailer do
       project.users << mentioner
     end
     let(:story) { create(:story, board: project.boards.first, title: "Test Story", owner: mentioner) }
+    let(:document) { create(:document, project: project, title: "Test Document", created_by: mentioner) }
     let(:comment) { create(:comment, story: story, user: mentioner) }
 
-    context "when mentioned in a comment" do
+    context "when mentioned in the comment" do
       let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, comment) }
 
       it "renders the headers" do
-        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in a comment of story: #{story.prefix_with_number}")
+        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in the comment of story: #{story.prefix_with_number}")
         expect(mail.to).to eq([ "mentioned@example.com" ])
         expect(mail.from).to eq([ "no-reply@tribely.work" ])
       end
@@ -26,24 +27,40 @@ RSpec.describe NotificationMailer, type: :mailer do
       it "renders the body" do
         body = mail.body.encoded
         expect(body).to match("Hi Jane Doe")
-        expect(body).to match("John Smith mentioned you in a comment")
+        expect(body).to match("John Smith mentioned you in the comment")
         expect(body).to include(project_story_url(project, story))
       end
     end
 
-    context "when mentioned in a story description" do
+    context "when mentioned in the story" do
       let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, story) }
 
       it "renders the headers" do
-        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in a story: #{story.prefix_with_number}")
+        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in the story: #{story.prefix_with_number}")
         expect(mail.to).to eq([ "mentioned@example.com" ])
       end
 
       it "renders the body" do
         body = mail.body.encoded
         expect(body).to match("Hi Jane Doe")
-        expect(body).to match("John Smith mentioned you in a story")
+        expect(body).to match("John Smith mentioned you in the story")
         expect(body).to include(project_story_url(project, story))
+      end
+    end
+
+    context "when mentioned in the document" do
+      let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, document) }
+
+      it "renders the headers" do
+        expect(mail.subject).to eq("(Tribely) John Smith mentioned you in the document: #{document.title}")
+        expect(mail.to).to eq([ "mentioned@example.com" ])
+      end
+
+      it "renders the body" do
+        body = mail.body.encoded
+        expect(body).to match("Hi Jane Doe")
+        expect(body).to match("John Smith mentioned you in the document")
+        expect(body).to include(project_document_url(project, document))
       end
     end
   end

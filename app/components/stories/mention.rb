@@ -8,7 +8,7 @@ class Components::Stories::Mention < Components::Base
   end
 
   def view_template
-    link_to(project_story_path(story.project, story), { target: :_blank, method: :get, data: { turbo: false } }) do
+    link_to(project_story_path(story.project, story), { target: :_blank }) do
       em(class: "text-primary font-semibold") { "##{story.prefix_with_number}" }
     end
   end

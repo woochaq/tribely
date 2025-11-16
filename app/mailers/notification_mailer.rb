@@ -36,14 +36,20 @@ class NotificationMailer < ApplicationMailer
     when Story
       [
         @mentionable.project,
-        "a story: #{@mentionable.prefix_with_number}",
+        "the story: #{@mentionable.prefix_with_number}",
         "story"
       ]
     when Comment
       [
         @mentionable.story.project,
-        "a comment of story: #{@mentionable.story.prefix_with_number}",
+        "the comment of story: #{@mentionable.story.prefix_with_number}",
         "comment"
+      ]
+    when Document
+      [
+        @mentionable.project,
+        "the document: #{@mentionable.title}",
+        "document"
       ]
     else
       raise "Unsupported mentionable type: #{@mentionable.class.name}"

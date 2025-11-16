@@ -18,20 +18,7 @@ class Components::Comments::Form < Components::Base
         div(id: dom_id(@comment, :form)) do
           simple_form_for([ @story.project, @story, @comment ], html: { data: { turbo_frame: dom_id(@story, "comments_form"), turbo_progress_bar: true  } }) do |f|
             f.rich_text_area :content, label: false, placeholder: "Add a comment...", autofocus: true, class: "lexxy-content wysiwyg-editor prose max-w-none" do
-              lexxy_prompt(
-                trigger: "@",
-                src: view_context.project_users_mentions_path(@story.project),
-                name: "mention",
-                "remote-filtering": true,
-                "supports-space-in-searches": true
-              )
-              lexxy_prompt(
-                trigger: "#",
-                src: mentions_project_stories_path(@story.project),
-                name: "mention",
-                "remote-filtering": true,
-                "supports-space-in-searches": true
-              )
+              render Components::Shared::LexxyPrompts.new(project: @story.project)
             end
             if f.object.errors[:content].present?
               p(class: "mt-2 text-sm text-danger flex items-center gap-1") { f.object.errors[:content].join(", ") }

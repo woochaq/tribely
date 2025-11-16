@@ -14,7 +14,7 @@ class Components::Organizations::UserListItem < Components::Base
 
   def view_template
     turbo_frame_tag organization_user do
-      li(class: "p-4 flex items-center justify-between") do
+      li(class: "p-4 flex items-center justify-between hover:bg-surface0") do
         div(class: "flex items-center gap-x-2 min-w-0") do
           div(class: "flex-shrink-0") do
             render Components::Shared::Avatar.new(user: organization_user.user, url: nil, size: "w-10 h-10")
@@ -53,7 +53,7 @@ class Components::Organizations::UserListItem < Components::Base
   def render_edit_button
     return unless policy(organization_user).edit?
 
-    link_to edit_organization_member_path(organization_user.organization, organization_user), class: "p-1 rounded-full hover:bg-crust transition-colors duration-200 cursor-pointer" do
+    link_to edit_organization_member_path(organization_user.organization, organization_user), class: "p-1 rounded-full transition-colors duration-200 cursor-pointer" do
       render Components::Icons::Edit.new(class: "w-4 h-4")
     end
   end

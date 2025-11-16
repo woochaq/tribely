@@ -13,7 +13,7 @@ class Components::Organizations::Members::Edit < Components::Base
 
   def view_template
     turbo_frame_tag organization_user do
-      li(class: "p-4 flex items-center justify-between") do
+      li(class: "p-4 flex items-center justify-between hover:bg-surface0") do
         simple_form_for([ organization_user.organization, organization_user ], url: organization_member_path(organization_user.organization, organization_user), method: :patch, html: { class: "w-full" }) do |f|
           div(class: "flex items-center gap-x-2 w-full") do
             render Components::Shared::Avatar.new(user: organization_user.user, url: nil, size: "w-10 h-10")

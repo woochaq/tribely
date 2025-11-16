@@ -1,15 +1,17 @@
 <p>Hi <%= @mentioned_user.name %>,</p>
 
 <% if @mentioner.present? %>
-  <p><%= @mentioner.name %> mentioned you in a <%= @mentionable.model_name.human.downcase %>:</p>
+  <p><%= @mentioner.name %> mentioned you in the <%= @mentionable.model_name.human.downcase %>:</p>
 <% else %>
-  <p>somebody mentioned you in a <%= @mentionable.model_name.human.downcase %>:</p>
+  <p>somebody mentioned you in the<%= @mentionable.model_name.human.downcase %>:</p>
 <% end %>
 <p>
   <% if @mentionable.is_a?(Story) %>
     <%= link_to "[#{@mentionable.prefix_with_number}] #{@mentionable.title }", project_story_url(@mentionable.project, @mentionable) %>
   <% elsif @mentionable.is_a?(Comment) %>
     <%= link_to "Comment on story #{@mentionable.story.prefix_with_number}", project_story_url(@mentionable.story.project, @mentionable.story, anchor: "comment_#{@mentionable.id}") %>
+  <% elsif @mentionable.is_a?(Document) %>
+    <%= link_to "#{@mentionable.title}", project_document_url(@mentionable.project, @mentionable) %>
   <% end %>
 </p>
 

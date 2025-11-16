@@ -23,7 +23,13 @@ module Mentionable
     newly_mentioned_users = current_mentions - previous_mentions
 
     newly_mentioned_users.each do |mentioned_user|
-      mentioner = self.is_a?(Story) ? owner : user
+      mentioner = if self.is_a?(Story)
+        owner
+      elsif self.is_a?(Document)
+        last_updated_by
+      else
+        user
+      end
       next if mentioned_user == mentioner # Don't notify the author about their own mention
 
       NotificationMailer.user_mentioned(mentioned_user, mentioner, self).deliver_later
@@ -33,7 +39,7 @@ module Mentionable
   def extract_mentioned_users(rich_text_body)
     return [] if rich_text_body.blank?
     rich_text_body.attachments.filter_map do |attachment|
-      attachment.attachable if attachment.attachable.is_a?(User)
+      attachment.attachable if [ User, Document ].include?(attachment.attachable.class)
     end.uniq
   end
 end

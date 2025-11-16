@@ -57,20 +57,7 @@ class Components::Stories::Form < Components::Base
 
             f.rich_text_area :description,  label: false, class: "prose max-w-none lexxy-content wysiwyg-editor min-h-[35vh] max-h-[45vh]", disabled: !policy(@story).update?, data: autosave_data_attributes("lexxy:change") do
               if @story.project.present?
-                lexxy_prompt(
-                  trigger: "@",
-                  src: project_users_mentions_path(@story.project),
-                  name: "mention",
-                  "remote-filtering": true,
-                  "supports-space-in-searches": true
-                )
-                lexxy_prompt(
-                  trigger: "#",
-                  src: mentions_project_stories_path(@story.project),
-                  name: "mention",
-                  "remote-filtering": true,
-                  "supports-space-in-searches": true
-                )
+                render Components::Shared::LexxyPrompts.new(project: @story.project)
               end
             end
           end

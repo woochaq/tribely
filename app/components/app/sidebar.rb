@@ -1,4 +1,5 @@
 class Components::App::Sidebar < Components::Base
+  include Pundit::Authorization
   include Phlex::Rails::Helpers::ClassNames
   include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::CurrentPage
@@ -16,9 +17,10 @@ class Components::App::Sidebar < Components::Base
       if @current_project
         nav(class: "flex-1 flex flex-col p-4 space-y-2") do
           nav_item(text: "Boards", icon: :boards, href: project_path(@current_project), active: current_page?(project_path(@current_project)))
+          nav_item(text: "Documents", icon: :documents, href: project_documents_path(@current_project), active: current_page?(project_documents_path(@current_project)))
           # nav_item(text: "All Stories", icon: :all_stories, href: "#")
           # nav_item(text: "Reports", icon: :reports, href: "#")
-          nav_item(text: "Project Settings", icon: :settings, href: settings_project_path(@current_project), active: current_page?(settings_project_path))
+          nav_item(text: "Project Settings", icon: :settings, href: settings_project_path(@current_project), active: current_page?(settings_project_path(@current_project)))
         end
       end
 
@@ -58,6 +60,8 @@ class Components::App::Sidebar < Components::Base
     case name
     when :boards
       render Components::Icons::Folder.new(class: "h-5 w-5")
+    when :documents
+      render Components::Icons::Document.new(class: "h-5 w-5")
     when :all_stories
       render Components::Icons::Bars3.new(class: "h-5 w-5")
     when :reports

@@ -10,10 +10,7 @@ class Views::Organizations::Index < Views::App::Base
       div(class: "bg-mantle rounded-lg border border-crust shadow-lg") do
         ul(class: "divide-y divide-crust") do
           @organizations.each do |organization|
-            render Components::Organizations::ListItem.new(
-              organization: organization,
-              current_user: current_user
-            )
+            render Components::Organizations::ListItem.new(organization: organization)
           end
         end
       end

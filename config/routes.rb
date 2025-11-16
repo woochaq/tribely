@@ -22,6 +22,11 @@ Rails.application.routes.draw do
 
       resources :comments, only: [ :update, :create, :new, :destroy, :edit, :show ]
     end
+
+    resources :documents, only: [ :index, :show, :update, :create, :new, :edit, :destroy ] do
+      get :mentions, on: :collection
+      get :search, on: :collection
+    end
   end
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   devise_for :user, controllers: {
