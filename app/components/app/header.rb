@@ -22,7 +22,7 @@ class Components::App::Header < Components::Base
             data: { action: "click->mobile-navigation#toggle" }
           ) do
             span(class: "sr-only") { "Open sidebar" }
-            render PhlexIcons::Bootstrap::CalendarDay.new(class: "size-6")
+            render PhlexIcons::Bootstrap::List.new(class: "size-6")
           end
           div(class: "h-6 w-px bg-crust lg:hidden", "aria-hidden": "true")
 

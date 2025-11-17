@@ -1,6 +1,26 @@
 <figure class="attachment attachment--<%= blob.representable? ? "preview" : "file" %> attachment--<%= blob.filename.extension %>">
-  <% if blob.representable? %>
+  <% if blob.video? %>
+    <video controls style="max-width: 100%; height: auto;">
+      <source src="<%= rails_blob_url(blob) %>" type="<%= blob.content_type %>">
+      Your browser does not support the video tag.
+    </video>
+  <% elsif blob.content_type == "application/pdf" %>
+    <% if blob.representable? %>
+      <%= link_to rails_blob_url(blob), target: '_blank', rel: 'noopener' do %>
+        <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]), style: "max-width: 100%; height: auto;" %>
+      <% end %>
+    <% else %>
+      <%= link_to "Download file: #{blob.filename}", rails_blob_url(blob) %>
+    <% end %>
+  <% elsif blob.image? %>
     <%= image_tag blob.representation(resize_to_limit: local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]) %>
+  <% elsif blob.representable? %>
+    <%# Fallback for other representable types, if any, or just show a link %>
+    <%= link_to "Download file: #{blob.filename}", rails_blob_url(blob) %>
+  <% else %>
+    <span class="attachment__name"><%= blob.filename %></span>
+    <span class="attachment__size"><%= number_to_human_size blob.byte_size %></span>
+    <%= link_to "Download file", rails_blob_url(blob) %>
   <% end %>
 
   <figcaption class="attachment__caption">

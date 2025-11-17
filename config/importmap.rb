@@ -29,3 +29,4 @@ pin "lexxy", to: "lexxy.min.js"
 pin "@rails/activestorage", to: "activestorage.esm.js"
 pin "turbo_progress_bar"
 pin "stimulus-use" # @0.52.3
+pin "embla-carousel" # @8.6.0
