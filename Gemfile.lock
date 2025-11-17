@@ -295,8 +295,6 @@ GEM
       racc
     phlex (2.3.1)
       zeitwerk (~> 2.7)
-    phlex-icons (2.44.0)
-      phlex (>= 1.11)
     phlex-rails (2.3.1)
       phlex (~> 2.3.0)
       railties (>= 7.1, < 9)
@@ -543,7 +541,6 @@ DEPENDENCIES
   mission_control-jobs
   mysql2 (~> 0.5)
   openssl
-  phlex-icons
   phlex-rails
   propshaft
   pry

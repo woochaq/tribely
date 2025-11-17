@@ -79,7 +79,6 @@ gem "honeybadger", "~> 6.1"
 gem "lexxy", "~> 0.1.4.beta" # Need to specify the version since it's a pre-release
 gem "mission_control-jobs"
 gem "openssl"
-gem "phlex-icons"
 gem "phlex-rails"
 gem "pundit"
 gem "simple_form"
