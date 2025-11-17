@@ -12,7 +12,7 @@ class Components::Shared::AttachmentCarousel < Components::Base
     render RubyUI::Carousel.new(class: "w-full") do
       render RubyUI::CarouselContent.new(class: "-ml-4") do
         @attachments.each do |attachment|
-          render RubyUI::CarouselItem.new(class: "pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6") do
+          render RubyUI::CarouselItem.new(class: "pl-4 basis-full sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6") do
             div(class: "p-1") do
               render RubyUI::Card.new(class: "overflow-hidden border bg-surface0 border-crust text-card-foreground rounded-lg shadow-sm") do
                 render RubyUI::CardContent.new(class: "flex aspect-square items-center justify-center p-0 relative") do
