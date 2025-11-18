@@ -15,7 +15,7 @@ class Views::Subscriptions::New < Views::Base
 
   def view_template
     div(class: "flex items-center justify-center bg-base") do
-      div(class: "w-full max-w-md") do
+      div(class: "w-full px-2 max-w-md") do
         div(class: "mx-auto bg-mantle p-8 rounded-2xl border border-crust shadow-lg") do
           h1(class: "text-3xl font-bold text-center text-text mb-4") { "Our project is launching soon!" }
 
