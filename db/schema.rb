@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_15_192445) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_18_154442) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -77,6 +77,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_15_192445) do
     t.index ["created_by_id"], name: "index_documents_on_created_by_id"
     t.index ["last_updated_by_id"], name: "index_documents_on_last_updated_by_id"
     t.index ["project_id"], name: "index_documents_on_project_id"
+  end
+
+  create_table "email_subscriptions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_email_subscriptions_on_email", unique: true
   end
 
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

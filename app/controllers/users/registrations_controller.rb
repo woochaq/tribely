@@ -4,12 +4,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_account_update_params, only: [ :update ]
 
   def new
+    redirect_to root_path, alert: "You shall not pass! 🧙‍♂️" and return
     build_resource(sign_up_params)
     yield resource if block_given?
     render Views::Devise::Registrations::New.new(minimum_password_length: @minimum_password_length, resource: resource, resource_name: resource_name)
   end
 
   def create
+    redirect_to root_path and return
     build_resource(sign_up_params)
 
     resource.save
