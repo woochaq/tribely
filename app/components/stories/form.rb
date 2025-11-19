@@ -60,6 +60,14 @@ class Components::Stories::Form < Components::Base
                 render Components::Shared::LexxyPrompts.new(project: @story.project)
               end
             end
+
+            if @story.description.embeds.attachments.present?
+              div(class: "border-t border-crust") do
+                div(class: "px-10 pt-5") do
+                  render Components::Shared::AttachmentCarousel.new(attachments: @story.description.embeds.attachments)
+                end
+              end
+            end
           end
           div(class: "space-y-4 py-4 lg:py-0") do
             f.input :story_type, as: :select, collection: translated_story_types, include_blank: false, input_html: { disabled: !policy(@story).update?, data: autosave_data_attributes("change") }

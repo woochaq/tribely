@@ -26,7 +26,7 @@ class Views::Documents::Show < Views::Documents::Base
         safe(@document.content.to_s)
       end
 
-      if @document.content.body.attachments.present?
+      if @document.content.embeds.attachments.present?
         div(class: "border-t border-crust") do
           div(class: "px-10 pt-5") do
             render Components::Shared::AttachmentCarousel.new(attachments: @document.content.embeds.attachments)

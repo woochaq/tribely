@@ -22,7 +22,9 @@ class Components::Shared::AttachmentCarousel < Components::Base
                 render RubyUI::CardFooter.new(class: "p-2 text-center border-t border-crust") do
                   div(class: "flex justify-between items-center text-xs") do
                     span(class: "text-text") { number_to_human_size(attachment.byte_size) }
-                    link_to "Download", helpers.rails_blob_url(attachment, disposition: "attachment"), class: "text-primary hover:underline font-medium"
+                    link_to helpers.rails_blob_url(attachment, disposition: "attachment"), class: "text-primary hover:underline font-medium" do
+                      render PhlexIcons::Bootstrap::CloudDownload.new(class: "h-4 w-4")
+                    end
                   end
                 end
               end
