@@ -12,7 +12,7 @@ module Mentionable
     return unless rich_text_attribute_name
 
     rich_text_association = send(rich_text_attribute_name)
-    return unless rich_text_association.saved_change_to_body?
+    return unless rich_text_association&.saved_change_to_body?
 
     previous_body = rich_text_association.body_before_last_save
     current_body = rich_text_association.body

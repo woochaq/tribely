@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "users/mentions", to: "users#mentions"
     get :settings, on: :member
     resources :members, only: [ :create, :edit, :update, :destroy ], controller: "projects/members"
+    resources :webhooks, only: [ :index, :create, :edit, :update, :destroy ], controller: "projects/webhooks"
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       get :mentions, on: :collection
       get :search, on: :collection
@@ -57,4 +58,8 @@ Rails.application.routes.draw do
   # TODO: uncomment above
   resources :subscriptions, only: [ :new, :create ]
   root "subscriptions#new"
+
+  namespace :api do
+    post "webhooks/:token", to: "webhooks#create", as: :webhook
+  end
 end

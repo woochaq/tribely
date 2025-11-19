@@ -15,6 +15,7 @@ class Project < ApplicationRecord
   # has_many :stories, through: :boards
   has_many :stories, dependent: :destroy
   has_many :documents, dependent: :destroy
+  has_many :webhooks, dependent: :destroy
 
   after_create_commit :create_default_boards
 
