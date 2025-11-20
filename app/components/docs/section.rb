@@ -6,7 +6,7 @@ class Components::Docs::Section < Components::Base
 
   def view_template(&block)
     div(class: "mb-12") do
-      h2(class: "text-2xl font-bold text-text mb-6 flex items-center gap-2 pb-2 border-b border-gray-100") do
+      h2(class: "text-2xl font-bold text-text mb-6 flex items-center gap-2 pb-2 border-b border-crust") do
         plain @icon if @icon
         plain @title
       end

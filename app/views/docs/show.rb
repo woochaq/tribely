@@ -9,6 +9,7 @@ module Views
 
           roles_section
           stories_section
+          documents_section
           shortcuts_section
           webhooks_section
         end
@@ -136,6 +137,12 @@ module Views
               end
             end
           end
+
+          div(class: "mt-6") do
+            render Components::Docs::Callout.new(icon: "💡", color: :blue, title: "Inviting New Members") do
+              "To add a user to a Project, they must first be a member of the Organization. Start by inviting them to the Organization via email, then assign them to specific projects."
+            end
+          end
         end
       end
 
@@ -154,14 +161,14 @@ module Views
 
             div do
               h3(class: "font-semibold text-text mb-3") { "Workflow Statuses" }
-              div(class: "flex items-center gap-2 text-sm overflow-x-auto py-2") do
-                status_step("To Do", "Planned work.", :gray)
-                arrow
-                status_step("In Progress", "Currently being worked on.", :blue)
-                arrow
-                status_step("In Review", "Awaiting code review or QA.", :yellow)
-                arrow
-                status_step("Done", "Completed and accepted.", :green)
+              div(class: "flex items-center justify-center gap-4 text-sm overflow-x-auto py-4") do
+                status_card("To Do", "Planned work", :gray)
+                render Components::Icons::ArrowRight.new(class: "w-6 h-6 text-subtext0 flex-shrink-0")
+                status_card("In Progress", "Being worked on", :blue)
+                render Components::Icons::ArrowRight.new(class: "w-6 h-6 text-subtext0 flex-shrink-0")
+                status_card("In Review", "Code review / QA", :yellow)
+                render Components::Icons::ArrowRight.new(class: "w-6 h-6 text-subtext0 flex-shrink-0")
+                status_card("Done", "Completed", :green)
               end
             end
 
@@ -176,8 +183,48 @@ module Views
         end
       end
 
+      def documents_section
+        render Components::Docs::Section.new("Documents & Files", icon: "📄") do
+          div(class: "space-y-6") do
+            div do
+              p(class: "text-subtext0 mb-4") { "Projects include a dedicated space for long-form content, specifications, and file storage." }
+
+              div(class: "grid grid-cols-1 md:grid-cols-2 gap-6") do
+                div(class: "bg-mantle border border-crust rounded-lg p-4") do
+                  h4(class: "font-semibold text-text mb-2 flex items-center gap-2") do
+                     plain "✨ Features"
+                  end
+                  ul(class: "space-y-2 text-sm text-subtext0") do
+                    li { "• Rich Text Editor (WYSIWYG)" }
+                    li { "• File Attachments & Uploads" }
+                    li { "• Real-time Collaboration" }
+                  end
+                end
+
+                div(class: "bg-mantle border border-crust rounded-lg p-4") do
+                  h4(class: "font-semibold text-text mb-2 flex items-center gap-2") do
+                     plain "🔒 Access Control"
+                  end
+                  ul(class: "space-y-2 text-sm text-subtext0") do
+                    li do
+                      render Components::Docs::Badge.new(color: :purple) { "Owner" }
+                      render Components::Docs::Badge.new(color: :blue) { "Member" }
+                      span { " Create & Edit" }
+                    end
+                    li(class: "opacity-75") do
+                      render Components::Docs::Badge.new(color: :gray) { "Guest" }
+                      span { " No Access (Hidden)" }
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
       def shortcuts_section
-        render Components::Docs::Section.new("Power Features", icon: "⚡ ") do
+        render Components::Docs::Section.new("Power Features", icon: "🛠️") do
           div(class: "grid grid-cols-1 md:grid-cols-2 gap-6") do
             div do
               h3(class: "font-semibold text-text mb-3") { "Mentions & References" }
@@ -198,11 +245,19 @@ module Views
             end
 
              div do
-              h3(class: "font-semibold text-text mb-3") { "Editor" }
-              ul(class: "space-y-2 text-sm text-subtext0") do
+              h3(class: "font-semibold text-text mb-3") { "Productivity" }
+               ul(class: "space-y-2 text-sm text-subtext0") do
                 li do
                    span(class: "text-green-600 font-medium") { "Autosave" }
-                   span { " • Content saves automatically after 1 second of inactivity." }
+                   span { " • Content saves automatically after 1 second." }
+                end
+                 li do
+                   span(class: "text-blue-500 font-medium") { "Rich Text" }
+                   span { " • Use Markdown shortcuts in descriptions and comments." }
+                end
+                 li do
+                   span(class: "text-purple-500 font-medium") { "Search" }
+                   span { " • Find stories quickly from the top bar." }
                 end
               end
             end
@@ -283,15 +338,11 @@ module Views
         end
       end
 
-      def status_step(name, desc, color)
-        div(class: "flex flex-col items-center text-center min-w-[100px]") do
+      def status_card(name, desc, color)
+        div(class: "flex flex-col items-center text-center p-3 rounded-lg border border-crust bg-mantle min-w-[120px] shadow-sm") do
           render Components::Docs::Badge.new(color: color) { name }
-          span(class: "text-[10px] text-subtext0 mt-1") { desc }
+          span(class: "text-xs text-subtext0 mt-2 font-medium") { desc }
         end
-      end
-
-      def arrow
-        span(class: "text-subtext0") { "→" }
       end
     end
   end
