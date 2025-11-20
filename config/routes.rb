@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   # root "home#index"
   # TODO: uncomment above
   resources :subscriptions, only: [ :new, :create ]
+  resource :docs, only: [ :show ]
   root "subscriptions#new"
 
   namespace :api do

@@ -11,24 +11,24 @@ class Components::LandingPage::Header < Components::Base
           end
 
           # TODO: uncomment after going live
-          # div(class: "hidden md:flex items-center space-x-8") do
-          #   a(href: root_url(anchor: "features"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
-          #   a(href: root_url(anchor: "pricing"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
-          #   a(href: root_url(anchor: "doc"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Docs" }
-          # end
+          div(class: "hidden md:flex items-center space-x-8") do
+            # a(href: root_url(anchor: "features"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
+            # a(href: root_url(anchor: "pricing"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
+            a(href: docs_url, class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Docs" }
+          end
           #
-          #  div(class: "flex items-center space-x-4") do
-          #   if view_context.user_signed_in?
-          #     div(class: "flex items-center gap-4") do
-          #       link_to projects_path do
-          #         render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
-          #       end
-          #     end
-          #   else
-          #     a(href: new_user_session_path, class: "btn-secondary text-sm") { "Login" }
-          #     a(href: new_user_registration_path, class: "btn-primary text-sm sm:text-base") { "Sign Up" }
-          #   end
-          # end
+          div(class: "flex items-center space-x-4") do
+            #   if view_context.user_signed_in?
+            #     div(class: "flex items-center gap-4") do
+            #       link_to projects_path do
+            #         render Components::Shared::Avatar.new(user: current_user, url: nil, size: "w-10 h-10")
+            #       end
+            #     end
+            #   else
+            #     a(href: new_user_session_path, class: "btn-secondary text-sm") { "Login" }
+            #     a(href: new_user_registration_path, class: "btn-primary text-sm sm:text-base") { "Sign Up" }
+            #   end
+          end
         end
       end
     end
