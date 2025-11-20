@@ -26,6 +26,7 @@ class Components::App::Sidebar < Components::Base
 
       div(class: "mt-auto") do
         nav(class: "flex flex-col p-4 space-y-2 border-t border-crust") do
+          nav_item(text: "Documentation", icon: :docs, href: docs_path, active: current_page?(docs_path))
           nav_item(text: "My Projects", icon: :my_projects, href: projects_path, active: current_page?(projects_path))
           nav_item(text: "My Organizations", icon: :organizations, href: organizations_path, active: current_page?(organizations_path))
           # nav_item(text: "My Stories", icon: :my_stories, href: "#")
@@ -68,6 +69,8 @@ class Components::App::Sidebar < Components::Base
       render Components::Icons::Folder.new(class: "h-5 w-5")
     when :organizations
       render PhlexIcons::Bootstrap::Building.new(class: "size-5")
+    when :docs
+      render Components::Icons::InformationCircle.new(class: "size-5")
     end
   end
 end

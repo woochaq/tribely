@@ -88,6 +88,12 @@ module Views
               end
             end
           end
+
+          div(class: "mt-6") do
+            render Components::Docs::Callout.new(icon: "💡", color: :green, title: "Personal Workspace") do
+              "Every user automatically gets their own Organization upon sign-up. You have full Owner permissions in this workspace."
+            end
+          end
         end
       end
 
@@ -104,15 +110,15 @@ module Views
             div do
               h3(class: "font-semibold text-text mb-3") { "Organization Roles" }
               ul(class: "space-y-3 text-sm text-subtext0") do
-                li do
+                li(class: "flex items-start gap-2") do
                   render Components::Docs::Badge.new(color: :purple) { "Owner" }
                   span { "Full access. Can manage billing, members, and all projects." }
                 end
-                li do
+                li(class: "flex items-start gap-2") do
                   render Components::Docs::Badge.new(color: :blue) { "Member" }
                   span { "Can view and work on assigned projects. Cannot manage organization billing." }
                 end
-                li do
+                li(class: "flex items-start gap-2") do
                   render Components::Docs::Badge.new(color: :gray) { "Guest" }
                   span { "Limited access. Can only see specific projects they are invited to." }
                 end
@@ -122,15 +128,15 @@ module Views
             div do
               h3(class: "font-semibold text-text mb-3") { "Project Roles" }
               ul(class: "space-y-3 text-sm text-subtext0") do
-                li do
+                li(class: "flex items-start gap-2") do
                   render Components::Docs::Badge.new(color: :purple) { "Owner" }
                   span { "Can manage project settings, webhooks, and members." }
                 end
-                li do
+                li(class: "flex items-start gap-2") do
                   render Components::Docs::Badge.new(color: :blue) { "Member" }
                   span { "Can create and edit stories, comments, and view documents." }
                 end
-                 li do
+                 li(class: "flex items-start gap-2") do
                   render Components::Docs::Badge.new(color: :gray) { "Guest" }
                   span { "Can only view stories and add comments. Cannot create or edit stories." }
                 end
@@ -161,7 +167,7 @@ module Views
 
             div do
               h3(class: "font-semibold text-text mb-3") { "Workflow Statuses" }
-              div(class: "flex items-center justify-center gap-4 text-sm overflow-x-auto py-4") do
+              div(class: "flex items-center justify-start md:justify-center gap-4 text-sm overflow-x-auto py-4 px-1") do
                 status_card("To Do", "Planned work", :gray)
                 render Components::Icons::ArrowRight.new(class: "w-6 h-6 text-subtext0 flex-shrink-0")
                 status_card("In Progress", "Being worked on", :blue)
@@ -274,6 +280,7 @@ module Views
               h4(class: "font-semibold text-text mb-2") { "Supported Actions" }
               ul(class: "list-disc list-inside text-sm text-subtext0 ml-2") do
                 li { "Create Story" }
+                li(class: "italic opacity-75") { "More actions coming soon..." }
               end
             end
 
