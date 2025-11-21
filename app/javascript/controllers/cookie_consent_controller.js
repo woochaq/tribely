@@ -16,15 +16,7 @@ export default class extends Controller {
         this.bannerTarget.classList.remove("hidden")
       }, 500)
     }
-    
-    // Listen for reset events from footer/settings
-    window.addEventListener("cookie-consent:reset", this.showBanner.bind(this))
   }
-
-  disconnect() {
-    window.removeEventListener("cookie-consent:reset", this.showBanner.bind(this))
-  }
-
 
   accept() {
     localStorage.setItem("cookie_consent", "accepted")

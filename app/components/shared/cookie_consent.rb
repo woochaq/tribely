@@ -21,12 +21,12 @@ class Components::Shared::CookieConsent < Components::Base
             button(
               class: "btn-primary text-sm px-4 py-2",
               data: { action: "click->cookie-consent#accept" }
-            ) { "Accept Analytics" }
+            ) { "Accept" }
 
             button(
               class: "btn-secondary text-sm px-4 py-2",
               data: { action: "click->cookie-consent#decline" }
-            ) { "Reject Analytics" }
+            ) { "Reject" }
           end
         end
       end
