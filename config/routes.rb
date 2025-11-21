@@ -55,9 +55,12 @@ Rails.application.routes.draw do
   match "/500", to: "errors#internal_server_error", via: :all
 
   # root "home#index"
+  get "home" => "home#index"
   # TODO: uncomment above
   resources :subscriptions, only: [ :new, :create ]
   resource :docs, only: [ :show ]
+  get "privacy", to: "pages#privacy"
+
   root "subscriptions#new"
 
   namespace :api do

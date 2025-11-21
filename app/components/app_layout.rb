@@ -35,7 +35,6 @@ class Components::AppLayout < Components::Base
         stylesheet_link_tag "lexxy", "data-turbo-track": "reload"
         stylesheet_link_tag :app, "data-turbo-track": "reload"
         javascript_importmap_tags
-        script(defer: true, src: "https://cloud.umami.is/script.js", data_website_id: "5c565357-721e-4784-a47d-3aeeba73e86a")
       end
 
       body(class: "h-full font-sans text-text", data: { "current-user-id": current_user&.id }) do
@@ -50,6 +49,7 @@ class Components::AppLayout < Components::Base
           end
         end
         render Components::Shared::Modal
+        render Components::Shared::CookieConsent.new
       end
     end
   end

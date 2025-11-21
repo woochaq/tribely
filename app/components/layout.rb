@@ -31,7 +31,6 @@ class Components::Layout < Components::Base
 
         stylesheet_link_tag :app, "data-turbo-track": "reload"
         javascript_importmap_tags
-        script(defer: true, src: "https://cloud.umami.is/script.js", data_website_id: "5c565357-721e-4784-a47d-3aeeba73e86a")
       end
 
       body(class: "bg-base text-text font-sans") do
@@ -43,6 +42,7 @@ class Components::Layout < Components::Base
         end
 
         render Components::LandingPage::Footer.new
+        render Components::Shared::CookieConsent.new
       end
     end
   end

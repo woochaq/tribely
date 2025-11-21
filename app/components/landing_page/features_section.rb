@@ -14,8 +14,7 @@ class Components::LandingPage::FeaturesSection < Components::Base
           # Feature Card 1
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             div(class: "w-12 h-12 rounded-xl bg-info/20 flex items-center justify-center mb-6") do
-              # Placeholder for an SVG icon
-              span(class: "text-2xl font-bold text-info") { "S" }
+              render PhlexIcons::Bootstrap::Kanban.new(class: "size-6 text-info")
             end
             h3(class: "text-xl font-bold text-text") do
               "Smart Task Management"
@@ -28,8 +27,7 @@ class Components::LandingPage::FeaturesSection < Components::Base
           # Feature Card 2
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             div(class: "w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center mb-6") do
-              # Placeholder for an SVG icon
-              span(class: "text-2xl font-bold text-accent") { "R" }
+              render Components::Icons::Edit.new(class: "size-6 text-accent")
             end
             h3(class: "text-xl font-bold text-text") do
               "Real-time Collaboration"
@@ -42,14 +40,13 @@ class Components::LandingPage::FeaturesSection < Components::Base
           # Feature Card 3
           div(class: "bg-surface0 border border-crust rounded-2xl p-8 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-crust/30 reveal-on-scroll") do
             div(class: "w-12 h-12 rounded-xl bg-success/20 flex items-center justify-center mb-6") do
-              # Placeholder for an SVG icon
-              span(class: "text-2xl font-bold text-success") { "C" }
+              render PhlexIcons::Bootstrap::FileEarmarkText.new(class: "size-6 text-success")
             end
             h3(class: "text-xl font-bold text-text") do
-              "Customizable Dashboards"
+              "Integrated Documentation"
             end
             p(class: "mt-2 text-subtext0") do
-              "Create a personal workspace that shows you exactly what you need, and nothing you don't."
+              "Keep specifications, files, and requirements right next to your tasks. No more context switching."
             end
           end
         end
