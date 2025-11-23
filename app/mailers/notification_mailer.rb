@@ -1,8 +1,8 @@
 class NotificationMailer < ApplicationMailer
-  def user_mentioned(mentioned_user, mentioner, mentionable)
-    @mentioned_user = mentioned_user
-    @mentioner = mentioner
-    @mentionable = mentionable
+  def user_mentioned
+    @mentioned_user = params[:recipient]
+    @mentioner = params[:mentioner]
+    @mentionable = params[:model_record]
 
     @project, mention_description, type_name = mentionable_details
     subject = build_subject(mention_description, type_name)

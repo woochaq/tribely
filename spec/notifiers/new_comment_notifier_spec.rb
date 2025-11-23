@@ -101,14 +101,5 @@ RSpec.describe NewCommentNotifier, type: :notifier do
         end
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
-
-    it "delivers by action_cable" do
-      # ActionCable broadcasts are harder to test directly without a full setup.
-      # For now, we'll assume if the Notifier is configured, it attempts to deliver.
-      # A more robust test would involve testing the ActionCable subscription/broadcast directly if needed.
-      # We can check if a specific ActionCable broadcast job is enqueued if we had a custom job.
-      # For `deliver_by :action_cable` without custom job, it directly broadcasts.
-      # This is more of an integration test for ActionCable, which might be out of scope for a unit notifier test.
-    end
   end
 end

@@ -16,7 +16,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     let(:comment) { create(:comment, story: story, user: mentioner) }
 
     context "when mentioned in the comment" do
-      let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, comment) }
+      let(:mail) { NotificationMailer.with(recipient: mentioned_user, mentioner: mentioner, model_record: comment).user_mentioned }
 
       it "renders the headers" do
         expect(mail.subject).to eq("(Tribely) John Smith mentioned you in the comment of story: #{story.prefix_with_number}")
@@ -33,7 +33,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     context "when mentioned in the story" do
-      let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, story) }
+      let(:mail) { NotificationMailer.with(recipient: mentioned_user, mentioner: mentioner, model_record: story).user_mentioned }
 
       it "renders the headers" do
         expect(mail.subject).to eq("(Tribely) John Smith mentioned you in the story: #{story.prefix_with_number}")
@@ -49,7 +49,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     end
 
     context "when mentioned in the document" do
-      let(:mail) { NotificationMailer.user_mentioned(mentioned_user, mentioner, document) }
+      let(:mail) { NotificationMailer.with(recipient: mentioned_user, mentioner: mentioner, model_record: document).user_mentioned }
 
       it "renders the headers" do
         expect(mail.subject).to eq("(Tribely) John Smith mentioned you in the document: #{document.title}")

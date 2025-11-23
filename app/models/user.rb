@@ -10,7 +10,6 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates :full_name, length: { maximum: 100 }
-  has_many :notifications, as: :recipient, dependent: :destroy
 
   has_many :project_users, inverse_of: :user, dependent: :destroy
   has_many :projects, through: :project_users

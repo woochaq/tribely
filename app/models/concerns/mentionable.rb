@@ -32,7 +32,7 @@ module Mentionable
       end
       next if mentioned_user == mentioner # Don't notify the author about their own mention
 
-      NotificationMailer.user_mentioned(mentioned_user, mentioner, self).deliver_later
+      NewMentionNotifier.with(recipient: mentioned_user, model_record: self, mentioner: mentioner).deliver_later
     end
   end
 
