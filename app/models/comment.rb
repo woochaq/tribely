@@ -6,6 +6,8 @@ class Comment < ApplicationRecord
 
   belongs_to :user
   belongs_to :story
+  has_many :noticed_events, as: :record, dependent: :destroy, class_name: "Noticed::Event"
+  has_many :notifications, through: :noticed_events, class_name: "Noticed::Notification", dependent: :destroy
 
   validates_presence_of :content
   validate :user_must_be_organization_owner_or_project_member
@@ -18,12 +20,7 @@ class Comment < ApplicationRecord
   private
 
   def send_notifications
-    recipients = [ story.owner, story.user ].compact.uniq
-    recipients.delete(user)
-
-    recipients.each do |recipient|
-      CommentMailer.new_comment_notification(recipient: recipient, author: user, comment: self).deliver_later
-    end
+    NewCommentNotifier.with(comment: self).deliver_later
   end
 
   def broadcast_create

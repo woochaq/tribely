@@ -10,6 +10,7 @@ class User < ApplicationRecord
          :confirmable, :trackable
 
   validates :full_name, length: { maximum: 100 }
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   has_many :project_users, inverse_of: :user, dependent: :destroy
   has_many :projects, through: :project_users
@@ -25,6 +26,8 @@ class User < ApplicationRecord
   has_one_attached :avatar do |attachable|
     attachable.variant :thumb, resize_to_limit: [ 100, 100 ]
   end
+  has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
+
   validates :avatar, content_type: { in: ACCEPTED_CONTENT_TYPES }, size: { less_than: 1.megabytes }
 
   after_create_commit :create_default_organization

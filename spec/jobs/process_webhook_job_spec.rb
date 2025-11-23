@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProcessWebhookJob, type: :job do
-  include ActiveJob::TestHelper
-
   let(:webhook) { create(:webhook) }
   let(:payload) { { "title" => "Test Story" } }
 

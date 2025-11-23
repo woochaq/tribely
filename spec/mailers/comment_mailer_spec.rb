@@ -14,7 +14,7 @@ RSpec.describe CommentMailer, type: :mailer do
     end
     let!(:story) { create(:story, board: project.boards.first, project: project, title: "Test Story", owner: recipient) }
     let(:comment) { create(:comment, story: story, user: author) }
-    let(:mail) { CommentMailer.new_comment_notification(recipient: recipient, author: author, comment: comment) }
+    let(:mail) { described_class.with(recipient: recipient, author: author, comment: comment).new_comment_notification }
 
 
     it "renders the headers" do

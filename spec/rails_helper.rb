@@ -42,6 +42,7 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  config.include ActiveJob::TestHelper
   config.include ActiveStorageValidations::Matchers
 
   config.include Devise::Test::IntegrationHelpers, type: :system

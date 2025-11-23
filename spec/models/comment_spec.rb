@@ -50,6 +50,11 @@ RSpec.describe Comment, type: :model do
     end
   end
 
+  describe "associations" do
+    it { should have_many(:notifications).class_name('Noticed::Notification').dependent(:destroy) }
+    it { should have_many(:noticed_events).class_name("Noticed::Event").dependent(:destroy) }
+  end
+
   describe "broadcasts" do
     let(:organization) { create(:organization) }
     let(:project) { create(:project, organization: organization) }
@@ -82,60 +87,26 @@ RSpec.describe Comment, type: :model do
     let(:organization) { create(:organization) }
     let(:project) { create(:project, organization: organization) }
     let(:board) { create(:board, project: project) }
-    let(:story_owner) { create(:user, email: "owner@example.com") }
-    let(:story_user) { create(:user, email: "user@example.com") }
-    let(:commenter) { create(:user, email: "commenter@example.com") }
+    let(:story_owner) { create(:user) }
+    let(:commenter) { create(:user) }
 
     before do
-      [ story_owner, story_user, commenter ].each do |user|
-        create(:organization_user, organization: organization, user: user, role: :member)
-        create(:project_user, project: project, user: user, role: :member)
-      end
+      create(:organization_user, organization: organization, user: story_owner, role: :member)
+      create(:organization_user, organization: organization, user: commenter, role: :member)
+      create(:project_user, project: project, user: story_owner, role: :member)
+      create(:project_user, project: project, user: commenter, role: :member)
     end
 
-    context "when a third party comments" do
-      it "sends an email to the story owner and the assigned user" do
-        story = create(:story, board: board, owner: story_owner, user: story_user)
-        expect {
-          create(:comment, story: story, user: commenter)
-        }.to have_enqueued_mail(CommentMailer, :new_comment_notification).with(recipient: story_owner, author: commenter, comment: instance_of(Comment)).and have_enqueued_mail(CommentMailer, :new_comment_notification).with(recipient: story_user, author: commenter, comment: instance_of(Comment))
-      end
-    end
+    let(:story) { create(:story, board: board, owner: story_owner) }
 
-    context "when the story owner comments" do
-      it "sends an email only to the assigned user" do
-        story = create(:story, board: board, owner: story_owner, user: story_user)
-        expect {
-          create(:comment, story: story, user: story_owner)
-        }.to have_enqueued_mail(CommentMailer, :new_comment_notification).with(recipient: story_user, author: story_owner, comment: instance_of(Comment)).exactly(1).times
-      end
-    end
+    it "delivers a notification via NewCommentNotifier" do
+      comment = build(:comment, story: story, user: commenter)
 
-    context "when the assigned user comments" do
-      it "sends an email only to the story owner" do
-        story = create(:story, board: board, owner: story_owner, user: story_user)
-        expect {
-          create(:comment, story: story, user: story_user)
-        }.to have_enqueued_mail(CommentMailer, :new_comment_notification).with(recipient: story_owner, author: story_user, comment: instance_of(Comment)).exactly(1).times
-      end
-    end
+      notifier = double
+      allow(NewCommentNotifier).to receive(:with).with(comment: comment).and_return(notifier)
+      expect(notifier).to receive(:deliver_later)
 
-    context "when the owner and assigned user are the same" do
-      it "sends only one email" do
-        story = create(:story, board: board, owner: story_owner, user: story_owner)
-        expect {
-          create(:comment, story: story, user: commenter)
-        }.to have_enqueued_mail(CommentMailer, :new_comment_notification).with(recipient: story_owner, author: commenter, comment: instance_of(Comment)).exactly(1).times
-      end
-    end
-
-    context "when the story has no assigned user" do
-      it "sends an email only to the story owner" do
-        story = create(:story, board: board, owner: story_owner, user: nil)
-        expect {
-          create(:comment, story: story, user: commenter)
-        }.to have_enqueued_mail(CommentMailer, :new_comment_notification).with(recipient: story_owner, author: commenter, comment: instance_of(Comment)).exactly(1).times
-      end
+      comment.save!
     end
   end
 end
