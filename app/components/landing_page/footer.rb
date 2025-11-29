@@ -3,6 +3,7 @@ class Components::LandingPage::Footer < Components::Base
     footer do
       div(class: "w-full px-6 py-8 text-center text-subtext0 text-sm") do
         div(class: "flex justify-center gap-4 mb-4") do
+          a(href: "/terms", class: "hover:text-text transition-colors") { "Terms of Service" }
           a(href: "/privacy", class: "hover:text-text transition-colors") { "Privacy Policy" }
           button(
             type: "button",

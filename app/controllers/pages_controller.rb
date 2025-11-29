@@ -4,4 +4,8 @@ class PagesController < ApplicationController
   def privacy
     render Views::Pages::Privacy.new
   end
+
+  def terms
+    render Views::Pages::Terms.new
+  end
 end

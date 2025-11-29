@@ -24,6 +24,14 @@ class Views::Devise::Registrations::New < Views::Base
               f.input :password, hint: "Minimum #{@minimum_password_length} characters", input_html: { autocomplete: "new-password" }
               f.input :password_confirmation, input_html: { autocomplete: "new-password" }
               f.button :submit, "Sign up", class: "btn-primary w-full"
+
+              div(class: "text-xs text-subtext0 text-center mt-4") do
+                plain "By signing up, you agree to our "
+                a(href: "/terms", class: "hover:text-primary hover:underline", target: "_blank") { "Terms of Service" }
+                plain " and "
+                a(href: "/privacy", class: "hover:text-primary hover:underline", target: "_blank") { "Privacy Policy" }
+                plain "."
+              end
             end
           end
           render Components::Devise::Shared::Links.new(devise_mapping: view_context.devise_mapping, resource_class: @resource.class, resource_name: @resource_name)

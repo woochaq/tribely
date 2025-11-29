@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   resources :subscriptions, only: [ :new, :create ]
   resource :docs, only: [ :show ]
   get "privacy", to: "pages#privacy"
+  get "terms", to: "pages#terms"
 
   root "subscriptions#new"
 
