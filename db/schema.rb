@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_23_084938) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
   create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "body", size: :long
     t.datetime "created_at", null: false
@@ -84,6 +84,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_23_084938) do
     t.string "email"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_email_subscriptions_on_email", unique: true
+  end
+
+  create_table "integrations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.bigint "created_by_id", null: false
+    t.json "events"
+    t.string "name"
+    t.bigint "project_id", null: false
+    t.json "settings"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_integrations_on_created_by_id"
+    t.index ["project_id"], name: "index_integrations_on_project_id"
   end
 
   create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -237,6 +251,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_23_084938) do
   add_foreign_key "documents", "projects"
   add_foreign_key "documents", "users", column: "created_by_id"
   add_foreign_key "documents", "users", column: "last_updated_by_id"
+  add_foreign_key "integrations", "projects"
+  add_foreign_key "integrations", "users", column: "created_by_id"
   add_foreign_key "invitations", "organizations"
   add_foreign_key "invitations", "users", column: "recipient_id"
   add_foreign_key "invitations", "users", column: "sender_id"

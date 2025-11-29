@@ -58,6 +58,13 @@ class Views::Projects::Base < Views::App::Base
                   class: "#{base_mobile_classes} rounded-lg #{current_page?(project_webhooks_path(@project)) ? active_mobile_classes : inactive_mobile_classes}"
                 ) { "Webhooks" }
               end
+
+              if policy(Integration.new(project: @project)).index?
+                a(
+                  href: project_integrations_path(@project),
+                  class: "#{base_mobile_classes} rounded-lg #{current_page?(project_integrations_path(@project)) ? active_mobile_classes : inactive_mobile_classes}"
+                ) { "Integrations" }
+              end
             end
           end
 
@@ -78,6 +85,13 @@ class Views::Projects::Base < Views::App::Base
                   href: project_webhooks_path(@project),
                   class: "#{base_classes} #{current_page?(project_webhooks_path(@project)) ? active_classes : inactive_classes}"
                 ) { "Webhooks" }
+              end
+
+              if policy(Integration.new(project: @project)).index?
+                a(
+                  href: project_integrations_path(@project),
+                  class: "#{base_classes} #{current_page?(project_integrations_path(@project)) ? active_classes : inactive_classes}"
+                ) { "Integrations" }
               end
             end
           end
