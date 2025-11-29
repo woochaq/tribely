@@ -19,7 +19,7 @@ RSpec.describe IntegrationPolicy, type: :policy do
 
   subject { described_class }
 
-  permissions :index?, :create?, :new?, :update?, :edit?, :destroy? do
+  permissions :index?, :create?, :new?, :update?, :edit?, :destroy?, :test? do
     it "grants access to organization owner" do
       expect(subject).to permit(owner_org, integration)
     end

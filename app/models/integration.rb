@@ -11,6 +11,8 @@ class Integration < ApplicationRecord
   validates :type, inclusion: { in: TYPES }
   validate :validate_events
 
+  before_validation :clean_events
+
   def self.available_types
     TYPES.map { |type| [ type.demodulize, type ] }
   end
@@ -19,7 +21,15 @@ class Integration < ApplicationRecord
     AVAILABLE_EVENTS.map { |event| [ event.humanize, event ] }
   end
 
+  def test_notifier_class
+    raise NotImplementedError, "Subclasses must implement test_notifier_class"
+  end
+
   private
+
+  def clean_events
+    self.events = events.reject(&:blank?) if events.is_a?(Array)
+  end
 
   def validate_events
     return if events.nil? || events.empty?

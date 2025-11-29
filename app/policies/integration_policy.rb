@@ -23,6 +23,10 @@ class IntegrationPolicy < ApplicationPolicy
     create?
   end
 
+  def test?
+    user_is_owner?
+  end
+
   class Scope < Scope
     def resolve
       scope.joins(project: :organization).where("projects.id IN (?) OR organizations.id IN (?)", user.project_ids, user.organization_ids).distinct

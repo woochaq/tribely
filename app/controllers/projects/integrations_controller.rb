@@ -1,10 +1,10 @@
 class Projects::IntegrationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_project
-  before_action :set_integration, only: [ :edit, :update, :destroy ]
+  before_action :set_integration, only: [ :edit, :update, :destroy, :test ]
 
   def index
-    @integrations = policy_scope(@project.integrations).order(created_at: :desc)
+    @integrations = policy_scope(@project.integrations).includes(:created_by).order(created_at: :desc)
     @integration = Integrations::Slack.new(project: @project) # Default to Slack for the new form
     authorize @integration, :index?
 
@@ -60,6 +60,17 @@ class Projects::IntegrationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to project_integrations_path(@project), notice: "Integration deleted successfully." }
       format.turbo_stream { render turbo_stream: turbo_stream.remove(@integration) }
+    end
+  end
+
+  def test
+    authorize @integration
+    @integration.test_notifier_class.with(integration: @integration).deliver_later(current_user)
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :notice, message: "Test message sent successfully!"))
+      end
     end
   end
 

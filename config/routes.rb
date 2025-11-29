@@ -15,7 +15,9 @@ Rails.application.routes.draw do
     get :settings, on: :member
     resources :members, only: [ :create, :edit, :update, :destroy ], controller: "projects/members"
     resources :webhooks, only: [ :index, :create, :edit, :update, :destroy ], controller: "projects/webhooks"
-    resources :integrations, only: [ :index, :create, :edit, :update, :destroy ], controller: "projects/integrations"
+    resources :integrations, only: [ :index, :create, :edit, :update, :destroy ], controller: "projects/integrations" do
+      post :test, on: :member
+    end
     resources :stories, only: [ :show, :update, :create, :new, :destroy ] do
       get :mentions, on: :collection
       get :search, on: :collection

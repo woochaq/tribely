@@ -7,5 +7,9 @@ module Integrations
     def self.model_name
       ActiveModel::Name.new(self, nil, "Integration")
     end
+
+    def test_notifier_class
+      Integrations::Slack::TestNotifier
+    end
   end
 end

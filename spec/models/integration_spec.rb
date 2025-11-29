@@ -27,6 +27,13 @@ RSpec.describe Integration, type: :model do
         expect(integration).to be_valid
       end
 
+      it 'ignores empty strings in events' do
+        integration = build(:integration, events: [ '', Integration::AVAILABLE_EVENTS.first ])
+        expect(integration).to be_valid
+        integration.valid?
+        expect(integration.events).to eq([ Integration::AVAILABLE_EVENTS.first ])
+      end
+
       it 'is invalid with an unknown event' do
         integration = build(:integration, events: [ 'unknown_event' ])
         expect(integration).not_to be_valid

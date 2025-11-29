@@ -26,6 +26,12 @@ class Components::Projects::Integrations::ListItem < Components::Base
         end
 
         div(class: "flex items-center gap-2 flex-shrink-0") do
+          if policy(integration).test?
+            button_to(test_project_integration_path(integration.project, integration), method: :post, class: "hover:text-primary cursor-pointer p-2", title: "Send Test Message", data: { turbo_frame: "_top" }) do
+              render PhlexIcons::Bootstrap::Send.new(class: "w-5 h-5")
+            end
+          end
+
           if policy(integration).update?
             a(href: edit_project_integration_path(integration.project, integration), class: "p-2") do
               render Icons::Edit.new(class: "w-5 h-5")

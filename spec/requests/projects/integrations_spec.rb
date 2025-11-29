@@ -178,4 +178,33 @@ RSpec.describe "Projects::Integrations", type: :request do
       end
     end
   end
+
+  describe "POST /projects/:project_id/integrations/:id/test" do
+    let!(:integration) { create(:slack_integration, project: project, created_by: owner_org) }
+
+    context "when logged in as an organization owner" do
+      before { sign_in owner_org }
+
+      it "enqueues a TestNotifier job" do
+        expect {
+          post test_project_integration_path(project, integration), as: :turbo_stream
+        }.to have_enqueued_job(Noticed::EventJob)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Test message sent successfully!")
+      end
+    end
+
+    context "when logged in as an organization member" do
+      before { sign_in member_org }
+
+      it "does not enqueue a job and returns forbidden" do
+        expect {
+          post test_project_integration_path(project, integration), as: :turbo_stream
+        }.not_to have_enqueued_job(Noticed::EventJob)
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+  end
 end
