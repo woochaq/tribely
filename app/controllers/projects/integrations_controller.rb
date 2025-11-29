@@ -74,7 +74,7 @@ class Projects::IntegrationsController < ApplicationController
   end
 
   def integration_params
-    params.require(:integration).permit(:name, :type, :active, :webhook_url)
+    params.require(:integration).permit(:name, :type, :active, :webhook_url, events: [])
   end
 
   def build_integration_from_type(type)

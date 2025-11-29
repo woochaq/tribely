@@ -3,6 +3,7 @@ FactoryBot.define do
     association :project
     association :created_by, factory: :user
     name { "My Integration" }
+    type { "Integrations::Slack" } # Default to Slack for base integration
     active { true }
     events { [] }
 

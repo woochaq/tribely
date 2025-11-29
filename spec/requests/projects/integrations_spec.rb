@@ -42,8 +42,8 @@ RSpec.describe "Projects::Integrations", type: :request do
   end
 
   describe "POST /projects/:project_id/integrations" do
-    let(:valid_attributes) { { type: 'Integrations::Slack', name: 'My Slack Integration', webhook_url: 'https://hooks.slack.com/services/T000/B000/XXX', active: true } }
-    let(:invalid_attributes) { { type: 'Integrations::Slack', name: '', webhook_url: '', active: true } }
+    let(:valid_attributes) { { type: 'Integrations::Slack', name: 'My Slack Integration', webhook_url: 'https://hooks.slack.com/services/T000/B000/XXX', active: true, events: [ 'story_created' ] } }
+    let(:invalid_attributes) { { type: 'Integrations::Slack', name: '', webhook_url: '', active: true, events: [] } }
 
     context "when logged in as an organization owner" do
       before { sign_in owner_org }
@@ -102,7 +102,7 @@ RSpec.describe "Projects::Integrations", type: :request do
 
   describe "PATCH /projects/:project_id/integrations/:id" do
     let!(:integration) { create(:slack_integration, project: project, created_by: owner_org) }
-    let(:new_attributes) { { name: "Updated Slack Name", webhook_url: 'https://hooks.slack.com/services/NEW/WEBHOOK/URL', active: false } }
+    let(:new_attributes) { { name: "Updated Slack Name", webhook_url: 'https://hooks.slack.com/services/NEW/WEBHOOK/URL', active: false, events: [ 'story_assigned', 'comment_created' ] } }
 
     context "when logged in as an organization owner" do
       before { sign_in owner_org }
@@ -113,6 +113,7 @@ RSpec.describe "Projects::Integrations", type: :request do
         expect(integration.name).to eq("Updated Slack Name")
         expect(integration.webhook_url).to eq('https://hooks.slack.com/services/NEW/WEBHOOK/URL')
         expect(integration.active).to be_falsey
+        expect(integration.events).to match_array([ 'story_assigned', 'comment_created' ])
       end
 
       it "renders a turbo stream response" do
