@@ -386,33 +386,33 @@ RSpec.describe Story, type: :model do
       it "sends an email when a user is assigned to a story" do
         expect {
           story.update(user: new_assignee, last_updated_by: assigner)
-        }.to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+        }.to have_enqueued_job(Noticed::EventJob)
       end
 
       it "does not send an email if the assignee does not change" do
         story.update(user: new_assignee, last_updated_by: assigner)
         expect {
           story.update(title: "A new title", last_updated_by: assigner)
-        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+        }.not_to have_enqueued_job(Noticed::EventJob)
       end
 
       it "does not send an email if the story is unassigned" do
         story.update(user: new_assignee, last_updated_by: assigner)
         expect {
           story.update(user: nil, last_updated_by: assigner)
-        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+        }.not_to have_enqueued_job(Noticed::EventJob)
       end
 
       it "does not send an email if the user assigns the story to themselves" do
         expect {
           story.update(user: assigner, last_updated_by: assigner)
-        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+        }.not_to have_enqueued_job(Noticed::EventJob)
       end
 
       it "does not send an email if last_updated_by is not present" do
         expect {
           story.update(user: new_assignee, last_updated_by: nil)
-        }.not_to have_enqueued_mail(NotificationMailer, :user_assigned_to_story_email)
+        }.not_to have_enqueued_job(Noticed::EventJob)
       end
     end
   end

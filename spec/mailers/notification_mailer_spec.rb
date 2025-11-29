@@ -71,7 +71,7 @@ RSpec.describe NotificationMailer, type: :mailer do
     let(:organization) { assigned_user.organizations.first }
     let(:project) { create(:project, name: "Test Project", prefix: "TP", organization: organization) }
     let(:story) { create(:story, board: project.boards.first, title: "New Task", owner: assigner) }
-    let(:mail) { NotificationMailer.user_assigned_to_story_email(assigned_user, assigner, story) }
+    let(:mail) { NotificationMailer.with(assigned_user: assigned_user, assigner: assigner, story: story).user_assigned_to_story_email }
 
     before do
       organization.users << assigner

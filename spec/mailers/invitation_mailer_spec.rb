@@ -5,7 +5,7 @@ RSpec.describe InvitationMailer, type: :mailer do
     let(:organization) { create(:organization, name: 'Test Corp') }
     let(:sender) { create(:user, full_name: 'John Doe') }
     let(:invitation) { create(:invitation, organization: organization, sender: sender, email: 'new_member@example.com') }
-    let(:mail) { InvitationMailer.invitation_email(invitation) }
+    let(:mail) { InvitationMailer.with(invitation: invitation).invitation_email }
 
     before do
       organization.users << sender

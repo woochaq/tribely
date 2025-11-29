@@ -33,12 +33,12 @@ RSpec.describe ProjectUser, type: :model do
     context '@send_added_to_project_email' do
       it 'sends an email when added_by is present' do
         project_user = build(:project_user, project: project, user: user, added_by: adder)
-        expect { project_user.save! }.to have_enqueued_mail(ProjectMemberMailer, :added_to_project_email)
+        expect { project_user.save! }.to have_enqueued_job(Noticed::EventJob)
       end
 
       it 'does not send an email when added_by is nil' do
         project_user = build(:project_user, project: project, user: user, added_by: nil)
-        expect { project_user.save! }.not_to have_enqueued_mail(ProjectMemberMailer, :added_to_project_email)
+        expect { project_user.save! }.not_to have_enqueued_job(Noticed::EventJob)
       end
     end
   end

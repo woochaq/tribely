@@ -48,7 +48,7 @@ class Story < ApplicationRecord
 
   def send_assignment_notification
     if user_id_previously_changed? && user.present? && last_updated_by.present? && user != last_updated_by
-      NotificationMailer.user_assigned_to_story_email(user, last_updated_by, self).deliver_later
+      AssignedToStoryNotifier.with(story: self, assigner: last_updated_by, assigned_user: user).deliver_later
     end
   end
 

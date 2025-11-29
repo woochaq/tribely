@@ -13,6 +13,8 @@ class Invitation < ApplicationRecord
   validate :recipient_is_not_a_member
   validate :sender_is_a_member
 
+  has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
+
   private
 
   def recipient_is_not_a_member

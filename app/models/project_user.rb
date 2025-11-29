@@ -12,7 +12,7 @@ class ProjectUser < ApplicationRecord
   after_create_commit :send_added_to_project_email
 
   def send_added_to_project_email
-    ProjectMemberMailer.added_to_project_email(self).deliver_later if added_by.present?
+    AddedToProjectNotifier.with(project_user: self).deliver_later if added_by.present?
   end
 
   def check_if_user_belongs_to_organization

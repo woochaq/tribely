@@ -7,7 +7,7 @@ RSpec.describe ProjectMemberMailer, type: :mailer do
     let(:added_by_user) { create(:user, full_name: 'John Smith') }
     let(:project) { create(:project, organization: organization) }
     let(:project_user) { create(:project_user, project: project, user: user, added_by: added_by_user) }
-    let(:mail) { ProjectMemberMailer.added_to_project_email(project_user) }
+    let(:mail) { ProjectMemberMailer.with(project_user: project_user).added_to_project_email }
 
     before do
       create(:organization_user, organization: organization, user: user, role: :owner)

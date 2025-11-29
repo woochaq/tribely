@@ -9,7 +9,7 @@ class Organizations::InvitationsController < ApplicationController
     authorize @invitation
 
     if @invitation.save
-      InvitationMailer.invitation_email(@invitation).deliver_later
+      InvitationNotifier.with(invitation: @invitation).deliver_later
       redirect_to organization_members_path(@organization), notice: "Invitation sent successfully."
     else
       redirect_to organization_members_path(@organization), alert: @invitation.errors.full_messages.to_sentence
@@ -29,7 +29,7 @@ class Organizations::InvitationsController < ApplicationController
   def resend
     authorize @invitation
     if @invitation.pending?
-      InvitationMailer.invitation_email(@invitation).deliver_later
+      InvitationNotifier.with(invitation: @invitation).deliver_later
       redirect_to organization_members_path(@organization), notice: "Invitation re-sent successfully."
     else
       redirect_to organization_members_path(@organization), alert: "Only pending invitations can be re-sent."

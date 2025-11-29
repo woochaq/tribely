@@ -9,10 +9,10 @@ class NotificationMailer < ApplicationMailer
     mail to: @mentioned_user.email, subject: subject
   end
 
-  def user_assigned_to_story_email(assigned_user, assigner, story)
-    @assigned_user = assigned_user
-    @assigner = assigner
-    @story = story
+  def user_assigned_to_story_email
+    @assigned_user = params[:assigned_user]
+    @assigner = params[:assigner]
+    @story = params[:story]
     @project = @story.project
 
     subject = "(#{@project.name}) #{@assigner.name} assigned you to a story: #{@story.prefix_with_number}"

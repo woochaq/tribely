@@ -21,7 +21,7 @@ RSpec.describe "Organizations::Invitations", type: :request do
         expect {
           post organization_invitations_path(organization), params: valid_attributes
         }.to change(Invitation, :count).by(1)
-        .and have_enqueued_mail(InvitationMailer, :invitation_email)
+        .and have_enqueued_job(Noticed::EventJob)
 
         expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:notice]).to eq('Invitation sent successfully.')
@@ -88,7 +88,7 @@ RSpec.describe "Organizations::Invitations", type: :request do
       it 'resends the invitation email' do
         expect {
           post resend_organization_invitation_path(organization, invitation)
-        }.to have_enqueued_mail(InvitationMailer, :invitation_email)
+        }.to have_enqueued_job(Noticed::EventJob)
 
         expect(response).to redirect_to(organization_members_path(organization))
         expect(flash[:notice]).to eq('Invitation re-sent successfully.')
