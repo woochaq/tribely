@@ -50,6 +50,9 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
   config.action_mailer.delivery_method = :letter_opener_web
 
+  # Routes default_url_options for Noticed Gem
+  routes.default_url_options = { host: "localhost", port: "3000" }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

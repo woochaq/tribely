@@ -31,7 +31,8 @@ class Story < ApplicationRecord
     not_archived.where("LOWER(title) LIKE LOWER(?) OR LOWER(prefix_with_number) LIKE LOWER(?)", "%#{query}%", "%#{query}%")
   }
 
-  after_create_commit  -> { broadcast_project_update(board) }
+  after_create_commit -> { broadcast_project_update(board) }
+  after_create_commit :notify_creation
   after_update_commit  :broadcast_on_update
   after_destroy_commit -> { broadcast_project_update(board) }
 
@@ -45,6 +46,10 @@ class Story < ApplicationRecord
   end
 
   private
+
+  def notify_creation
+    StoryCreatedNotifier.with(story: self, author: owner).deliver_later
+  end
 
   def send_assignment_notification
     if user_id_previously_changed? && user.present? && last_updated_by.present? && user != last_updated_by

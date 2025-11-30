@@ -65,4 +65,16 @@ RSpec.describe Project, type: :model do
       expect(project.boards.map(&:kind)).to eq(Board.kinds.keys)
     end
   end
+
+  describe "@active_integrations_for" do
+    let(:project) { create(:project, name: "Tribely", prefix: "TR") }
+
+    it "return active integrations for events" do
+      expect(project.active_integrations_for("story_created")).to eq([])
+      integration = create(:slack_integration, project: project, events: [ "story_created", "story_assigned", "comment_created" ])
+      expect(project.active_integrations_for("story_created")).to eq([ integration ])
+      expect(project.active_integrations_for("story_assigned")).to eq([ integration ])
+      expect(project.active_integrations_for("comment_created")).to eq([ integration ])
+    end
+  end
 end

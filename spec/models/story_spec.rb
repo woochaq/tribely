@@ -366,6 +366,28 @@ RSpec.describe Story, type: :model do
   end
 
   describe "callbacks" do
+    describe "#notify_creation" do
+      let(:project) { create(:project) }
+      let(:board) { create(:board, project: project) }
+      let(:owner) { create(:user) }
+
+      before do
+        create(:organization_user, organization: project.organization, user: owner, role: :owner)
+        create(:project_user, project: project, user: owner, role: :owner)
+      end
+
+      context "when active slack integration exists with story_created event" do
+        let!(:integration) { create(:slack_integration, project: project, events: [ 'story_created' ], active: true) }
+
+        it "enqueues StoryCreatedNotifier" do
+          story = build(:story, board: board, owner: owner, project: project)
+          expect {
+            story.save!
+          }.to have_enqueued_job(Noticed::EventJob)
+        end
+      end
+    end
+
     describe "#send_assignment_notification" do
       let(:project) { create(:project) }
       let(:board) { create(:board, project: project) }

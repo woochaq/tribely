@@ -12,9 +12,9 @@ class Comment < ApplicationRecord
   validates_presence_of :content
   validate :user_must_be_organization_owner_or_project_member
 
-  after_create_commit :broadcast_create
   after_update_commit :broadcast_update
   after_destroy_commit :broadcast_destroy
+  after_create_commit :broadcast_create
   after_create_commit :send_notifications
 
   private

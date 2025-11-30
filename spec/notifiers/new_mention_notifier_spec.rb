@@ -18,7 +18,7 @@ RSpec.describe NewMentionNotifier, type: :notifier do
     let(:story) { create(:story, board: board, owner: mentioner) }
 
     it "delivers to database" do
-      expect { described_class.with(model_record: story, mentioner: mentioner, recipient: recipient).deliver(recipient) }.to change(Noticed::Notification, :count).by(1)
+      expect { described_class.with(model_record: story, mentioner: mentioner, recipient: recipient).deliver }.to change(Noticed::Notification, :count).by(1)
       notification = Noticed::Notification.last
       expect(notification.recipient).to eq(recipient)
       expect(notification.type).to eq("NewMentionNotifier::Notification")
@@ -30,7 +30,7 @@ RSpec.describe NewMentionNotifier, type: :notifier do
     it "delivers by email" do
       expect {
         perform_enqueued_jobs do
-          described_class.with(model_record: story, mentioner: mentioner, recipient: recipient).deliver(recipient)
+          described_class.with(model_record: story, mentioner: mentioner, recipient: recipient).deliver
         end
       }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end

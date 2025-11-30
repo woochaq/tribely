@@ -17,8 +17,12 @@ class Project < ApplicationRecord
   has_many :documents, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_many :integrations, dependent: :destroy
-
   after_create_commit :create_default_boards
+
+  def active_integrations_for(event)
+    integrations.active.select { |integration| integration.events.include?(event.to_s) }
+  end
+
 
   def prefix_and_name
     "#{prefix} #{name}"
