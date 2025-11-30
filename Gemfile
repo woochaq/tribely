@@ -68,6 +68,7 @@ group :test do
   gem "database_cleaner-active_record"
   gem "selenium-webdriver"
   gem "shoulda-matchers", "~> 6.0"
+  gem "webmock", "~> 3.26"
 end
 
 gem "active_storage_validations"

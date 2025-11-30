@@ -1,4 +1,6 @@
 class Projects::IntegrationsController < ApplicationController
+  rate_limit to: 4, within: 1.minute, only: :test, by: -> { current_user.id }
+
   before_action :authenticate_user!
   before_action :set_project
   before_action :set_integration, only: [ :edit, :update, :destroy, :test ]
@@ -65,11 +67,19 @@ class Projects::IntegrationsController < ApplicationController
 
   def test
     authorize @integration
-    @integration.test_notifier_class.with(integration: @integration).deliver_later(current_user)
+
+    begin
+      @integration.test_connection
+      message = "Test message sent successfully!"
+      type = :notice
+    rescue => e
+      message = "Failed to send test message: #{e.message}"
+      type = :alert
+    end
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :notice, message: "Test message sent successfully!"))
+        render turbo_stream: turbo_stream.append("flash-container", Components::Shared::Toast.new(type: type, message: message))
       end
     end
   end

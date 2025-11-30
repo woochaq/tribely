@@ -21,8 +21,8 @@ class Integration < ApplicationRecord
     AVAILABLE_EVENTS.map { |event| [ event.humanize, event ] }
   end
 
-  def test_notifier_class
-    raise NotImplementedError, "Subclasses must implement test_notifier_class"
+  def test_connection
+    raise NotImplementedError, "Subclasses must implement #test_connection"
   end
 
   private

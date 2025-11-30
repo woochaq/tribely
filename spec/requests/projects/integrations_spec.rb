@@ -185,24 +185,48 @@ RSpec.describe "Projects::Integrations", type: :request do
     context "when logged in as an organization owner" do
       before { sign_in owner_org }
 
-      it "enqueues a TestNotifier job" do
-        expect {
-          post test_project_integration_path(project, integration), as: :turbo_stream
-        }.to have_enqueued_job(Noticed::EventJob)
+      it "sends a test message successfully" do
+        expect_any_instance_of(Integrations::Slack).to receive(:test_connection).and_return(true)
+
+        post test_project_integration_path(project, integration), as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("Test message sent successfully!")
+      end
+
+      it "displays an error message when connection fails" do
+        expect_any_instance_of(Integrations::Slack).to receive(:test_connection).and_raise(StandardError.new("API Error"))
+
+        post test_project_integration_path(project, integration), as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Failed to send test message: API Error")
+      end
+
+      it "applies rate limiting for turbo stream requests" do
+        cache = ActiveSupport::Cache::MemoryStore.new
+        allow(Rails.cache).to receive(:increment, &cache.method(:increment))
+
+
+        allow_any_instance_of(Integrations::Slack).to receive(:test_connection).and_return(true)
+
+        4.times do
+          post test_project_integration_path(project, integration), as: :turbo_stream, headers: { "REMOTE_ADDR" => "1.2.3.4" }
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include("Test message sent successfully!")
+        end
+
+        post test_project_integration_path(project, integration), as: :turbo_stream, headers: { "REMOTE_ADDR" => "1.2.3.4" }
+        expect(response).to have_http_status(:too_many_requests)
+        expect(response.body).to include("You are doing that too often. Please wait a moment.")
       end
     end
 
     context "when logged in as an organization member" do
       before { sign_in member_org }
 
-      it "does not enqueue a job and returns forbidden" do
-        expect {
-          post test_project_integration_path(project, integration), as: :turbo_stream
-        }.not_to have_enqueued_job(Noticed::EventJob)
-
+      it "does not send message and returns forbidden" do
+        post test_project_integration_path(project, integration), as: :turbo_stream
         expect(response).to have_http_status(:forbidden)
       end
     end

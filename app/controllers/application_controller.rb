@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActionController::TooManyRequests, with: :handle_rate_limit_error
   after_action :verify_authorized, unless: -> {  devise_controller? || mission_control_controller? }
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
@@ -32,6 +33,16 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_params
     devise_parameter_sanitizer.permit(:account_update, keys: [ :avatar ])
+  end
+
+  def handle_rate_limit_error(exception)
+    message = "You are doing that too often. Please wait a moment."
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path, alert: message) }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.append("flash-container", Components::Shared::Toast.new(type: :alert, message: message)), status: :too_many_requests
+      end
+    end
   end
 
   def mission_control_controller?
