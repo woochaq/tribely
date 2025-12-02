@@ -17,7 +17,7 @@ class Components::Comments::Form < Components::Base
       div(class: "mt-6") do
         div(id: dom_id(@comment, :form)) do
           simple_form_for([ @story.project, @story, @comment ], html: { data: { turbo_frame: dom_id(@story, "comments_form"), turbo_progress_bar: true  } }) do |f|
-            f.rich_text_area :content, label: false, placeholder: "Add a comment...", autofocus: true, class: "lexxy-content wysiwyg-editor prose max-w-none" do
+            f.rich_text_area :content, label: false, placeholder: "Add a comment...", class: "lexxy-content wysiwyg-editor prose max-w-none" do
               render Components::Shared::LexxyPrompts.new(project: @story.project)
             end
             if f.object.errors[:content].present?
