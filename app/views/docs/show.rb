@@ -11,6 +11,7 @@ module Views
           stories_section
           documents_section
           shortcuts_section
+          integrations_section
           webhooks_section
         end
       end
@@ -271,8 +272,48 @@ module Views
         end
       end
 
+      def integrations_section
+        render Components::Docs::Section.new("Platform Integrations", icon: "🔗") do
+          div(class: "space-y-6") do
+            p(class: "text-subtext0") { "Connect Tribely with your favorite communication tools to receive notifications about project activity." }
+
+            div(class: "grid grid-cols-1 md:grid-cols-2 gap-6") do
+              # Slack
+              div(class: "bg-mantle border border-crust rounded-lg p-4") do
+                h4(class: "font-semibold text-text mb-2 flex items-center gap-2") do
+                  plain "Slack"
+                  render Components::Docs::Badge.new(color: :green) { "Available" }
+                end
+                p(class: "text-sm text-subtext0 mb-2") { "Receive notifications for stories, comments, and status changes directly in your Slack channels." }
+                p(class: "text-sm text-subtext0 mb-4") { "You'll need to provide a Slack webhook URL and select the events that should trigger notifications (e.g., Story Created, Story Updated, Comment Added)." }
+
+                div(class: "text-xs text-subtext1 bg-crust p-2 rounded border border-mantle") do
+                   span(class: "font-bold") { "Setup: " }
+                   plain "Project Settings → Integrations"
+                end
+              end
+
+              # Discord
+              div(class: "bg-mantle border border-crust rounded-lg p-4 opacity-75") do
+                h4(class: "font-semibold text-text mb-2 flex items-center gap-2") do
+                  plain "Discord"
+                  render Components::Docs::Badge.new(color: :blue) { "Coming Soon" }
+                end
+                p(class: "text-sm text-subtext0") { "Future support for Discord server notifications." }
+              end
+            end
+
+            div(class: "mt-2") do
+              render Components::Docs::Callout.new(icon: "🔒", color: :yellow, title: "Access Restricted") do
+                "Managing integrations is available only to Project and Organization Owners."
+              end
+            end
+          end
+        end
+      end
+
       def webhooks_section
-        render Components::Docs::Section.new("Integrations", icon: "🔌") do
+        render Components::Docs::Section.new("Webhooks API", icon: "🔌") do
           div(class: "space-y-4") do
             p(class: "text-subtext0") { "Tribely provides inbound webhooks to automatically create stories from external sources (e.g., support forms, error trackers, or CI pipelines)." }
 
