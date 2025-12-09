@@ -13,7 +13,7 @@ class Components::LandingPage::Header < Components::Base
           # TODO: uncomment after going live
           div(class: "hidden md:flex items-center space-x-8") do
             a(href: root_url(anchor: "features"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Features" }
-            a(href: root_url(anchor: "pricing"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
+            # a(href: root_url(anchor: "pricing"), class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Pricing" }
             a(href: docs_url, class: "font-semibold text-subtext0 hover:text-primary transition-colors") { "Docs" }
           end
           #
