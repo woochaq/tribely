@@ -3,7 +3,6 @@ require "rails_helper"
 describe "Users::RegistrationsController", type: :request do
   describe "GET /user/sign_up" do
     it "renders the sign up form" do
-      pending "Remove pending when going live !"
       get new_user_registration_path
       expect(response).to have_http_status(:ok)
     end
@@ -14,7 +13,6 @@ describe "Users::RegistrationsController", type: :request do
 
     context "with valid parameters" do
       it "creates a new user" do
-        pending "Remove pending when going live !"
         expect {
           post user_registration_path, params: { user: user_params }
         }.to change(User, :count).by(1)
@@ -26,7 +24,6 @@ describe "Users::RegistrationsController", type: :request do
 
     context "with invalid parameters" do
       it "does not create a new user" do
-        pending "Remove pending when going live !"
         post user_registration_path, params: { user: user_params.merge(email: "") }
         expect(response).to have_http_status(:unprocessable_content)
       end
@@ -44,7 +41,6 @@ describe "Users::RegistrationsController", type: :request do
       end
 
       it 'creates a new user, accepts the invitation, and adds them to the organization' do
-        pending "Remove pending when going live !"
         valid_registration_params = { user: { email: new_user_email, password: 'password', password_confirmation: 'password', full_name: 'New User' } }
 
         expect {
