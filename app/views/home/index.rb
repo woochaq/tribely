@@ -6,6 +6,6 @@ class Views::Home::Index < Views::Base
   def view_template
     render Components::LandingPage::HeroSection
     render Components::LandingPage::FeaturesSection
-    render Components::LandingPage::PricingSection
+    # render Components::LandingPage::PricingSection
   end
 end
