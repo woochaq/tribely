@@ -294,12 +294,18 @@ module Views
               end
 
               # Discord
-              div(class: "bg-mantle border border-crust rounded-lg p-4 opacity-75") do
+              div(class: "bg-mantle border border-crust rounded-lg p-4") do
                 h4(class: "font-semibold text-text mb-2 flex items-center gap-2") do
                   plain "Discord"
-                  render Components::Docs::Badge.new(color: :blue) { "Coming Soon" }
+                  render Components::Docs::Badge.new(color: :green) { "Available" }
                 end
-                p(class: "text-sm text-subtext0") { "Future support for Discord server notifications." }
+                p(class: "text-sm text-subtext0 mb-2") { "Receive notifications for stories, comments, and assignments as rich embeds in your Discord channels." }
+                p(class: "text-sm text-subtext0 mb-4") { "You'll need to provide a Discord webhook URL and select the events that should trigger notifications (e.g., Story Created, Story Assigned, Comment Added)." }
+
+                div(class: "text-xs text-subtext1 bg-crust p-2 rounded border border-mantle") do
+                  span(class: "font-bold") { "Setup: " }
+                  plain "Project Settings → Integrations"
+                end
               end
             end
 
