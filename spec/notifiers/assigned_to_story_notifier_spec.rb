@@ -73,6 +73,57 @@ RSpec.describe AssignedToStoryNotifier, type: :notifier do
     end
   end
 
+  describe "discord delivery" do
+    let!(:discord_integration) { create(:discord_integration, project: project, events: [ "story_assigned" ], active: true) }
+
+    before do
+      stub_request(:post, discord_integration.webhook_url).to_return(status: 204)
+    end
+
+    context "when active discord integration exists with story_assigned event" do
+      it "delivers to discord" do
+        expect {
+          perform_enqueued_jobs do
+            described_class.with(story: story, assigner: assigner, assigned_user: assigned_user).deliver
+          end
+        }.not_to raise_error
+
+        expect(WebMock).to have_requested(:post, discord_integration.webhook_url)
+          .with { |req|
+            body = JSON.parse(req.body)
+            embed = body["embeds"]&.first
+            embed.present? &&
+            embed["title"].include?("Story Assigned") &&
+            embed["description"].include?(assigned_user.name)
+          }
+      end
+    end
+
+    context "when inactive discord integration exists" do
+      it "does not deliver to discord" do
+        discord_integration.update(active: false)
+        expect {
+          perform_enqueued_jobs do
+            described_class.with(story: story, assigner: assigner, assigned_user: assigned_user).deliver
+          end
+        }.not_to raise_error
+        expect(WebMock).not_to have_requested(:post, discord_integration.webhook_url)
+      end
+    end
+
+    context "when active discord integration exists without story_assigned event" do
+      it "does not deliver to discord" do
+        discord_integration.update(events: [])
+        expect {
+          perform_enqueued_jobs do
+            described_class.with(story: story, assigner: assigner, assigned_user: assigned_user).deliver
+          end
+        }.not_to raise_error
+        expect(WebMock).not_to have_requested(:post, discord_integration.webhook_url)
+      end
+    end
+  end
+
   describe "email delivery" do
     it "delivers email to assigned user" do
       expect {

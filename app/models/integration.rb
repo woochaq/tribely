@@ -1,5 +1,5 @@
 class Integration < ApplicationRecord
-  TYPES = %w[Integrations::Slack].freeze
+  TYPES = %w[Integrations::Slack Integrations::Discord].freeze
   AVAILABLE_EVENTS = %w[story_created story_assigned comment_created].freeze
 
   belongs_to :project

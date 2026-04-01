@@ -1,5 +1,6 @@
 class NewCommentNotifier < ApplicationNotifier
   include SlackMessageHelper
+  include DiscordMessageHelper
 
   deliver_by :email, if: -> { recipient.is_a?(User) } do |config|
     config.mailer = "CommentMailer"
@@ -33,6 +34,26 @@ class NewCommentNotifier < ApplicationNotifier
           {
             type: "context",
             elements: story_context_elements(story)
+          }
+        ]
+      }
+    }
+  end
+
+  deliver_by :discord, class: "DeliveryMethods::Discord", if: -> { recipient.is_a?(Integrations::Discord) && recipient.active && recipient.events.include?("comment_created") } do |config|
+    config.url = -> { recipient.webhook_url }
+    config.json = -> {
+      comment = params[:comment]
+      story = comment.story
+      project = story.project
+
+      {
+        embeds: [
+          {
+            title: "New Comment on #{project.name}",
+            description: "**[#{story.prefix_with_number} #{story.title}](#{project_story_url(project, story, anchor: "comment_#{comment.id}")})**\nComment by: #{comment.user.name}",
+            color: 5793266,
+            fields: discord_story_fields(story)
           }
         ]
       }

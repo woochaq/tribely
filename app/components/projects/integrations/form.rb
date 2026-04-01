@@ -17,9 +17,10 @@ class Components::Projects::Integrations::Form < Components::Base
         f.input :type, as: :select, collection: Integration.available_types, include_blank: false, label: "Type", wrapper_html: { class: "w-full" }
       end
 
-      # Slack specific settings
       if integration.is_a?(Integrations::Slack)
         f.input :webhook_url, label: "Slack Webhook URL", hint: "e.g., https://hooks.slack.com/services/T000/B000/XXX", input_html: { value: integration.webhook_url }, wrapper_html: { class: "w-full" }
+      elsif integration.is_a?(Integrations::Discord)
+        f.input :webhook_url, label: "Discord Webhook URL", hint: "e.g., https://discord.com/api/webhooks/123456/abcdef", input_html: { value: integration.webhook_url }, wrapper_html: { class: "w-full" }
       end
 
       div(class: "space-y-2") do
