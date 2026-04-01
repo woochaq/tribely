@@ -22,7 +22,7 @@ class Components::Shared::AttachmentCarousel < Components::Base
                 render RubyUI::CardFooter.new(class: "p-2 text-center border-t border-crust") do
                   div(class: "flex justify-between items-center text-xs") do
                     span(class: "text-text") { number_to_human_size(attachment.byte_size) }
-                    link_to helpers.rails_blob_url(attachment, disposition: "attachment"), class: "text-primary hover:underline font-medium" do
+                    link_to view_context.rails_blob_url(attachment, disposition: "attachment"), class: "text-primary hover:underline font-medium" do
                       render PhlexIcons::Bootstrap::CloudDownload.new(class: "h-4 w-4")
                     end
                   end
@@ -51,19 +51,19 @@ class Components::Shared::AttachmentCarousel < Components::Base
 
   def render_video(attachment)
     video(controls: true, class: "absolute inset-0 w-full h-full object-cover") do
-      source(src: helpers.rails_blob_url(attachment), type: attachment.content_type)
+      source(src: view_context.rails_blob_url(attachment), type: attachment.content_type)
       plain "Your browser does not support the video tag."
     end
   end
 
   def render_image(attachment)
-    link_to(helpers.rails_blob_url(attachment), target: "_blank", rel: "noopener", class: "absolute inset-0 w-full h-full flex items-center justify-center") do
+    link_to(view_context.rails_blob_url(attachment), target: "_blank", rel: "noopener", class: "absolute inset-0 w-full h-full flex items-center justify-center") do
       image_tag(attachment.representation(resize_to_limit: [ 400, 400 ]), class: "object-cover w-full h-full")
     end
   end
 
   def render_file_icon(attachment)
-    link_to(helpers.rails_blob_url(attachment), class: "flex flex-col items-center justify-center text-center p-4 w-full h-full bg-muted/40") do
+    link_to(view_context.rails_blob_url(attachment), class: "flex flex-col items-center justify-center text-center p-4 w-full h-full bg-muted/40") do
       svg(
         class: "w-10 h-10 text-muted-foreground mb-2",
         fill: "none",
