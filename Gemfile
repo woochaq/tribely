@@ -74,7 +74,7 @@ end
 gem "active_storage_validations"
 gem "acts_as_list"
 gem "aws-sdk-s3", "~> 1"
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 gem "friendly_id", "~> 5.6.0"
 gem "honeybadger", "~> 6.1"
 gem "lexxy", "~> 0.1.26.beta" # Need to specify the version since it's a pre-release
