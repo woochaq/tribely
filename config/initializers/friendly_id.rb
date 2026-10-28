@@ -105,3 +105,13 @@ FriendlyId.defaults do |config|
   #   end
   # }
 end
+
+# Slugs are always stored lowercase. Downcase lookups so "PROJ-1" finds "proj-1"
+# on case-sensitive databases (SQLite) the same way it does on MySQL.
+FriendlyId::FinderMethods.prepend(Module.new do
+  private
+
+  def parse_friendly_id(value)
+    super.to_s.downcase
+  end
+end)
