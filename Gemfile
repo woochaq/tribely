@@ -4,8 +4,11 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
-# Use mysql as the database for Active Record
-gem "mysql2", "~> 0.5"
+# Use mysql as the database for Active Record in production.
+# Optional, so local setup doesn't need MySQL client libraries: `bundle config set with mysql`
+group :mysql, optional: true do
+  gem "mysql2", "~> 0.5"
+end
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
@@ -49,6 +52,8 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "pry"
   gem "rspec-rails", "~> 8.0.0"
+  # Use sqlite3 as the database for Active Record in development and test
+  gem "sqlite3", ">= 2.1"
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false

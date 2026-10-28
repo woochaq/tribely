@@ -11,8 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
-  create_table "action_text_rich_texts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.text "body", size: :long
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.text "body"
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.bigint "record_id", null: false
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
-  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -31,7 +31,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_blobs", force: :cascade do |t|
     t.bigint "byte_size", null: false
     t.string "checksum"
     t.string "content_type"
@@ -43,13 +43,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "active_storage_variant_records", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "boards", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "boards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "kind", default: 0
     t.bigint "project_id", null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["project_id"], name: "index_boards_on_project_id"
   end
 
-  create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "comments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "story_id", null: false
     t.datetime "updated_at", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "documents", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "documents", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "created_by_id"
     t.bigint "last_updated_by_id"
@@ -79,14 +79,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["project_id"], name: "index_documents_on_project_id"
   end
 
-  create_table "email_subscriptions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "email_subscriptions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_email_subscriptions_on_email", unique: true
   end
 
-  create_table "integrations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "integrations", force: :cascade do |t|
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.bigint "created_by_id", null: false
@@ -100,7 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["project_id"], name: "index_integrations_on_project_id"
   end
 
-  create_table "invitations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "invitations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.bigint "organization_id", null: false
@@ -116,7 +116,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["token"], name: "index_invitations_on_token", unique: true
   end
 
-  create_table "noticed_events", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "noticed_events", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "notifications_count"
     t.json "params"
@@ -127,7 +127,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["record_type", "record_id"], name: "index_noticed_events_on_record"
   end
 
-  create_table "noticed_notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "noticed_notifications", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "event_id", null: false
     t.datetime "read_at", precision: nil
@@ -140,7 +140,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
   end
 
-  create_table "organization_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "organization_users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "organization_id", null: false
     t.integer "role", default: 0
@@ -150,13 +150,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["user_id"], name: "index_organization_users_on_user_id"
   end
 
-  create_table "organizations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "organizations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
   end
 
-  create_table "project_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "project_users", force: :cascade do |t|
     t.bigint "added_by_id"
     t.datetime "created_at", null: false
     t.bigint "project_id", null: false
@@ -168,7 +168,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["user_id"], name: "index_project_users_on_user_id"
   end
 
-  create_table "projects", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.bigint "organization_id", null: false
@@ -179,7 +179,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["slug"], name: "index_projects_on_slug", unique: true
   end
 
-  create_table "stories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "stories", force: :cascade do |t|
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "done_at"
@@ -204,7 +204,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["user_id"], name: "index_stories_on_user_id"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
@@ -226,7 +226,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_181842) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "webhooks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "webhooks", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
