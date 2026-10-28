@@ -7,7 +7,7 @@ image: tribely
 # Deploy to these servers.
 servers:
   web:
-    - "<SERVER_IP>"
+    - <%= ENV.fetch("KAMAL_SERVER_IP") %>
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -93,11 +93,11 @@ builder:
 # ssh:
 #   user: app
 
-# Use accessory services (se First web container is unhealthy on <SERVER_IP>, not booting any other rolecrets come from .kamal/secrets).
+# Use accessory services (secrets come from .kamal/secrets).
 accessories:
   db:
     image: mysql:8.3
-    host: "<SERVER_IP>"
+    host: <%= ENV.fetch("KAMAL_SERVER_IP") %>
     # Change to 3306 to expose port to the world instead of just local network.
     port: "127.0.0.1:3306:3306"
     env:
