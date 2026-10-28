@@ -229,8 +229,8 @@ GEM
       letter_opener (~> 1.9)
       railties (>= 6.1)
       rexml
-    lexxy (0.1.26.beta)
-      rails (>= 8.0.2)
+    lexxy (1.0.1)
+      railties (>= 8.0.2)
     lint_roller (1.1.0)
     listen (3.10.1)
       logger
@@ -563,7 +563,7 @@ DEPENDENCIES
   jbuilder
   kamal
   letter_opener_web (~> 3.0)
-  lexxy (~> 0.1.26.beta)
+  lexxy (~> 1.0.1)
   mission_control-jobs
   mysql2 (~> 0.5)
   noticed (~> 2.9)
