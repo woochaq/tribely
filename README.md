@@ -2,6 +2,8 @@
 
 Project management app built with Rails 8.
 
+![Tribely boards](docs/screenshots/boards.png)
+
 ## Running locally
 
 Development and test use SQLite, so no database server is needed.
