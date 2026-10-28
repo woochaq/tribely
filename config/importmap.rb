@@ -4,7 +4,6 @@ pin "application"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
-pin "tw-animate-css" # @1.3.7
 pin "@floating-ui/dom", to: "@floating-ui--dom.js" # @1.7.4
 pin "@floating-ui/core", to: "@floating-ui--core.js" # @1.7.3
 pin "@floating-ui/utils", to: "@floating-ui--utils.js" # @0.2.10
