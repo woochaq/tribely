@@ -171,7 +171,7 @@ GEM
     ffi (1.17.4-arm-linux-musl)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi (1.17.4-x86_64-linux-musl)
-    friendly_id (5.6.0)
+    friendly_id (5.7.0)
       activerecord (>= 4.0.0)
     fugit (1.14.0)
       et-orbi (~> 1.4)
@@ -555,7 +555,7 @@ DEPENDENCIES
   debug
   devise (~> 5.0)
   factory_bot_rails
-  friendly_id (~> 5.6.0)
+  friendly_id (~> 5.7.0)
   honeybadger (~> 6.1)
   hotwire-spark
   image_processing (~> 1.2)
