@@ -4,6 +4,29 @@ Project management app built with Rails 8.
 
 ![Tribely boards](docs/screenshots/boards.png)
 
+## Hotwire
+
+The UI is server-rendered HTML ([Phlex](https://www.phlex.fun) components + Tailwind)
+made interactive with [Hotwire](https://hotwired.dev) instead of a JavaScript SPA.
+JavaScript is loaded with import maps, so there is no Node or bundler step.
+
+- **Turbo Drive** turns links and form submissions into fetch requests and swaps the page body.
+  Page refreshes use morphing (`turbo_refreshes_with method: :morph`), so scroll position and
+  state are preserved.
+- **Turbo Frames** update parts of a page in place, e.g. modals, inline editing of comments and members, search results.
+- **Turbo Streams** do targeted updates (append, replace, remove) after form submissions,
+  and push real-time changes over Action Cable: when a story or comment is created, updated
+  or deleted, everyone viewing the project board sees it without reloading
+  (`turbo_stream_from @project`, `broadcast_*_to` in `Story` and `Comment`).
+- **Stimulus** controllers in `app/javascript/controllers` add small behaviors: drag and drop
+  on boards (`@stimulus-components/sortable`), autosave, story search, modals, the Lexxy rich
+  text editor.
+
+Action Cable uses the `async` adapter in development and
+[Solid Cable](https://github.com/rails/solid_cable) (database-backed) in production.
+In development, [Hotwire Spark](https://github.com/hotwired/spark) reloads the page when
+views, CSS or Stimulus controllers change.
+
 ## Running locally
 
 Development and test use SQLite, so no database server is needed.
