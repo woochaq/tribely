@@ -41,7 +41,8 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.2"
+gem "ruby-vips", "~> 2.3"
 
 group :development, :test do
   gem "bullet"
@@ -72,7 +73,7 @@ group :test do
   gem "capybara"
   gem "database_cleaner-active_record"
   gem "selenium-webdriver"
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 8.0"
   gem "webmock", "~> 3.26"
 end
 
@@ -82,7 +83,7 @@ gem "aws-sdk-s3", "~> 1"
 gem "devise", "~> 5.0"
 gem "friendly_id", "~> 5.6.0"
 gem "honeybadger", "~> 6.1"
-gem "lexxy", "~> 0.1.26.beta" # Need to specify the version since it's a pre-release
+gem "lexxy", "~> 1.0"
 gem "mission_control-jobs"
 gem "noticed", "~> 2.9"
 gem "openssl"

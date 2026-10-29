@@ -12,8 +12,8 @@ pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @
 pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
 pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.12
 pin "sortablejs" # @1.15.6
-pin "lexxy", to: "lexxy.min.js"
-pin "@rails/activestorage", to: "activestorage.esm.js"
+pin "lexxy", to: "lexxy.js"
+pin "@rails/activestorage", to: "activestorage.esm.js" # to support attachments
 pin "turbo_progress_bar"
 pin "stimulus-use" # @0.52.3
 pin "embla-carousel" # @8.6.0
