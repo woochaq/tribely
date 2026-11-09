@@ -52,7 +52,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "factory_bot_rails"
   gem "pry"
-  gem "rspec-rails", "~> 8.0.0"
+  gem "rspec-rails", "~> 8.1.0"
   # Use sqlite3 as the database for Active Record in development and test
   gem "sqlite3", ">= 2.1"
 
